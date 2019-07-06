@@ -1,0 +1,12 @@
+{
+  "name": "wall-docs",
+  "version": "0.0.0",
+  "description": "Documentation for the Wall programming language.",
+  "main": "index.js",
+  "repository": "https://www.github.com/mikesol/wall",
+  "author": "Mike Solomon",
+  "license": "MIT",
+  "devDependencies": {
+    "vuepress": "^1.0.2"
+  }
+}
