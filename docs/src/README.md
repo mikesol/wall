@@ -6,7 +6,7 @@ This is the documentation for the Wall programming language.
 
 ## Things
 
-Wall has five predefined sets: `int`, `float`, `bool`, `symbol`, and `object`.  The union of these five sets along with the set of all sets is called a `thing`.  Here is how we can learn the set to which a `thing` belongs in Wall.
+Wall has five predefined sets: `int`, `float`, `bool`, `symbol`, and `object`.  An element belonging to the union of these five sets along with the set of all sets is called a `thing`.  Here is how we can learn the set to which a `thing` belongs in Wall.
 ```
 
 w> :s 1
@@ -30,7 +30,7 @@ w> list? 1
 false
 ```
 
-Any `thing` can be given a name in Wall. Named things are immutable, meaning once they are created, they cannot be changed. Names in Wall cannot be `$` or `@`, start with a number or `.`, and cannot contain whitespace. Otherwise, the world's your oyster!
+Any `thing` can be given a name in Wall. Named things are immutable, meaning once they are created, they cannot be changed. Names in Wall cannot be `$` or `@`, start with a number or `.`, and cannot contain whitespace. Otherwise, the world's your oyster! That said, a lot of yummy names like `int` and `r` are gobbled up by predefined objects and sets. Sorry!
 
 ```
 w> anne = 1
@@ -133,6 +133,8 @@ w> a 'b
 2
 w> (& a b) 5
 3
+w> a 'q
+Error. The key 'q does not exist on the object `a`.
 ```
 
 Sometimes, when constructing or destructuring an object, it's useful to refer to other bits of the object. You can do that with the following conventions:
@@ -353,4 +355,65 @@ w> in? 1.0 float
 true
 w> float? 1.0
 true
+```
+
+## Validation
+
+Wall's killer feature is validation of input.  For safe code, meaning code that exists only within the walls of Wall, validation is done during compile time. For unsafe code, meaning code that does some form of IO, the same validators that you use for your safe code can easily be used for your unsafe code.  Validators can even modify their input or create other IO side effects.
+
+Best of all, validators are plain old Wall objects.  If you've followed this documentation interactively, you've used several already.
+
+If we revisit our original example of `f`:
+
+```
+w> foo$ = f _? int? $ @ { a0 ...k a1 .k } ? (> a1 5) 0 a0
+w> foo$ {} 6
+{}
+w> foo$ {} 5
+{}
+```
+
+We see two validators: `_?` and `int?`. `_?` will yield true for any `thing` (so literally anything will yield true) and `int?` will yield true for any integer.
+
+```
+w> int? 5
+true
+w> _? 'foo
+true
+w> int? 'foo
+false
+```
+
+We can write our own validators:
+
+```
+w> <5? = f _? $ @ { a0 .k } < a0 5
+w> <5? 4
+true
+w> <5? 5
+false
+```
+
+Now, let's rewrite `foo$` using a custom validator:
+
+```
+w> <5? = f _? $ @ { a0 .k } < a0 5
+w> foo$ = f _? <5? $ @ { a0 ...k a1 .k } ? (> a1 0) 0 a0
+w> foo$ 'hello -1
+'hello
+w> foo$ {} 1
+0
+w> foo$ {} 10
+Error. The key 10 does not exist on the object `foo$` {}. 
+```
+
+The predefined function `:` will force a compilation error if a value does not pass the validator. This can be a useful form of documentation when working in teams or if you, like most people, are forgetful.
+
+```
+w> foo = : int? 5
+w> foo
+5
+w> <5? = f _? $ @ { a0 .k } < a0 5
+w> bar = : <5? 5
+Error. The key 5 does not exist on the object `:` <5?.
 ```
