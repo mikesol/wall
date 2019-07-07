@@ -6,7 +6,7 @@ This is the documentation for the Wall programming language.
 
 ## Things
 
-Wall has five predefined sets: `int`, `float`, `bool`, 'symbol', and `object`.  The union of these five sets along with the set of all sets is called a `thing`.  Here is how we can learn the set to which a `thing` belongs in Wall.
+Wall has five predefined sets: `int`, `float`, `bool`, `symbol`, and `object`.  The union of these five sets along with the set of all sets is called a `thing`.  Here is how we can learn the set to which a `thing` belongs in Wall.
 ```
 
 w> :s 1
