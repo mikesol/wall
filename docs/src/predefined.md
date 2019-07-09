@@ -42,9 +42,7 @@ w> now!
  
 ## `object`
 
-Wall has lots of predefined `object`-s.  Of them, only eleven are implemented internally as part of the Wall basic compiler: `int?`, `float?`, `bool?`, `symbol?`, `set?`, `object?, `suc`, `choose`, `'`, `"` and ``` ` ```.  Additionally, the Wall basic compiler and interpreter does some magic for `'`, `"` and ``` ` ``` to create a smooth and intuitive experience when working with strings.
-
-In this section, we'll cover all of these predefined functions, as well as some other really useful ones defined in Wall's prelude. In the [Prelude](#prelude) section, we will explore how some other predefined objects like `def` and `red` are defined.
+Wall has lots of predefined `object`-s.  In this section, we'll cover several of the most popular predefined objects.  A full reference of predefined objects can be found [here](/reference). In the [Examples](/examples) section, we will create our own versions of some predefined objects.
  
 ### `choose`
 
@@ -90,7 +88,18 @@ w> suc 1
 w> suc -999.999
 w> -998.999
 ```
- 
+
+### `pre`
+
+`pre` is the predecessor function. It is defined on members of `int` and `float`.
+
+```
+w> pre 1
+0
+w> pre -999.999
+w> -1000.999
+```
+
 ### `'`, `"`, and ``` ` ```
 
 In Wall, Strings are objects that can be created three different ways:
@@ -145,13 +154,74 @@ w> \HELLO
 w> HELLO
 "HELLO"
 ```
- 
+
+### `d-1`, `d-2` and `d-n`
+
+Arbitrary delayed application of `object` keys can be created with the family of `d-` `object`-s.
+
+```
+w> a = d-1 (+ [0]) key
+w> a { 3 4 }
+[0 3]
+w> b = d-2 (+ [0]) map
+w> b [0 1] (+ 1)
+[0 1 2]
+w> c = d-2 (* 7) +
+w> c 3 2
+42
+```
+
+Here, we are saying "take the last key, apply `-n` keys to it, and then use it as a key in the preceding key.
+
+### `not`, `&`, `|`, `x|`, `xn|`, `if` and `iff`
+
+The operators `not`, `&`, `|`, `x|`, `xn|`, `if` and `iff` all work on `bool`, and some of them pull triple duty for `bool`, `set` and `object`.
+
+```
+w> & true false
+false
+w> & [0] [1]
+[0 1]
+w> x| false false
+true
+```
+
+The `object` union operator also has a recursive variant that merges objects with similar keys when possible instead of replacing the content.
+
+```
+w> &! { 0 { 1 2 }} { 0 { 3 4 }}
+{0 { 1 2 3 4 }}
+```
+
+### `==` and `/=`
+
+Wall defines equality as "being the same or containing the same things."
+
+```
+w> == 1 1
+true
+w> == 1 (+ 0 1)
+true
+w> == [1 2 3] [1 2 (+ 1 2)]
+true
+w> == [1 2 3] [3 2 1 $]
+true
+w> == { 0 { 0 1 } } { 0 { 0 1 } }
+true
+w> == (m-2 not >=) <
+true
+w> == (m-2 not >) <
+false
+w> == (&! (m-2 not >) (red (map! int { k { k false } }) &)) <
+true
+```
+
 ### `def`
 
 `def` is a predefined object that, intuitively, describes something that resembles a function in other languages. As a convention, all function names should end with `$`.
 
 ```
-w> foo$ = def _? int? ! @ { a0 ...k a1 .k } (? (> a1 5) 0 a0)
+w> foo$ = def _? int? fed @ { a0 ...k a1 .k } (? (> a1 5) 0 a0)
 w> foo$ {} 6
 {}
 w> foo$ {} 5
@@ -169,7 +239,7 @@ In Wall, we'd say:
 Sometimes, it is useful to work with named arguments.  There is a version of `def` called `def!` that does that too by applying `@` internally.
 
 ```
-w> foo$ = def! 'a0 _? 'a1 int? ! (? (> a1 5) 0 a0)
+w> foo$ = def! 'a0 _? 'a1 int? fed (? (> a1 5) 0 a0)
 w> foo$ {} 6
 {}
 w> foo$ {} 5
@@ -178,23 +248,21 @@ w> foo$ {} 5
  
 ### `rev`
 
-`def` allows for lots of goodies that people coming from the functional programming world love. Currying of arguments. Currying of signatures.  Accessing curried arguments. With respect to the latter, we have the handy `rev`.
+`def` allows for lots of goodies that people coming from the functional programming world love. Currying of arguments. Currying of signatures.  Accessing curried arguments. With respect to the latter, we have `rev+` and `rev-`.
 
 ```
 w> < 5 4
 false
-w> rev < 5 4
+w> rev+ < 5 4
 true 
 ```
 
-`rev` reverses future incoming keys. It's close cousins `rev-1`, `rev-2` and `rev-n` reverse the previous `n` keys along with future keys.
+`rev-` reverses the previous key with the incoming key of a binary function. Remember: we can do this because the previous key is always accessible via the `.k` operator.
 
 ```
 w> < 5 4
 false
-w> rev-1 (< 5) 4
-true
-w> rev-n 1 (< 5) 4
+w> rev- (< 5) 4
 true
 ```
  
@@ -235,14 +303,6 @@ w> map! { 0 5 1 4 2 3 } {k (? (< k 1) (+ k v) $)}
 w> map [8 3 2] (? (< k 4) (+ k 3) 0)
 [11 0 0]
 ```
- 
-### Other objects
-
-A full list of objects that ship with standard versions of wall is available here.
-
-As mentioned, the Wall basic compiler only implements eleven predefined objects: `int?`, `float?`, `bool?`, `symbol?`, `set?`, `object?, `suc`, `choose`, `'`, `"` and ``` ` ```. However, faster versions of Wall ship with more functions predefined on the compiler level instead of in the prelude.  "Faster" here means compiles faster and interprets faster, but the executable is almost always equally fast for all compilers distributed by the Wall team.  Also, note that when Wall code is transpiled to other languages, the result is almost always identical.
-
-The only real advantage of using the basic compiler is when one is tinkering with Wall, as it allows people to define alternative versions of common functions like `<` for experimentation.
 
 ## `set`
 
@@ -276,7 +336,7 @@ w> a 1
 It is also possible to create linked lists.
 
 ```
-w> ll = def! 'a _? b ! { 'k a 'v ll }
+w> ll = def! 'a _? b fed { 'k a 'v ll }
 w> z = ll 1 'v 2 'v 3 'v 4 $
 w> z 'k
 1

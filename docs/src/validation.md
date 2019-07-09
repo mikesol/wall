@@ -7,7 +7,7 @@ Best of all, validators are plain old Wall objects.  If you've followed this doc
 If we revisit our original example of `def`:
 
 ```
-w> foo$ = def! 'a0 _? 'a1 int? ! (? (> a1 5) 0 a0)
+w> foo$ = def! 'a0 _? 'a1 int? fed (? (> a1 5) 0 a0)
 w> foo$ {} 6
 {}
 w> foo$ {} 5
@@ -31,7 +31,7 @@ The predefined function `:` will force a compilation error if a value does not p
 w> foo = : int? 5
 w> foo
 5
-w> <5? = def! 'a0 int? ! < a0 5
+w> <5? = def! 'a0 _? fed < a0 5
 w> bar = : <5? 5
 Error. The key 5 does not exist on the object `:` <5?.
 ```
@@ -47,12 +47,12 @@ w> a = 5
 w> b = 'foo
 w> c = (? (((map! thing { k false }) & { 5 true }) a) a b)
 ```
- 
+
 Next up, if a `thing` is part of a structure that will ultimately resolve to a boolean and it lacks the appropriate validators, they will be added automatically with `&`-s. As a result, the following two statements are equivalent:
 
 ```
-w> d? = def! 'a _? ! (== (- a 5) 3)
-w> e? = def! 'a _? ! (& (int? a) (== (- a 5) 3))
+w> d? = def! 'a _? fed (== (- a 5) 3)
+w> e? = def! 'a _? fed (& (int? a) (== (- a 5) 3))
 w> d? 'foo
 false
 w> d? 10
@@ -70,7 +70,7 @@ The last bit brings up an important aspect of Wall that is commonly referred to 
 We can write our own validators:
 
 ```
-w> <5? = def! 'a0 _? ! (& (int? a0) (< a0 5))
+w> <5? = def! 'a0 _? fed (& (int? a0) (< a0 5))
 w> <5? 4
 true
 w> <5? 5
@@ -98,8 +98,8 @@ w> <5? = ?ify (map! int (? (< k 5) k $))
 Now, let's rewrite `foo$` from above using a custom validator:
 
 ```
-w> <5? = def! 'a0 _? ! (& (int? a0) (< a0 5))
-w> foo$ = def! 'a0 _? 'a1 <5? ! (? (> a1 5) 0 a0)
+w> <5? = def! 'a0 _? fed (& (int? a0) (< a0 5))
+w> foo$ = def! 'a0 _? 'a1 <5? fed (? (> a1 5) 0 a0)
 w> foo$ 'hello -1
 'hello
 w> foo$ {} 1
@@ -123,7 +123,7 @@ w> a0? { 'a 0 }
 true
 w> a0? 0
 false
-w> n_n+1? = ?ify (val (def! 'n int? ! { 'n n 'n+1 (+ n 1) }))
+w> n_n+1? = ?ify (val (def! 'n int? fed { 'n n 'n+1 (+ n 1) }))
 w> n_n+1? { 'n 0 'n+1 1 }
 true
 w> n_n+1? { 'n 0 'n+1 2 }
