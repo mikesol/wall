@@ -1,16 +1,16 @@
 # Validation
 
-Wall's killer feature is validation of input.  For safe code, meaning code that exists only within the walls of Wall, validation is done during compile time. For unsafe code, meaning code that does some form of IO, the same validators that you use for your safe code can easily be used for your unsafe code.  Validators can even correct bad input or create monads with error messages that can flow through a program until termination.
+Wall's killer feature is validation of input.  For safe code, meaning code that exists only within the walls of Wall, validation is done at compile time. For unsafe code, meaning code that does some form of IO, the same validators that you use for your safe code can easily be used for your unsafe code.  Validators can even correct bad input or create monads with error messages that can flow through a program until termination.
 
 Best of all, validators are plain old Wall objects.  If you've followed this documentation interactively, you've used several already.
 
 If we revisit our original example of `def`:
 
 ```
-w> foo$ = def! 'a0 _? 'a1 int? fed (? (> a1 5) 0 a0)
-w> foo$ {} 6
+w> foo = def _? int? fed @ { a0 %%k a1 %k } (> a1 5).? 0 a0
+w> foo {} 6
 {}
-w> foo$ {} 5
+w> foo {} 5
 {}
 ```
 
@@ -40,12 +40,18 @@ Error. The key 5 does not exist on the object `:` <5?.
 
 The Wall compiler is so crazy about validators that, when they are present, it does all sorts of cool things to show its love.  It even automatically inserts them when they are *not* present.
 
-For starters, if a validator evaluates as `true` anywere in the heirarchy of an `object`'s structure, the lower `object`-s will assume that the validated object is in the `set` described by that validator. Alternatively, if the validator validates as `false`, then the lower `object`-s will assume that the validated `object` is in the complement of the `set` described by that validator. This is guaranteed by Wall's static typing system.
+For starters, named `thing`-s retain the strongest possible validation in a compilation chain.  That means that, if something is validated to be equal to `5`, then an `int`, then a `thing`, it will retain the validation of being equal to `5`.
 
 ```
-w> a = 5
-w> b = 'foo
-w> c = (? (((map! thing { k false }) & { 5 true }) a) a b)
+w> is5? = omap! thing { k false } .& { 5 true }
+w> id5 = def! 'i is5? fed i
+w> idint = def! 'i int? fed i
+w> idthing = def! 'i int? fed i
+w> 5back = 5.idint.idthing.id5
+w> 5back 5
+5
+w> 6back = 6.idint.idthing.id5
+Error. The object `id5` does not contain the key `6`.
 ```
 
 Next up, if a `thing` is part of a structure that will ultimately resolve to a boolean and it lacks the appropriate validators, they will be added automatically with `&`-s. As a result, the following two statements are equivalent:
@@ -63,8 +69,6 @@ w> d? == (?ify [8])
 true
 ```
 
-The last bit brings up an important aspect of Wall that is commonly referred to as **duck-typing**.  That is, if it quacks like a duck and walks like a duck, it's a duck.  In the example above, both `d?` and `?ify [8]` create the same object.  However, because we can never *see* the object because of its infinite size, we can only describe it.  Thus, if it has all of the keys and values of `(map! thing { a false }) & { 8 true }`, then it *is* that.
-
 ## Rolling your own validators
 
 We can write our own validators:
@@ -81,7 +85,7 @@ w> 5?
 We could have written our validator like this as well.
 
 ```
-w> <5? = & (map! { a false } thing) (map! { a (< a 5) } int)
+w> <5? = & (map! thing { k false }) (map! int { k (< k 5) })
 ```
 
 The pattern in this example is common in Wall. Take a union of two `object`-s, where:
@@ -92,7 +96,7 @@ The pattern in this example is common in Wall. Take a union of two `object`-s, w
 This pattern can also be accomplished using the `?ify` object, which creates a validator from a set that should validate positively.
 
 ```
-w> <5? = ?ify (map! int (? (< k 5) k $)) 
+w> <5? = ?ify int.$map! (? (< k 5) k $)
 ```
 
 Now, let's rewrite `foo$` from above using a custom validator:
@@ -148,3 +152,32 @@ false
 w> n_n+1? 0
 false
 ```
+
+### Validating recursive `object`-s
+
+You may remember that a the constructor of a linked list can be defined like so.
+
+```
+w> ; = 
+w> z = omap! thing @ { c $%% ; } { k (z .& { ; { a c } } ) } .& { ; {} }
+```
+
+This is one of many ways to define a link list's constructor, and intuitively, we may want to ask "is an object a linked list according to this definition"?
+
+One way to do this is to use `?ify` on the values of the aggregator keys `;` that exist on the recursive `object`-s that comprise `z`.  Another way to do this is to create a validator describing the list's properties.  the results will be the same.
+
+```
+w> ll1 = @{ p %! }
+  (omap! thing { k (%k ;)
+    .$& @ { b %% } (red!! (b .~ ;).val aa .& (p kk) []) }) z
+w> ll1? = ?ify ll1
+w> ll1? { 1 { 2 { 3 {} } } }
+true
+w> ll2 = def 'a thing? fed (== a {}) .| (& (a.len.== 1) (ll2 a.choose))
+w> ll2? = ?ify ll2
+w> ll2? { 1 { 2 { 3 {} } } }
+w> == ll1? ll2?
+true
+```
+
+The object assigned to `ll1?` is so useful that there is a prepackaged object called `rag` that does exactly this.  `rag` is short for "reverse aggregator".  It reinforces a common pattern in Wall: define a recursive `object` constructor with a symbol that acts as an aggregator, and then use `all` to define the set of objects that the aggregator can hold.

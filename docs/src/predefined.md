@@ -14,7 +14,7 @@ w> < 0 1
 true
 w> < 1 0
 false
-w> < 1 2
+w> 1 .< 2
 true
 ```
 
@@ -31,22 +31,33 @@ w> now
 1562524244.200712
 ```
 
-Because Wall evaluates lazily, these `float`-s will evaluate only when they need to. To force evaluation, you can use the `!` variants of both.
+Because Wall evaluates lazily, these `float`-s will evaluate only when they need to. To force evaluation, you can use the `bang` hint.
 
 ```
-w> rand!
+w> ! rand
 0.055325461
-w> now!
+w> ! now
 1562524244.200712
 ```
  
 ## `object`
 
 Wall has lots of predefined `object`-s.  In this section, we'll cover several of the most popular predefined objects.  A full reference of predefined objects can be found [here](/reference). In the [Examples](/examples) section, we will create our own versions of some predefined objects.
- 
+
+### `key` and `val`
+
+The `set` of an `object`-s keys is represented by the `key` `object`. The `set` of an `object`-s values is represented with the `val` `object`.
+
+```
+w> key { 1 2 3 4 }
+[1 2]
+w> { 1 2 3 4 }.val
+[3 4]
+```
+
 ### `choose`
 
-Choose can be thought of as the following: a magical `object` that contains every conceivable `set` and `object` in its keys, and its values are always an element of the key when the key is a `set` or a key within the key when the key is an `object`. Sounds heavy, but it's not. Let's see it in action:
+Choose is an object that associates a `set` or an `object` with a random element from that `set` or a random key from that `object`.
 
 ```
 w> choose [1 2 3]
@@ -80,7 +91,7 @@ $
  
 ### `suc`
 
-`suc` is the successor function. It is defined on members of `int` and `float`.
+`suc` is an `object` representing the successor function. Its keys are all members of `int` and `float`.
 
 ```
 w> suc 1
@@ -91,7 +102,7 @@ w> -998.999
 
 ### `pre`
 
-`pre` is the predecessor function. It is defined on members of `int` and `float`.
+`pre` is an `object` representing the predecessor function. Its keys are all members of `int` and `float`.
 
 ```
 w> pre 1
@@ -100,73 +111,18 @@ w> pre -999.999
 w> -1000.999
 ```
 
-### `'`, `"`, and ``` ` ```
-
-In Wall, Strings are objects that can be created three different ways:
-
-```
-w> a = 'aString
-w> print a
-aString
-w> b = "a\tString"
-w> print b
-a    String
-w> c = `${a}
-${b}`
-w> print c
-aString
-a    String
-```
-
-Strings can be manipulated fairly easily using standard conventions:
-
-```
-w> "abc"
-"abc"
-w> str? "abc"
-true
-w> s.ss "abc" 0
-"a"
-w> s.ss "peace" rg 0 5
-"pe"
-w> s.ss "שלום" O
-"ש"
-w> s.s "שלום peace" 0
-"ש"
-w> s.s "שלום peace" rg 0 5
-"שלום p"
-w> s.s "שלום peace" 5
-"ש"
-```
-
-Wall has a fun bit of syntactic sugar for named strings. Instead of writing:
-
-```
-w> HELLO = "HELLO"
-w> HELLO
-"HELLO"
-```
-
-We can just write:
-
-```
-w> \HELLO
-w> HELLO
-"HELLO"
-```
-
 ### `d-1`, `d-2` and `d-n`
 
 Arbitrary delayed application of `object` keys can be created with the family of `d-` `object`-s.
 
 ```
-w> a = d-1 (+ [0]) key
+w> a = d-1 [0 'foo].& key
 w> a { 3 4 }
-[0 3]
-w> b = d-2 (+ [0]) map
-w> b [0 1] (+ 1)
-[0 1 2]
-w> c = d-2 (* 7) +
+[0 'foo 3]
+w> b = d-2 [0].+ map
+w> b [5 6] 2.*
+[0 10 12]
+w> c = d-2 7.* +
 w> c 3 2
 42
 ```
@@ -180,17 +136,17 @@ The operators `not`, `&`, `|`, `x|`, `xn|`, `if` and `iff` all work on `bool`, a
 ```
 w> & true false
 false
-w> & [0] [1]
+w> [0].& [1]
 [0 1]
 w> x| false false
 true
 ```
 
-The `object` union operator also has a recursive variant that merges objects with similar keys when possible instead of replacing the content.
+The `object` union operator also has a recursive variant that merges objects and sets with similar keys when possible instead of replacing the content.
 
 ```
-w> &! { 0 { 1 2 }} { 0 { 3 4 }}
-{0 { 1 2 3 4 }}
+w> &! { 0 { 1 2 'foo ['bar] }} { 0 { 3 4 'foo ['baz] }}
+{0 { 1 2 3 4 'foo ['bar 'baz] }}
 ```
 
 ### `==` and `/=`
@@ -202,18 +158,16 @@ w> == 1 1
 true
 w> == 1 (+ 0 1)
 true
-w> == [1 2 3] [1 2 (+ 1 2)]
+w> [1 2 3].== [1 2 (+ 1 2)]
 true
 w> == [1 2 3] [3 2 1 $]
 true
-w> == { 0 { 0 1 } } { 0 { 0 1 } }
+w> { 0 { 0 1 } } .== { 0 { 0 1 } }
 true
-w> == (m-2 not >=) <
+w> == (d-2 not >=) <
 true
-w> == (m-2 not >) <
+w> == (d-2 not >) <
 false
-w> == (&! (m-2 not >) (red (map! int { k { k false } }) &)) <
-true
 ```
 
 ### `def`
@@ -221,7 +175,7 @@ true
 `def` is a predefined object that, intuitively, describes something that resembles a function in other languages. As a convention, all function names should end with `$`.
 
 ```
-w> foo$ = def _? int? fed @ { a0 ...k a1 .k } (? (> a1 5) 0 a0)
+w> foo$ = def _? int? fed @ { a0 %%k a1 %k } (> a1 5).? 0 a0
 w> foo$ {} 6
 {}
 w> foo$ {} 5
@@ -246,18 +200,20 @@ w> foo$ {} 5
 {}
 ```
  
-### `rev`
+### `rev+` and `rev-`
 
-`def` allows for lots of goodies that people coming from the functional programming world love. Currying of arguments. Currying of signatures.  Accessing curried arguments. With respect to the latter, we have `rev+` and `rev-`.
+`rev+` takes a three-level deep object and reverses application of two keys.
 
 ```
+w> { 'a { 'b 0 } }.rev+ 'b 'a
+0
 w> < 5 4
 false
 w> rev+ < 5 4
 true 
 ```
 
-`rev-` reverses the previous key with the incoming key of a binary function. Remember: we can do this because the previous key is always accessible via the `.k` operator.
+`rev-` reverses the previous key with the incoming key of a binary function.
 
 ```
 w> < 5 4
@@ -268,56 +224,69 @@ true
  
 ### `red`
 
-Sometimes, you want to reduce the key/value pairs in an `object` or `set`, like summing them up. That's done with `red`.
+Sometimes, you want to reduce the key/value pairs in an `object` or `set`, like summing them up. That's done with `red`.  It takes either a `set` or `object as its first key, an accumulator `object` as its second key, and an initial value for an accumulator as its third key.
 
 ```
 w> red [1 2 3] + 0
 6
 w> red [{'a 1} {'b 2} {'c 3}] & {}
 {'a 1 'b 2 'c 3}
-w> red! { 0 5 1 4 2 3 } (rev & {k (? (< k 1) (+ k v) $)}) {}
-{ 2 5 }
-w> red! [8 3 2] (& a (? (< k 4) (+ k 3) 0)) []
-[11 0 0]
 ```
 
-`red` is an `object` that is three levels deep.  Here are the keys that can be fed to it:
+Sometimes, we want to pass an ad-hoc object to `red`:
 
-- Level 1: A `set` or an `object`.
-- Level 2: A three-level `object` for `set`-s, and a four-level `object` for `object`-s. The first level is the aggregated `thing` that came from the last application of this `object`. The second level is an element from the `set` or a key from an `object`. For `object`-s, the third level is the value from the `object`. The last level should represent the result of the aggregation.
-- Level 3: An initial `set` or `object` applied as a key to level 2.
+```
+w> red { 0 1 2 3 4 5 } def 'a object? 'k int 'v int fed & a { k (? k .== 4 v .* 10 $) }
+{ 4 50 }
+```
 
-In its variant `red!`, some `thing`-s from level two are injected via `@` into the current context.
+In this case, the syntax `red!` saves us some space - it automatically injects three values into the context.
 
-- `a` is the aggregator
-- `k` is the element or key
-- `v` is the value in the case of `object`-s.
- 
+- `a`: the accumulator
+- `k`: the key
+- `v`: the value
+
+```
+w> red! { 0 1 2 3 4 5 } & a { k (? k .== 4 v .* 10 $) }
+```
+
 ### `map`
 
-In the above example, the last two `red` show a similar pattern - taking the successive union of an object. This happens so often that there is a bit of syntactic sugar in Wall, `map`, to facilitate that.  Below are the two examples from `red` rewritten in `map`.
+`map` is used to apply each element of a `set` or each key-value pair of an `object` to an `object.
 
 ```
-w> map! { 0 5 1 4 2 3 } {k (? (< k 1) (+ k v) $)}
+w> map [8 3 2] 3.>
+[false false true]
+```
+
+`map` also has a `!` equivalent, `map!`, that injects `k` (and `v` for objects) into the computational context.
+
+```
+w> map! { 0 5 1 4 2 3 } {k (? k.< 1 k.+ v $)}
 { 2 5 }
-w> map [8 3 2] (? (< k 4) (+ k 3) 0)
-[11 0 0]
+```
+
+The `omap` and `omap!` variants of `map` take a `set` to an `object`.
+
+```
+w> omap! int { k k.+ 1 } 5
+6
 ```
 
 ## `set`
 
-As mentioned, there are five predefined sets: `int`, `float`, `bool`, `symbol`, and `object`.  Thankfully, these `set`-s ship with the wall compiler.  Defining them manually would take a long, long time.
+As mentioned, there are several useful predefined sets that ship with Wall: `int`, `float`, `bool`, `complex`, `string`, `symbol`, and `object` are several of them.
 
 There are two ways to check if a `thing` belongs to a `set`.
 
 ```
-w> in? [] set
+w> [].in? set
 true
 w> set? []
 true
 w> in? 1.0 float
 true
-w> float? 1.0
+w> 1.0.float?
 true
 ```
 
@@ -336,10 +305,15 @@ w> a 1
 It is also possible to create linked lists.
 
 ```
-w> ll = def! 'a _? b fed { 'k a 'v ll }
-w> z = ll 1 'v 2 'v 3 'v 4 $
-w> z 'k
-1
-w> z 'v 'k
-2
+w> ; = 
+w> z = omap! thing @ { c $%% ; } { k (z .& { ; { a c } } ) } .& { ; {} }
+w> z ;
+{}
+w> z 1 2 3 ;
+{ 1 { 2 { 3 {} } } }
+w> q = z 1 2 3 4
+w> q 5 ;
+{ 1 { 2 { 3 { 4 { 5 {} } } } } }
 ```
+
+This works because Wall's evaluation is lazy, meaning that it only fetches information on a need-to-know basis.  By the time that `z` has been constructed, the top-level object has a key-value pair `{ ; {} }`, which means that `c` will evaluate to `{}`. Then, because everything in Wall is a copy, the inside `z` is a copy of the original `z` with the `;` key set to `{ a {} }`.  For those of you familiar with Scheme, this is not unlike how a list is constructed: `(cons 1 (cons 2 '()))` is the list `'(1 2)`.

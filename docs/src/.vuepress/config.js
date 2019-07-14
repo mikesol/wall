@@ -6,7 +6,9 @@ module.exports = {
           '/',
           ['/things', 'Things'],
           ['/predefined', 'Predefined Things'],
-          ['/validation', 'Validation']
+          ['/asnyc', 'Asynchronicity'],
+          ['/validation', 'Validation'],
+          ['/musings', 'Random Musings']
         ]
       }
 }
