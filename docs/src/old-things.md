@@ -1,42 +1,6 @@
- 
-# Things
+ # Numbers
 
-In Wall, stuff like `5`, `true`, `[1 2 3]` or `{ 'foo 'bar }` are called `thing`-s. Every `thing` in Wall belongs to one or several predefined `set`-s.  If you're coming from Haskell or TypeScript or Fortran (or almost anything else), `set`-s are roughly equivalent to types.
-
-Wall has lots of predefined `set`-s: `int`, `float`, `complex`, `bool`, `string`, `symbol`, and `object` are all examples of `set`-s.  `thing` is a `set` as well.
-
-```
-w> in? 1.0 float
-true
-w> in? 1 int
-true
-w> in? 1 float
-false
-w> in? 1+3j complex
-true
-w> in? [1] set
-true
-w> in? 1 thing
-true
-w> in? int thing
-true
-w> in? thing thing
-false
-```
-
-Any `thing` can be given a name in Wall. Named things are immutable, meaning once they are created, they cannot be changed. Names in Wall cannot contain whitespace and cannot begin with a `.`. Otherwise, they can be anything that is not predefined by the language.
-
-```
-w> anne = 1
-w> anne = 2
-Error. Cannot reassign `anne`.
-w> things_to_do = ["eat", "sleep"]
-w> things_to_do 0 = "drink"
-Error. Cannot reassign `things_to_do` 0.
-w> &!-@\./ = "a very strange name"
-w> &!-@\./
-"a very strange name"
-```
+There are three primitive numeric types in Wall: `int`, `float` and `complex`.
 
 ## `int`
 

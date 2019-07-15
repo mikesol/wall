@@ -1,0 +1,116 @@
+# Validation II
+
+We've already seen several validators in Wall and seen how they can be used to construct functions with `def` and `def!`.  In this section, we will see some more strategies on how to build validators.
+
+## Rolling your own validators
+
+We can write our own validators:
+
+```
+w> <5? = def! 'a0 _? fed (& (int? a0) (< a0 5))
+w> <5? 4
+true
+w> <5? 5
+false
+w> 5?
+```
+
+We could have written our validator like this as well.
+
+```
+w> <5? = & (map! thing { k false }) (map! int { k (< k 5) })
+```
+
+The pattern in this example is common in Wall. Take a union of two `object`-s, where:
+
+- one `object` that maps every `thing` to `false`.
+- one `object` that maps every `int` to `true` if the `int` is less than `5`, otherwise `false`.
+
+This pattern can also be accomplished using the `?ify` object, which creates a validator from a set that should validate positively.
+
+```
+w> <5? = ?ify int.$map! (? (< k 5) k $)
+```
+
+Now, let's rewrite `foo$` from above using a custom validator:
+
+```
+w> <5? = def! 'a0 _? fed (& (int? a0) (< a0 5))
+w> foo$ = def! 'a0 _? 'a1 <5? fed (? (> a1 5) 0 a0)
+w> foo$ 'hello -1
+'hello
+w> foo$ {} 1
+0
+w> foo$ {} 10
+Error. The key 10 does not exist on the object `foo$` {}. 
+```
+
+## Strategies for making validators
+
+There are two common strategies to make a validator:
+
+- Create a `set` of elements that are valid (ie a `set` called `foo`), and call `?ify foo`. This creates an object that maps all `thing`-s to `false *except* the things in the `set`.
+- Define a function that yields an object mapping all elements to either `true` or `false`.
+ 
+### `?fy` strategy
+
+```
+w> a0? = ?ify [{ 'a 0 }]
+w> a0? { 'a 0 }
+true
+w> a0? 0
+false
+w> n_n+1? = ?ify (val (def! 'n int? fed { 'n n 'n+1 (+ n 1) }))
+w> n_n+1? { 'n 0 'n+1 1 }
+true
+w> n_n+1? { 'n 0 'n+1 2 }
+false
+w> n_n+1? 0
+false
+```
+ 
+### `def!` strategy
+
+```
+w> a0? = def! 'a _? { a (a == { a' 0 }) }
+w> a0? { 'a 0 }
+true
+w> a0? 0
+false
+w> n_n+1? = def! 'a _? { a (== (a 'n+1) (+ 1 (a 'n))) }
+w> n_n+1? { 'n 0 'n+1 1 }
+true
+w> n_n+1? { 'n 0 'n+1 2 }
+false
+w> n_n+1? 0
+false
+```
+
+### Validating recursive `object`-s
+
+You may remember that a the constructor of a linked list can be defined like so.
+
+```
+w> ; = 
+w> z = omap! thing @ { c $%% ; } { k (z .& { ; { a c } } ) } .& { ; {} }
+```
+
+This is one of many ways to define a link list's constructor, and intuitively, we may want to ask "is an object a linked list according to this definition"?
+
+One way to do this is to use `?ify` on the values of the aggregator keys `;` that exist on the recursive `object`-s that comprise `z`.  Another way to do this is to create a validator describing the list's properties.  the results will be the same.
+
+```
+w> ll1 = @{ p %! }
+  (omap! thing { k (%k ;)
+    .$& @ { b %% } (red!! (b .~ ;).val aa .& (p kk) []) }) z
+w> ll1? = ?ify ll1
+w> ll1? { 1 { 2 { 3 {} } } }
+true
+w> ll2 = def 'a thing? fed (== a {}) .| (& (a.len.== 1) (ll2 a.choose))
+w> ll2? = ?ify ll2
+w> ll2? { 1 { 2 { 3 {} } } }
+w> == ll1? ll2?
+true
+```
+
+The object assigned to `ll1?` is so useful that there is a prepackaged object called `rag` that does exactly this.  `rag` is short for "reverse aggregator".  It reinforces a common pattern in Wall: define a recursive `object` constructor with a symbol that acts as an aggregator, and then use `rag` to define the set of objects that the aggregator can hold.
