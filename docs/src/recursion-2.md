@@ -4,7 +4,7 @@ A lot of pre-defined functions in Wall are defined using recursion.  For example
 
 ```
 w> bar () =
-w> foo = everything.map \.flip (s+ foo [ \ bar (\ (%k -1) ((% -1 bar))) ]) .s+ [ \ bar ()]
+w> foo = map everything (flip \ (s+ foo [ \ bar (\ %k ((%% bar)))])) .s+ [ \ bar ()]
 ```
 
 Yup, that is write-only code.  You may win at golf, but you would lose your job unelss you put a big fat comment.  That being said, let's unpack what's going on!
@@ -13,18 +13,18 @@ First, we are mapping everything to something and then taking its union with the
 
 ```
 w> bar () =
-w> foo = everything.map \.flip (s+ foo [ \ bar (\ (%k -1) ((% -1 bar))) ]) .s+ [ \ bar ()]
+w> foo = map everything (flip \ (s+ foo [ \ bar (\ %k ((%% bar)))])) .s+ [ \ bar ()]
 w> foo bar
 ()
 ```
 
-Then, in the middle part, we apply `\.flip (s+ foo [ \ bar (\ (%k -1) ((% -1 bar))) ])`.  The first thing to note is that we are flipping the application of `\`, so the last argument applied (which is what is being mapped from `everything`) will be the first element of our pair.  So, we are going to get some mapping of pairs where the first element corresponds to an element of everything.  Thus, according to Wall, it is a function.
+Then, in the middle part, we apply `\.flip (s+ foo [ \ bar (\ %k ((%% bar))) ])`.  The first thing to note is that we are flipping the application of `\`, so the last argument applied (which is what is being mapped from `everything`) will be the first element of our pair.  So, we are going to get some mapping of pairs where the first element corresponds to an element of everything.  Thus, according to Wall, it is a function.
 
-Next, for the second part of the pair, we take a union between a function (`\.` - yay recursion!) and a set `[ \ bar (\ (%k -1) (% -1 bar)) ]`. From the Sugar chapter, we remember that `%k -1` is the key pointing to this function and `% -1 bar` is the value of `bar` up one level in the function.  In other words, we make a pair of the key pointing to this function and whatever the last value of `bar` was. So...
+Next, for the second part of the pair, we take a union between a function (`\.` - yay recursion!) and a set `[ \ bar (\ %k (%% bar)) ]`. From the Sugar chapter, we remember that `%k -1` is the key pointing to this function and `%% bar` is the value of `bar` up one level in the function.  In other words, we make a pair of the key pointing to this function and whatever the last value of `bar` was. So...
 
 ```
 w> bar () =
-w> foo = everything.map \.flip (s+ foo [ \ bar (\ (%k -1) ((% -1 bar))) ]) .s+ [ \ bar ()]
+w> foo = map everything (flip \ (s+ foo [ \ bar (\ %k ((%% bar)))])) .s+ [ \ bar ()]
 w> foo 1 bar
 \() 1 ()\
 w> foo 1 2 bar

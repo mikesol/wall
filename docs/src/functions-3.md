@@ -1,10 +1,14 @@
 # Functions III
 
-Let's dive a bit deeper into function invocation in Wall.
+Let's dive a bit deeper into function composition and invocation in Wall.
+
+## `{}`
+
+A common shorthand for function creation in Wall is `{ 1 2 3 4 }` instead of `[ \ 1 2 \ 3 4 ]`.
 
 ## Greed
 
-By default, all function invocations in Wall are maximally *greedy*.  That is, when invoked, they will gobble any argument, even if it is a function.  Sometimes, this is what we want.
+By default, all function invocations in Wall are maximally *greedy*.  That is, when invoked, they will gobble any argument that may be in their domain, even if it is a function.  Sometimes, this is what we want.
 
 ```
 w> name = [ \ > "greater than" \ < "less than" ]
@@ -12,74 +16,41 @@ w> name <
 "less than"
 ```
 
+This also provides a sensible default for lots of cases where writing parentheses is annoying.  For example:
+
+```
+w> + + 5 3 1
+9
+```
+
+As `+ is not in the domain of `+`, `+` ignores it and waits until a value in its domain shows up.  If nothing comes before a newline, it will raise an error.
+
 However, sometimes, we don't want this at all.  Consider the following case:
 
 ```
-w> Dad Sister Brother Son Daughter Roberto Miguel Betty =
-w> Relation = [
-  \ Roberto [ \ Miguel Dad \ Anita Dad ]
-  \ Miguel [ \ Anita Brother \ Roberto Son ]
-  \ Anita [ \ Miguel Sister \ Roberto Daughter ]
-]
-w> Role = [
-  \ Brother Miguel
-  \ Sister Anita
-  \ Dad Roberto
-  \ Daughter Anita
-  \ Son Miguel
-]
-w> Relation Role Dad Roberto
-Error. The function `Relation` does not contain an element `Role` in its domain. 
+w> == == 3 4 == 4 5
+Error. `false` is not a function.
 ```
 
-Intuitively, we are trying to get whoever plays the `Role` of `Dad` and figure out what he is to `Roberto`.  But so far, we have seen no way to do this.  Instead, because `Relation` is greedy, it will try to look for `Role` in its domain and, predictably, fail.
+Intuitively, we would like to ask "Is 3 == 4 equal to 4 == 5?".  We can do this with parentheses.
 
 ## Parentheses
 
-In order to fix this greedy problem, Wall (like lots of other languages) uses parentheses to signal "evaluate whatever is inside here before moving onto the outer context."  Let's revisit the `size` example above, but use parentheses to make it work.
+In order to fix this greedy problem, Wall (like lots of other languages) uses parentheses to signal "evaluate whatever is inside here before moving onto the outer context."  Let's revisit the `==` example above, but use parentheses to make it work.
 
 ```
-w> Dad Sister Brother Son Daughter Roberto Miguel Betty =
-w> Relation = [
-  \ Roberto [ \ Miguel Dad \ Anita Dad ]
-  \ Miguel [ \ Anita Brother \ Roberto Son ]
-  \ Anita [ \ Miguel Sister \ Roberto Daughter ]
-]
-w> Role = [
-  \ Brother Miguel
-  \ Sister Anita
-  \ Dad Roberto
-  \ Daughter Anita
-  \ Son Miguel
-]
-w> Relation (Role Dad) Roberto
-Dad
+w> == (== 3 4) (== 4 5)
+true
 ```
 
-Here, the parentheses say to Wall "hey, forget about that greedy `Relation` for a second. Let's figure out what's inside here first, and then we'll feed it to the `Relation`."
+Here, the parentheses say to Wall "hey, forget about that greedy `==` for a second. Let's figure out what's inside here first, and then we'll feed it to the `==`."
 
 ## Dots
 
-The `.` symbol in Wall does two things.  It *flips* function invocation so that what comes *after* the period calls whatever comes before the period, and it automatically adds parentheses around the next two elements.  Whitespace is optional both before and after the dot.
+The `.` symbol in Wall *flips* function invocation so that what comes *after* the period calls whatever comes before the period.  Whitespace is optional both before and after the dot.
 
 ```
-w> Dad Sister Brother Son Daughter Roberto Miguel Betty =
-w> Relation = [
-  \ Roberto [ \ Miguel Dad \ Anita Dad ]
-  \ Miguel [ \ Anita Brother \ Roberto Son ]
-  \ Anita [ \ Miguel Sister \ Roberto Daughter ]
-]
-w> Role = [
-  \ Brother Miguel
-  \ Sister Anita
-  \ Dad Roberto
-  \ Daughter Anita
-  \ Son Miguel
-]
-w> Relation Miguel Anita
-Brother
-w> Miguel.Relation Anita
-Brother
+w> (3 .== 4) .== (4 .== 5)
 ```
 
 This is why it is not a good idea to use `.` in variable names in Wall.  While technically allowed, it nullifies `.` syntax wherever it is used.
@@ -110,11 +81,13 @@ w> \ 1 $ \ 2 $ \ 3 4
 w> foo = \ 1 $ \ 2 $ \ 3
 w> foo 4
 \ 1 (\ 2 (\ 3 4))
+w> ? false 0 $? false 1 $? true 2 $? false 3 4
+2
 ```
 
 ## Dotted dollars
 
-Lastly, the `.$` symbol works like `.` *except* that, instead of putting parentheses around the elements before and after the dot, it puts parentheses around the element after the dot and everything that follows, like `$`.
+Lastly, the `.$` symbol combines `.` and `$` into one uber symbol.
 
 ```
 w> 6 .$\ 5 .$\ 4 3

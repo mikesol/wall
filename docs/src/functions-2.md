@@ -125,6 +125,8 @@ w> -> true false
 false
 w> <-> true true
 true
+w> ? true 0 1
+0
 ```
 
 ## Sets

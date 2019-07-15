@@ -16,7 +16,7 @@ true
 
 ## `everything`
 
-There is one special set called `everything` that contains everything that Wall does or will ever contain, including itself.
+There is one special set called `everything` that contains *almost* everything that Wall does or will ever contain, including itself.
 
 ```
 w> int.subs? everything
@@ -25,4 +25,11 @@ w> everything.s- everything
 []
 w> everything.subs? everything
 true
+```
+
+Importantly, `everything` leaves out the functions `(`, `{` and `[` symbols `)`, `}` and `]`.  The set `evverrrythinggg` contains these.
+
+```
+w> len(s- evverrrythinggg everything)
+6
 ```

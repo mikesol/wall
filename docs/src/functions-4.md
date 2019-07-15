@@ -62,7 +62,7 @@ w> red [[1 2] [2 3] [3]] s+ []
 If the function is not transitive, Wall will throw an error.
 
 ```
-w> red [\ 1 2 \ 1 3 \ 1 5] f+e []
+w> red { 1 2 1 3 1 5 } f+e []
 Error. The function `red [\ 1 2 \ 1 3 \ 1 5]` does not `f+e` in its domain.
 ```
 

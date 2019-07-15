@@ -12,6 +12,7 @@ module.exports = {
               ['/symbols', 'Symbols'],
               ['/sets-1', 'Sets I'],
               ['/assignment', 'Assignment'],
+              ['/comments', 'Comments'],
               ['/pairs', 'Pairs'],
               ['/functions-1', 'Functions I'],
             ]
@@ -49,8 +50,10 @@ module.exports = {
             title: 'Soaring',
             collapsable: true,
             children: [
-              ['/monads', 'Monads'],
               ['/modules', 'Modules'],
+              ['/packages', 'Packages'],
+              ['/monads', 'Monads'],
+              ['/bang', 'Bang'],
               ['/indeterminacy', 'Indeterminacy'],
               ['/io', 'IO'],
               ['/threading', 'Threading']
