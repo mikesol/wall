@@ -60,6 +60,7 @@ module.exports = {
             title: 'Digging',
             collapsable: true,
             children: [
+              ['/reference', 'Reference'],
               ['/proofs', 'Proofs'],
               ['/contributing', 'Contributing']
             ]
