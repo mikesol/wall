@@ -11,38 +11,27 @@ w> not| true true
 true
 ```
 
-It is also possible to apply functions directly to function definitions.  We see this already above - we are applying the function `(map!!a-b |)` to the definition of another function.
-
-We can take the concept of applying a function to a function definition one step further by applying an aggregator function to a function definition.  Remember that an aggregator function simply consumes elements until it hits a certain token, then does something with them.
+A function can also be defined using a list.
 
 ```
-w> bar baz spam () =
-w> narg = <<! (f| function? complex?) >> ? a0.complex? (neg a0) (a0 narg)
-w> narg-map = map!:() narg (rev k)
-w> foo = map! everything
-  (flip \ (s+
-    foo
-    [
-      \ baz (red (narg-map (% spam)) id)
-      \ bar (red (rev (% spam)) id)
-      \ spam (\ k ((%% spam)))
-    ]
-  )) .s+ [ \ spam () \ baz () \ bar ()]
-w> +' = <<! complex? >> foo + a0 a0 bar
-w> neg-+' = <<! complex? >> foo + a0 a0 baz
-w> +' 1 2
+w> f-com? = f| complex->complex->complex? complex->complex? .f| complex?
+w> narg = <<! f-com? >> ? a0.complex? (neg a0) (a0 narg)
+w> nargify = <<! (f& list? (l-elts? f-com?)) >> red!:() a0 invoke id
+w> neg-f0 = <<! complex? complex? >> nargify list + * a0 a1 - a0 a1 ** a0 ;
+w> neg-f1 = <<! complex? complex? >> nargify list / - a1 a0 * a0 a1 ;
+w> neg-f0 3 4
 3
-w> neg-+' 1 2
+w> neg-f1 3 4
 -3
 ```
 
-In the example above, instead of having one aggregator, we have several, all of which hold something different.  `spam` holds the unadultered, raw result of the aggregation.  `bar` holds a reversed version of `spam` reduced using the `id` function as an aggregator, which is just a pass through operation.  `baz` does a similar thing but applies `narg-map`, which negates the arguments.
+Remembering that `(` is a function, we can also define functions that process ordinary function definitions enclosed in parentheses so long as `(` and `)` are in the domain of the function.
 
-In general, this type of pattern is a bad idea because it makes it hard to follow the flow of a function.  In certain cases, however, it proves to be really valuable.  For example, when working with monads, it allows us to transform normal looking functions into ones that elegantly handle monads with one line of code.
+This pattern helps us gives us the tools we need to effectively handle monads in Wall.
 
 ## Fortune telling
 
-For example, you could imagine that a function generates a fortune for a given horoscope.
+As an example, you could imagine that a function generates a fortune for a given horoscope.
 
 ```
 w> /import [gen-fortune] from 'horoscope

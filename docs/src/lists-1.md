@@ -1,5 +1,4 @@
- 
-# Lists
+# Lists I
 
 Wall does not have a built-in notion of a list.  A list-like structure can be created, however, by using nested pairs like in Scheme.  Let's use the symbol `()` to represent the end of a list, and then we can use nested pairs to represent a list.
 

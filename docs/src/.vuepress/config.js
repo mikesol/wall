@@ -26,7 +26,7 @@ module.exports = {
               ['/strings', 'Strings'],
               ['/booleans', 'Booleans'],
               ['/functions-2', 'Functions II'],
-              ['/lists', 'Lists'],
+              ['/lists-1', 'Lists I'],
               ['/functions-3', 'Functions III'],
               ['/recursion-1', 'Recursion I'],
               ['/sugar-1', 'Sugar I'],
@@ -52,6 +52,7 @@ module.exports = {
             children: [
               ['/modules', 'Modules'],
               ['/packages', 'Packages'],
+              ['/lists-2', 'Lists II']
               ['/functions-6', 'Functions VI'],
               ['/bang', 'Bang'],
               ['/indeterminacy', 'Indeterminacy'],
