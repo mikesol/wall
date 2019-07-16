@@ -52,11 +52,12 @@ module.exports = {
             children: [
               ['/modules', 'Modules'],
               ['/packages', 'Packages'],
-              ['/monads', 'Monads'],
+              ['/functions-6', 'Functions VI'],
               ['/bang', 'Bang'],
               ['/indeterminacy', 'Indeterminacy'],
               ['/io', 'IO'],
-              ['/threading', 'Threading']
+              ['/threading', 'Threading'],
+              ['/gpu', 'GPU']
             ]
           },
           {

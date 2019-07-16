@@ -1,6 +1,44 @@
-# Monads
+# Functions VI
 
-A monad is an element in a context that (assumedly) has additional information about that element.
+You've already seen Wall functions that return functions.  Furthermore, it is easy to create a Wall function that manipulates functions after they're defined.
+
+```
+w> notter = map!!a-b | \ (not a) (map!!c-d b \ (not c) (not d))
+w> not| = notter |
+w> not| true false
+false
+w> not| true true
+true
+```
+
+It is also possible to apply functions directly to function definitions.  We see this already above - we are applying the function `(map!!a-b |)` to the definition of another function.
+
+We can take the concept of applying a function to a function definition one step further by applying an aggregator function to a function definition.  Remember that an aggregator function simply consumes elements until it hits a certain token, then does something with them.
+
+```
+w> bar baz spam () =
+w> narg = <<! (f| function? complex?) >> ? a0.complex? (neg a0) (a0 narg)
+w> narg-map = map!:() narg (rev k)
+w> foo = map! everything
+  (flip \ (s+
+    foo
+    [
+      \ baz (red (narg-map (% spam)) id)
+      \ bar (red (rev (% spam)) id)
+      \ spam (\ k ((%% spam)))
+    ]
+  )) .s+ [ \ spam () \ baz () \ bar ()]
+w> +' = <<! complex? >> foo + a0 a0 bar
+w> neg-+' = <<! complex? >> foo + a0 a0 baz
+w> +' 1 2
+3
+w> neg-+' 1 2
+-3
+```
+
+In the example above, instead of having one aggregator, we have several, all of which hold something different.  `spam` holds the unadultered, raw result of the aggregation.  `bar` holds a reversed version of `spam` reduced using the `id` function as an aggregator, which is just a pass through operation.  `baz` does a similar thing but applies `narg-map`, which negates the arguments.
+
+In general, this type of pattern is a bad idea because it makes it hard to follow the flow of a function.  In certain cases, however, it proves to be really valuable.  For example, when working with monads, it allows us to transform normal looking functions into ones that elegantly handle monads with one line of code.
 
 ## Fortune telling
 
@@ -54,12 +92,12 @@ w> fortune-merge = << function? fortune-2? fortune-2? >>
     ? (a1.has? 'error .| a2.has? 'error)
       { 'error [a1 a2].filter! k.has? 'error .map! k 'error }
       f+e (merge a0 a1) \ 'fortune (a0 a1 'fortune a2 'fortune)
-w> my-gen-fortune = monadize fortune-2? fortune-merge << zodiac? >>
+w> my-gen-fortune = monadize fortune-2? fortune-merge (<< zodiac? >>
   ? a0.== 'Cancer
   "Cancer is a premium sign, pay up!"
   $? a0. == 'Scorpio
   `Here's your horoscope: ${(gen-fortune-2 a0)} and Leo too ${(gen-fortune-2 'Leo)}`
-  (++ "Here is our prediction: " (gen-fortune-2 a0))
+  (++ "Here is our prediction: " (gen-fortune-2 a0)))
 ```
 
 ## How `monadize` works
