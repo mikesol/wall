@@ -15,7 +15,6 @@ The first languages I coded extensively in are Scheme and Python.  I loved Schem
 - Managed concurrency
 - Pattern matching
 - Lots of syntactic sugar
-- Easy interop with other languages
 - Validation of input as a first-class citizen
 - No runtime errors
 - A robust library of pre-defined functions
