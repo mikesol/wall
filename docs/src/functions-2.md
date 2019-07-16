@@ -183,28 +183,28 @@ true
 Similar functions `f+e` and `f-` exist for functions. `f+e` gives priority to the new pair when there is a conflict with a previous one.
 
 ```
-w> [\ 1 2 \ 3 4].f+e 5 \. 6
-[\ 1 2 \ 3 4 \5 6]
-w> [\ 1 2 \ 3 4].f+e 3 \. 5
-[\ 1 2 \ 3 5]
-w> [\ 1 2 \ 3 4].f- 1
-[\ 3 4]
+w> { 1 2 3 4 }.f+e 5 \. 6
+{ 1 2 3 4 }
+w> { 1 2 3 4 }.f+e 3 \. 5
+{ 1 2 3 5 }
+w> { 1 2 3 4 }.f- 1
+{ 3 4 }
 ```
 
 Two really important functions on functions are `dom`, which returns a function's domain, and `ran`, which returns its range.
 
 ```
-w> dom [ \ 1 2 \ 3 4 ]
+w> dom { 1 2 3 4 }
 [ 1 2 ]
-w> ran [ \ 1 2 \ 3 4 ]
+w> ran { 1 2 3 4 }
 [ 3 4 ]
 ```
 
 Lastly, while we invoke functions using a syntax `foo 1`, we can also invoke them using the function `invoke`:
 
 ```
-w> [ \ 1 2 \ 3 4 ] 1
+w> { 1 2 3 4 } 1
 1
-w> invoke  [ \ 1 2 \ 3 4 ] 1
+w> invoke  { 1 2 3 4 } 1
 1
 ```

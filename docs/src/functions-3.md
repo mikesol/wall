@@ -7,7 +7,7 @@ Let's dive a bit deeper into function composition and invocation in Wall.
 By default, all function invocations in Wall are maximally *greedy*.  That is, when invoked, they will gobble any argument that may be in their domain, even if it is a function.  Sometimes, this is what we want.
 
 ```
-w> name = [ \ > "greater than" \ < "less than" ]
+w> name = { > "greater than" < "less than" }
 w> name <
 "less than"
 ```
@@ -49,22 +49,6 @@ The `.` symbol in Wall *flips* function invocation so that what comes *after* th
 w> (3 .== 4) .== (4 .== 5)
 ```
 
-This is why it is not a good idea to use `.` in variable names in Wall.  While technically allowed, it nullifies `.` syntax wherever it is used.
-
-```
-w> Dad Sister Brother Son Daughter Roberto Miguel Betty =
-w> Relation = [
-  \ Roberto [ \ Miguel Dad \ Anita Dad ]
-  \ Miguel [ \ Anita Brother \ Roberto Son ]
-  \ Anita [ \ Miguel Sister \ Roberto Daughter ]
-]
-w> my.symbol =
-w> my = Miguel
-w> symbol = Relation
-w> my.symbol Anita
-Error. `my.symbol` is not a function.
-```
-
 ## Dollars
 
 It is fitting that, when talking about a greedy protocol, we conclude with a discussion of the `$` sign.  `$` in Wall means "suspend the current stack and open a new one until there is no function on the new stack anymore".
@@ -89,5 +73,3 @@ Lastly, the `.$` sign combines `.` and `$` into one uber sign.
 w> 6 .$\ 5 .$\ 4 3
 (\ 6 (\ 5 (\ 4 3)))
 ```
-
-## 

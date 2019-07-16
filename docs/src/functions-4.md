@@ -37,15 +37,15 @@ A variant of map, `map:` also works on lists.  Recall that there is no primitive
 
 ```
 ; =
-w> map: ; (\ 1 (\ 2 ;)) 3.+
+w> map: ; ( \ 1 ( \ 2 ; )) 3.+
 \; 4 5 ;\
 ```
 
 A built-in version of `map` exists for the `()` symbol.
 
 ```
-w> map:() \( 1 2 3 4 5 6 )\ 3.+
-\() 4 5 6 7 8 9 ()\
+w> map:() ( \ 1 ( \ 2 () )) 3.+
+\() 1 2 ()\
 ```
 
 ## `red`
@@ -67,8 +67,3 @@ Error. The function `red [\ 1 2 \ 1 3 \ 1 5]` does not `f+e` in its domain.
 ```
 
 When `red:` and `red:()` are used, the transitivity is not needed as the order of evaluation is known.
-
-```
-w> red:() \( 1 .\ 2 1 \. 3 1 \. 5 )\ f+e []
-w> [ \ 1 5 ]  
-```
