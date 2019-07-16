@@ -81,8 +81,8 @@ w> fortune-merge = << function? fortune-2? fortune-2? >>
     ? (a1.has? 'error .| a2.has? 'error)
       { 'error [a1 a2].filter! k.has? 'error .map! k 'error }
       f+e (merge a0 a1) \ 'fortune (a0 a1 'fortune a2 'fortune)
-w> my-gen-fortune = fortune-2? fortune-merge << zodiac? >>
-  monadize (? a0.== 'Cancer
+w> my-gen-fortune = << zodiac? >>
+  monadize fortune-2? fortune-merge (? a0.== 'Cancer
     "Cancer is a premium sign, pay up!"
     $? a0. == 'Scorpio
     `Here's your horoscope: ${(gen-fortune-2 a0)} and Leo too ${(gen-fortune-2 'Leo)}`
