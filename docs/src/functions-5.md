@@ -4,7 +4,7 @@ We've already seen several different ways to define functions in Wall, but none 
 
 ## `<<` and `<<!`
 
-`<<` is a predefined object that, intuitively, describes something that resembles a function in other languages.  Because `<<` is an aggregator (like our linked list function defined in [Recursion II](/recursion-2)), it needs a terminating character, which in this case is `>>`. The return value of `<< ... >>` is itself a map that iterates over a cross product of the argument space with no last argument.  The last argument, then, serves as the body of the function.
+`<<` is a predefined object that, intuitively, describes something that resembles a function constructor in other languages.  Because `<<` is an aggregator (like our linked list function defined in [Recursion II](/recursion-2)), it needs a terminating character, which in this case is `>>`. The return value of `<< ... >>` is itself a map that iterates over a cross product of the argument space with no last argument.  The last argument, then, serves as the body of the function.
 
 ```
 w> foo = <<! _? int? >> ? $> a1 5 0 a0
