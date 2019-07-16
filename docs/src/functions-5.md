@@ -7,7 +7,7 @@ We've already seen several different ways to define functions in Wall, but none 
 `<<` is a predefined object that, intuitively, describes something that resembles a function in other languages.  Because `<<` is an aggregator (like our linked list function defined in [Recursion II](/recursion-2)), it needs a terminating character, which in this case is `>>`. The return value of `<< ... >>` is itself a map that iterates over a cross product of the argument space with no last argument.  The last argument, then, serves as the body of the function.
 
 ```
-w> foo = << _? int? >> @ { a %k a1 %%k } ? $> a1 5 0 a0
+w> foo = <<! _? int? >> ? $> a1 5 0 a0
 w> foo {} 6
 {}
 w> foo {} 5
@@ -16,28 +16,19 @@ w> foo {} 5
 
 `foo` is a function that takes two arguments, where the first can be anything and the second must be an integer. It returns `0` if the second argument is greater than `5`, else it returns the first argument.
 
-Sometimes, it is useful to work with named arguments.  There is a version of `<<` called `<<!` that does that too by applying `@` internally.
+`foo` produces arguments named `a0`, `a1` etc depending on the length of the input by using `@` under the hood.
+
+Sometimes, it is useful to work with named arguments.  There is a version of `<<!` called `<<` that does that too.
 
 ```
-w> foo = <<! 'a0 _? 'a1 int? >> ? $> a1 5 0 a0
+w> foo = <<'a0 _? 'a1 int? >> ? $> a1 5 0 a0
 w> foo {} 6
 {}
 w> foo {} 5
 0
 ```
 
-
-For the supremely lazy, there is `<<!!` that names arguments `a0`, `a1`, etc.
-
-```
-w> foo = <<!! _? int? >> ? $> a1 5 0 a0
-w> foo {} 6
-{}
-w> foo {} 5
-0
-```
-
-And for the pathologically lazy, there is `<<n` that takes `n` arguments that can be anything, or `_?`.
+For the supremely lazy, there is `<<n` that takes `n` arguments that can be anything, or `_?`.
 
 ```
 w> foo = <<n 3 map! $? (set? a0) a0 [a0] [ \ k (== a1 a2) ]

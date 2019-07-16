@@ -1,6 +1,20 @@
 # Sugar II
 
-More sugar!!!  This time, we'll look at functions that use sugar under the hood to make sweet, sweet syntactic goodness.
+More sugar!!!
+
+## Pattern matching
+
+What would a functional language be without pattern matching?  Pattern matching works in assignment or in `@` blocks.  Patterns are always functions that map value names to operations on the object on the right that would yield that value.
+
+```
+w> { 'a id 'b id } = { 'a 0 'b 1 }
+w> a
+0
+w> b
+1
+```
+
+Note that pattern matching only works on parts of values that have no ambiguity.  If an object is created conditionally based on a random value or IO operation, pattern matching will only work on the part of the object that is non-random.
 
 ## The `!` family
 

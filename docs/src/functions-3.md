@@ -4,7 +4,7 @@ Let's dive a bit deeper into function composition and invocation in Wall.
 
 ## `{}`
 
-A common shorthand for function creation in Wall is `{ 1 2 3 4 }` instead of `[ \ 1 2 \ 3 4 ]`.
+A common shorthand for function creation in Wall is `{ 1 2 3 4 }` instead of `[ \ 1 2 \ 3 4 ]`.  When possible, functions are printed using the `{}` syntax.
 
 ## Greed
 
@@ -71,7 +71,7 @@ Error. `my.symbol` is not a function.
 
 ## Dollars
 
-It is fitting that, when talking about a greedy protocol, we conclude with a discussion of the `$` sign.  `$` in Wall has a special meaning like `$`.  It means "put parentheses around whatever comes after me until there are no more functions to invoke".
+It is fitting that, when talking about a greedy protocol, we conclude with a discussion of the `$` sign.  `$` in Wall means "suspend the current stack and open a new one until there is no function on the new stack anymore".
 
 ```
 w> \ 1 (\ 2 (\ 3 4))
@@ -87,9 +87,11 @@ w> ? false 0 $? false 1 $? true 2 $? false 3 4
 
 ## Dotted dollars
 
-Lastly, the `.$` symbol combines `.` and `$` into one uber symbol.
+Lastly, the `.$` sign combines `.` and `$` into one uber sign.
 
 ```
 w> 6 .$\ 5 .$\ 4 3
 (\ 6 (\ 5 (\ 4 3)))
 ```
+
+## 

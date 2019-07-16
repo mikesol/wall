@@ -86,7 +86,7 @@ w> n_n+1? 0
 false
 ```
 
-### Validating recursive `object`-s
+## Validating recursive `object`-s
 
 You may remember that a the constructor of a linked list can be defined like so.
 
@@ -129,3 +129,17 @@ w> ll2? = <<n 1 (| (== a0 ()) ((pair? a0) & (ll2 (cdr a0))))
 w> == ll1? ll2?
 true
 ```
+
+## Predefined validators
+
+Wall ships with hundreds of predefined validators that end with `?` *and* functions that work on validators that end with `??`.  The latter functions combine the results of validators - for example `|??` applies the `|` operation to the result of two validators.
+
+Here are some, just as a taste of what is possible:
+
+| Function        | Validates                                         |
+| --------------- | ------------------------------------------------- |
+| int?            | Is this an integer?                               |
+| ->? x y         | Is this a function that takes `x` and returns `y` |
+| list?           | Is this a list?                                   |
+| inside? x       | Is x inside this?                                 |
+| <? x            | Is this less than x?                              | 

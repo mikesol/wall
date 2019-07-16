@@ -14,9 +14,9 @@ true
 A function can also be defined using a list.
 
 ```
-w> f-com? = f| complex->complex->complex? complex->complex? .f| complex?
+w> f-com? = (complex .->? complex .->? complex) .|?? (complex .->? complex) .|?? complex?
 w> narg = <<! f-com? >> ? a0.complex? (neg a0) (a0 narg)
-w> nargify = <<! (f& list? (l-elts? f-com?)) >> red!:() a0 invoke id
+w> nargify = <<! (f& list? (l-elts? (yfi f-com))) >> red!:() a0 invoke id
 w> neg-f0 = <<! complex? complex? >> nargify list + * a0 a1 - a0 a1 ** a0 ;
 w> neg-f1 = <<! complex? complex? >> nargify list / - a1 a0 * a0 a1 ;
 w> neg-f0 3 4

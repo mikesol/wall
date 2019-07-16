@@ -15,6 +15,7 @@ module.exports = {
               ['/comments', 'Comments'],
               ['/pairs', 'Pairs'],
               ['/functions-1', 'Functions I'],
+              ['/tests', 'Tests'],
             ]
           },
           {
@@ -52,13 +53,12 @@ module.exports = {
             children: [
               ['/modules', 'Modules'],
               ['/packages', 'Packages'],
-              ['/lists-2', 'Lists II']
+              ['/lists-2', 'Lists II'],
               ['/functions-6', 'Functions VI'],
-              ['/bang', 'Bang'],
               ['/indeterminacy', 'Indeterminacy'],
+              ['/validation-3', 'Validation III'],
               ['/io', 'IO'],
-              ['/threading', 'Threading'],
-              ['/gpu', 'GPU']
+              ['/threading', 'Threading']
             ]
           },
           {

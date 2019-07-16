@@ -1,6 +1,12 @@
 # Sugar I
 
-Like lots of other languages, Wall has some delicious morcels of syntactic sugar that make it a little easier to read and write code.
+Like lots of other languages, Wall has some delicious morcels of syntactic sugar that make it a little easier to read and write code.  We have already seen two of them: `.` and `$`.  In editors, sugar is colored differently, and sugar can *never* be interpreted as symbols or named values.  That means that you can't do something like:
+
+```
+w> [ $ . ]
+Error. Cannot understand how to use `$`.
+Error. Cannot understand how to use `.`.
+```
 
 ## `\ STRING`
 

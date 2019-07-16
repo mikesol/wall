@@ -17,6 +17,15 @@ w> id 1
 1
 ```
 
+`just` returns a constant independent of the incoming value.
+
+```
+w> just 1 5000
+1
+w> just 'foo 4999
+'foo
+```
+
 ## Math
 
 Not surprisingly, `+` adds two numbers, `-` subtracts them, `*` multiplies them, and `\` divides them.  `\\` is integer division, `mod` is the modulo operation, and `**` is exponentiation.
