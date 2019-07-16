@@ -17,7 +17,7 @@ And there we have it.  Hello world in Wall.
 
 ## Compiler
 
-Informally a Wall program has a bunch of stuff written sequentially in a file separated by newlines.  If the last line is not an [Assignment](#Assignment), it will return the value of the last line.
+Informally a Wall program has a bunch of stuff written sequentially in a file separated by newlines.  If the last line is not an [Assignment](/assignment), it will return the value of the last line.
 
 The Wall compiler, called `wall`, reads a Wall program and prints the result to standard out.
 

@@ -1,11 +1,9 @@
 # Assignment
 
-Assignment in Wall is accomplished with the equal sign.  Technically, all the symbols we have seen so far are assignments in that they are assigned to names that refer to themselves.  Any valid unicode sequence can be used as a name in Wall, provided that it has not been previously used by the language itself or an imported module.
+Assignment in Wall is accomplished with the equal sign.  Technically, all the symbols we have seen so far are assignments in that they are assigned to names that refer to themselves.  Any valid ASCII sequence can be used as a name in Wall, provided that it is not a number, does not contain ```"`'.```, and does not start with any of these characters: `(){}[]`.
 
 ```
-w> apple =
-w> banana =
-w> pear =
+w> apple banana pear =
 w> fruit = [ apple banana pear ]
 w> fruit
 [ apple banana pear ]

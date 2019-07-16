@@ -2,10 +2,6 @@
 
 Let's dive a bit deeper into function composition and invocation in Wall.
 
-## `{}`
-
-A common shorthand for function creation in Wall is `{ 1 2 3 4 }` instead of `[ \ 1 2 \ 3 4 ]`.  When possible, functions are printed using the `{}` syntax.
-
 ## Greed
 
 By default, all function invocations in Wall are maximally *greedy*.  That is, when invoked, they will gobble any argument that may be in their domain, even if it is a function.  Sometimes, this is what we want.

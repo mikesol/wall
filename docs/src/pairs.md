@@ -4,8 +4,7 @@
 Pairs in Wall, like in Scheme, represent an ordered pair.  They are built using backslash followed by two elements.
 
 ```
-w> first =
-w> second =
+w> first second =
 w> \ first second
 \ first second
 ```

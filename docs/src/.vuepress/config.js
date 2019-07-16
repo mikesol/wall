@@ -9,6 +9,7 @@ module.exports = {
             title: 'First steps',
             collapsable: true,
             children: [
+              ['/getting', 'Getting Wall'],
               ['/anatomy', 'Anatomy'],
               ['/symbols', 'Symbols'],
               ['/sets-1', 'Sets I'],
@@ -23,7 +24,6 @@ module.exports = {
             title: 'Getting comfortable',
             collapsable: true,
             children: [
-              ['/primitives', 'Primitive Types'],
               ['/numbers', 'Numbers'],
               ['/strings', 'Strings'],
               ['/booleans', 'Booleans'],

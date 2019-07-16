@@ -8,7 +8,7 @@ Error. Cannot understand how to use `$`.
 Error. Cannot understand how to use `.`.
 ```
 
-## `\ STRING`
+## String constants
 
 You've likely run into the scenario before where you create a string and assign it to the same name as the string.
 

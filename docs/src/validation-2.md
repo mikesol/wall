@@ -138,8 +138,8 @@ Here are some, just as a taste of what is possible:
 
 | Function        | Validates                                         |
 | --------------- | ------------------------------------------------- |
-| int?            | Is this an integer?                               |
-| ->? x y         | Is this a function that takes `x` and returns `y` |
-| list?           | Is this a list?                                   |
-| inside? x       | Is x inside this?                                 |
-| <? x            | Is this less than x?                              | 
+| `int?`          | Is this an integer?                               |
+| `->? x y`       | Is this a function that takes `x` and returns `y` |
+| `list?`         | Is this a list?                                   |
+| `inside? x`     | Is x inside this?                                 |
+| `<? x`          | Is this less than x?                              | 
