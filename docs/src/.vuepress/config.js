@@ -68,7 +68,8 @@ module.exports = {
             children: [
               ['/reference', 'Reference'],
               ['/proofs', 'Proofs'],
-              ['/contributing', 'Contributing']
+              ['/contributing', 'Contributing'],
+              ['/musings', 'Musings']
             ]
           },
         ]
