@@ -1,5 +1,4 @@
 module.exports = {
-    base: '/wall/',
     title: 'Wall',
     description: 'The Wall Programming Language',
     themeConfig: {
