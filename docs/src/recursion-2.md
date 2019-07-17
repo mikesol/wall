@@ -18,9 +18,9 @@ w> foo bar
 ()
 ```
 
-Then, in the middle part, we apply `\.flip (s+ foo [ \ bar (\ %k ((%% bar))) ])`.  The first thing to note is that we are flipping the application of `\`, so the last argument applied (which is what is being mapped from `everything`) will be the first element of our pair.  So, we are going to get some mapping of pairs where the first element corresponds to an element of everything.  Thus, according to Wall, it is a function.
+Then, in the middle part, we apply `flip \ (s+ foo [ \ bar (\ %k (%% bar)) ])`.  The first thing to note is that we are flipping the application of `\`, so the last argument applied (which is what is being mapped from `everything`) will be the first element of our pair.  So, we are going to get some mapping of pairs where the first element corresponds to an element of everything.  Thus, according to Wall, it is a function.
 
-Next, for the second part of the pair, we take a union between a function (`\.` - yay recursion!) and a set `[ \ bar (\ %k (%% bar)) ]`. From the Sugar chapter, we remember that `%k -1` is the key pointing to this function and `%% bar` is the value of `bar` up one level in the function.  In other words, we make a pair of the key pointing to this function and whatever the last value of `bar` was. So...
+Next, for the second part of the pair, we take a union between a function (`foo` - yay recursion!) and a set `[ \ bar (\ %k (%% bar)) ]`. From the Sugar chapter, we remember that `%k` is the key pointing to this function and `%% bar` is the value of `bar` up one level in the function.  In other words, we make a pair of the key pointing to this function and whatever the last value of `bar` was. So...
 
 ```
 w> bar () =
