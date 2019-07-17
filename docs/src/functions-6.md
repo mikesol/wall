@@ -92,3 +92,21 @@ w> my-gen-fortune = << zodiac? >>
 ## How `monadize` works
 
 `monadize` and, more generally, any function that acts directly on a function's definition, acts like the aggregators we have seen so far with one major difference: they contain `evverrrythinggg` as their domain instead of `everything`.  As a result, they consume `[`, `(`, and `{` and produce something useful with them.  This is why we say Wall is a dialect of Lisp - it is possible to directly manipualte even the most complicated functions as if the were code.
+
+## `$` strikes back!
+
+So far, we have only seen `$` used on the right-hand side of an assignment, but it also has a special meaning on the left. It means "a newline cannot terminate with this value on the stack."  While that may sound esoteric, it is what allows `[`, `{` and `[` to be functions. In general, when using `listify`, you should always use `$`.
+
+```
+w> ; =
+w> foo = listify ;
+w> a = foo 1 2 3
+w> b = a 4 ;
+w> b
+(/ 1 2 3 4 /)
+w> $ bar = listify ;
+w> c = bar 1 2 3
+Error. `c` terminates the stack with `bar`, which cannot be used to terminate a stack.
+w> d = ( 1 2 3
+Error. `d` terminates the stack with `(`, which cannot be used to terminate a stack.
+```
