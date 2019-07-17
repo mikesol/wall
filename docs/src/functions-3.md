@@ -19,7 +19,7 @@ w> + + 5 3 1
 9
 ```
 
-As `+ is not in the domain of `+`, `+` ignores it and waits until a value in its domain shows up.  If nothing comes before a newline, it will raise an error.
+As `+` is not in the domain of `+`, `+` ignores it and waits until a value in its domain shows up.  If nothing comes before a newline, it will raise an error.
 
 However, sometimes, we don't want this at all.  Consider the following case:
 

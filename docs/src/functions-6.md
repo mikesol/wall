@@ -95,7 +95,7 @@ w> my-gen-fortune = << zodiac? >>
 
 ## `$` strikes back!
 
-So far, we have only seen `$` used on the right-hand side of an assignment, but it also has a special meaning on the left. It means "a newline cannot terminate with this value on the stack."  While that may sound esoteric, it is what allows `[`, `{` and `[` to be functions. In general, when using `listify`, you should always use `$`.
+So far, we have only seen `$` used on the right-hand side of an assignment, but it also has a special meaning on the left. It means "a newline cannot terminate with this value on the stack."  While that may sound esoteric, it is what allows `[`, `{` and `{` to be functions. In general, when using `listify`, you should always use `$`.
 
 ```
 w> ; =
