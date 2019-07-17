@@ -152,20 +152,20 @@ w> ? true 0 1
 Two sets can be combined using `s+`.  An element can be added to a set using `s+e`.
 
 ```
-w> [1 2 3].s+ [2 3 4]
+w> s+ [1 2 3] [2 3 4]
 [1 2 3 4]
-w> [1 2 3].s+e 5
+w> s+e [1 2 3] 5
 [1 2 3 5]
 ```
 
 The difference of two sets is `s-`, and an element can be taken from a set using `s-e`. Note that if any elemetn from the stuff to be taken away is not present in the original set, an error will be thrown.
 
 ```
-w> [1 2 3].s- [2 3]
+w> s- [1 2 3] [2 3]
 [1]
-w> [1 2 3].s-e 1
+w> s-e [1 2 3] 1
 [2 3]
-w> [1 2 3].s- [3 4]
+w> s- [1 2 3] [3 4]
 Error. The function `s- [1 2 3]` does not contain the element `[3 4]` in its domain.
 ```
 
@@ -183,11 +183,11 @@ true
 Similar functions `f+e` and `f-` exist for functions. `f+e` gives priority to the new pair when there is a conflict with a previous one.
 
 ```
-w> { 1 2 3 4 }.f+e 5 \. 6
+w> f+e { 1 2 3 4 } \ 5 6
 { 1 2 3 4 }
-w> { 1 2 3 4 }.f+e 3 \. 5
+w> f+e { 1 2 3 4 } \ 3 5
 { 1 2 3 5 }
-w> { 1 2 3 4 }.f- 1
+w> f- { 1 2 3 4 } 1
 { 3 4 }
 ```
 
