@@ -122,7 +122,7 @@ The strategy used for `ll1?` is so useful that there is a prepackaged object cal
 
 ```
 w> () bar =
-w> foo = map! everything (flip \ (s+ foo [ \ bar (\ k ((%% bar)))])) .s+ [ \ bar ()]
+w> foo = map! everything (flip \ (s+ foo [ \ bar (\ k (%% bar))])) .s+ [ \ bar ()]
 w> ll1 = rag foo bar
 w> ll1? = ?ify ll1
 w> ll2? = <<n 1 (| (== a0 ()) ((pair? a0) & (ll2 (cdr a0))))
