@@ -4,7 +4,7 @@ A lot of pre-defined functions in Wall are defined using recursion.  For example
 
 ```
 w> bar () =
-w> foo = map everything (flip \ (s+ foo [ \ bar (\ %k ((%% bar)))])) .s+ [ \ bar ()]
+w> foo = map everything (flip \ (s+ foo [ \ bar (\ %k (%% bar))])) .s+ [ \ bar ()]
 ```
 
 Yup, that is write-only code.  You may win at golf, but you would lose your job unelss you put a big fat comment.  That being said, let's unpack what's going on!
@@ -13,7 +13,7 @@ First, we are mapping everything to something and then taking its union with the
 
 ```
 w> bar () =
-w> foo = map everything (flip \ (s+ foo [ \ bar (\ %k ((%% bar)))])) .s+ [ \ bar ()]
+w> foo = map everything (flip \ (s+ foo [ \ bar (\ %k (%% bar))])) .s+ [ \ bar ()]
 w> foo bar
 ()
 ```
@@ -24,7 +24,7 @@ Next, for the second part of the pair, we take a union between a function (`\.` 
 
 ```
 w> bar () =
-w> foo = map everything (flip \ (s+ foo [ \ bar (\ %k ((%% bar)))])) .s+ [ \ bar ()]
+w> foo = map everything (flip \ (s+ foo [ \ bar (\ %k (%% bar))])) .s+ [ \ bar ()]
 w> foo 1 bar
 \() 1 ()\
 w> foo 1 2 bar
