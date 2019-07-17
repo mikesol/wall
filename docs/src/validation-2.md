@@ -72,12 +72,12 @@ false
 ### `<<!` strategy
 
 ```
-w> a0? = <<! 'a _? >> { a (a == { a' 0 }) }
+w> a0? = <<! _? >> { a0 (a0 == { a' 0 }) }
 w> a0? { 'a 0 }
 true
 w> a0? 0
 false
-w> n_n+1? = <<! 'a _? >> { a (== (a 'n+1) (+ 1 (a 'n))) }
+w> n_n+1? = <<! _? >> { a0 (== (a0 'n+1) (+ 1 (a0 'n))) }
 w> n_n+1? { 'n 0 'n+1 1 }
 true
 w> n_n+1? { 'n 0 'n+1 2 }
@@ -92,7 +92,7 @@ You may remember that a the constructor of a linked list can be defined like so.
 
 ```
 w> () bar =
-w> foo = map! everything (flip \ (s+ foo [ \ bar (\ k ((%% bar)))])) .s+ [ \ bar ()]
+w> foo = map! everything (flip \ (s+ foo [ \ bar (\ k (%% bar))])) .s+ [ \ bar ()]
 ```
 
 This is one of many ways to define a link list's constructor, and intuitively, we may want to ask "is an object a linked list according to this definition"?
@@ -101,7 +101,7 @@ One way to do this is to use `?ify` on the values of the aggregator keys `bar` t
 
 ```
 w> () bar =
-w> foo = map! everything (flip \ (s+ foo [ \ bar (\ k ((%% bar)))])) .s+ [ \ bar ()]
+w> foo = map! everything (flip \ (s+ foo [ \ bar (\ k (%% bar))])) .s+ [ \ bar ()]
 w> ll1 = (<<! (ify? [foo]) >> ([a0 bar] .s+ (red (map (dom (f- a0 bar) ll1) s+)))) foo
 w> ll1? = ?ify ll1
 w> ll1? (foo 3 2 1 bar)
