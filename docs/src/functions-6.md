@@ -110,3 +110,12 @@ Error. `c` terminates the stack with `bar`, which cannot be used to terminate a 
 w> d = ( 1 2 3
 Error. `d` terminates the stack with `(`, which cannot be used to terminate a stack.
 ```
+
+The same error message is issued when the stack outcome is uncertain.
+
+```
+w> ; =
+w> $ foo = listify ;
+w> a = foo 1 2 3 (? (rand 0 .> 0.5) 4 ;)
+Error. `a` may terminate the stack with `foo`, which cannot be used to terminate a stack.
+```
