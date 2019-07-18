@@ -14,8 +14,8 @@ Error. The function `g` may not contain key `y`.
 
 This works as expected, but how does Wall know that `g` should fail when `y` is applied?  The intuitive answer is "because Wall knows that `rand0` returns a value between 0 and 1, so y is between 0 and 5, so it may be greater than 2 and thus g cannot ingest it."  But how do we *know* that there exists a number between 0 and 5 such that the number does not exist in the set of numbers between 0 and 2.  Well, we have to proove it.
 
-## coqi
+## Z3
 
-When Wall invokes its compiler, the first thing it does is transpiles Wall code to `coq`.  Then, it uses `coqi`, a brute-force theorem prover, to prove the integrity of the program.  `coqi` maintains a database of proven theorems to speed up the compilation process when online.
+When Wall invokes its compiler, the first thing it does is invokes the [Z3](https://github.com/Z3Prover/z3) SMT prover to prove the correctness of the program.  There is a roughly one-to-one equivalence in Wall between its fundamental data structures and those provided by the Z3 solver.
 
-While `coqi` can brute-force its way through most proofs that anyone would need in a real-world application, there are certain corner cases that are difficult for it to handle, mostly having to do with infinite series and recursion.  In this case, Wall will throw a compilation error that it cannot *proove* a program to be correct.
+Unlike most mature proof assistants (ie Coq), Z3 cannot do inductive proofs and, therefore, cannot handle recursive structures. Wall's strategy for dealing with this is defining an upper bound for the depth of all recursive functions. When a Wall program hits this upper bound, it automatically pauses execution, rewrites itself with a higher upper bound, and continues execution.  Because Wall programs are compiled as small modular units that are linked together during the final compilation stage, this step has minimal impact on Wall's runtime performance.  Furthermore, the recompiled version of the program replaces the previous binary for subsequent executions.
