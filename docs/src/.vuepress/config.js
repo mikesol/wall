@@ -13,9 +13,9 @@ module.exports = {
               ['/symbols', 'Symbols'],
               ['/sets-1', 'Sets I'],
               ['/assignment', 'Assignment'],
-              ['/comments', 'Comments'],
               ['/pairs', 'Pairs'],
               ['/functions-1', 'Functions I'],
+              ['/comments', 'Comments'],
               ['/tests', 'Tests'],
             ]
           },
