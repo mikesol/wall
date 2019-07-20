@@ -51,10 +51,11 @@ module.exports = {
             title: 'Soaring',
             collapsable: true,
             children: [
+              ['/functions-6', 'Functions VI'],
               ['/modules', 'Modules'],
               ['/packages', 'Packages'],
               ['/lists-2', 'Lists II'],
-              ['/functions-6', 'Functions VI'],
+              ['/functions-7', 'Functions VII'],
               ['/indeterminacy', 'Indeterminacy'],
               ['/validation-3', 'Validation III'],
               ['/io', 'IO'],

@@ -1,6 +1,6 @@
 # Functions IV
 
-Some functions in Wall mimic control structures in imperative languages: constructors, loops, etc.  Here, we see the three most common "control" functions in Wall: `flip`, `map` and `red`.
+Some functions in Wall mimic control structures in imperative languages: constructors, loops, etc.  Here, we see the four most common "control" functions in Wall: `flip`, `filt`, `map` and `red`.
 
 ## `flip`
 
@@ -16,6 +16,15 @@ w> >=' 4 5
 false
 w> == >=' >=
 true
+```
+
+## `filt`
+
+Filt, not surprisingly, filters a set:
+
+```
+w> filt [1 2 3 4] (< 2)
+[3 4]
 ```
 
 ## `map`
