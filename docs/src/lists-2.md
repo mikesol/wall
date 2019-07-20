@@ -56,3 +56,5 @@ w> len list (+ 1 2) 3 ;
 w> len list!!! (+ 1 2) 3 ;
 6
 ```
+
+In the above example, the length of our second list is 6 because it treats `(` as a function `)` as a symbol, which means that everything between `(` and `)` is also part of the list.
