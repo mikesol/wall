@@ -25,4 +25,4 @@ The first languages I coded extensively in are Scheme and Python.  I loved Schem
 
 ## My hope
 
-I would love to see Wall contribute to a discussion about IO in an increasingly interconnected world.  Most popular programming languages were created at a time where coders worked mostly with their own code.  In this day and age, as we rely more and more on other people's code and APIs, we need simple and powerful verification systems for JSON, YAML and the myriad of other formats and protocols that are being exchanged all the time.  It would be awesome if Wall made this easier.
+I would love to see Wall contribute to a discussion about IO in an increasingly interconnected world.  Most popular programming languages were created at a time where coders worked mostly with code from their own code base.  In this day and age, as we rely more and more on other people's code and APIs, we need simple and powerful verification systems for JSON, YAML and the myriad of other formats and protocols that are being exchanged all the time.  It would be awesome if Wall made this easier.
