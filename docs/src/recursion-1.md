@@ -8,7 +8,7 @@ w> car z
 6
 ```
 
-Recursion in Wall is just a form of syntactic sugar that expands a function 1024 times and, if the function does not terminate before expansion ends, returns the special symbol `wall`.  You can override both of these by using the `@(terminal, numtimes)` operator after the symbol being recursed over.
+Recursion in Wall is just a form of syntactic sugar that expands a function 16 times and, if the function does not terminate before expansion ends, returns the special symbol `wall`.  You can override both of these by using the `@(terminal, numtimes)` operator after the symbol being recursed over.
 
 ```
 w> z = \ 'a z
