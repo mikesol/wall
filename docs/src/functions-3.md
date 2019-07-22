@@ -53,7 +53,7 @@ The dot syntax allows anything in Wall to become an infix operator, which makes 
 
 ## Dollars
 
-It is fitting that, when talking about a greedy protocol, we conclude with a discussion of the `$` sign.  `$` in Wall means "suspend the current stack and open a new one until there is no function on the new stack anymore".
+It is fitting that, when talking about a greedy protocol, we conclude with a discussion of the `$` sign.  `$` in Wall means "suspend the current stack and open a new one until there is no function on the new stack anymore *or* until there is a newline".
 
 ```
 w> \ 1 (\ 2 (\ 3 4))
