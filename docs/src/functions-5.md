@@ -21,7 +21,7 @@ w> foo {} 5
 Sometimes, it is useful to work with named arguments.  There is a version of `<<!` called `<<` that does that too.
 
 ```
-w> foo = <<'a0 _? 'a1 int? >> ? $> a1 5 0 a0
+w> foo = << 'a0 _? 'a1 int? >> ? $> a1 5 0 a0
 w> foo {} 6
 {}
 w> foo {} 5
