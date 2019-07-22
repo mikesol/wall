@@ -16,6 +16,4 @@ This works as expected, but how does Wall know that `g` should fail when `y` is 
 
 ## Z3
 
-When Wall invokes its compiler, the first thing it does is invokes the [Z3](https://github.com/Z3Prover/z3) SMT prover to prove the correctness of the program.  There is a roughly one-to-one equivalence in Wall between its fundamental data structures and those provided by the Z3 solver.
-
-Unlike most proof assistants (ie Coq), Z3 cannot do handle inductive proofs and, therefore, has difficulty with some recursive structures. Wall's strategy for dealing with inductive proofs is defining an upper bound for the depth of induction. When a Wall program hits this upper bound, it automatically pauses execution, dumps its state, rewrites itself with a higher upper bound, and continues execution from the loaded state.  Because Wall programs are compiled as small modular units that are linked together during the final compilation stage, this step has minimal impact on Wall's runtime performance.  Furthermore, the recompiled version of the program replaces the previous binary for subsequent executions.
+When Wall invokes its compiler, the first thing it does is invokes the [Z3](https://github.com/Z3Prover/z3) SMT prover to prove the correctness of the program.
