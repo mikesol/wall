@@ -1,6 +1,6 @@
 # IO
 
-Wall's *raison d'etre* is IO.  While its compact syntax, dependent typing and  functional goodness are reason enough to use it, IO is where Wall shines.  While the IO can be reading to or writing from a file, making a network call or interacting with `stdin` and `stdout`, the basic idea is the same.  IO operations return a monad, and functions with validators or rules can act on that monad to produce other monads that are consumed by other parts of the program.
+Wall's *raison d'être* is IO.  While its compact syntax, dependent typing and  functional goodness are reason enough to use it, IO is where Wall shines.  While the IO can be reading to or writing from a file, making a network call or interacting with `stdin` and `stdout`, the basic idea is the same.  IO operations return a monad, and functions with validators or rules can act on that monad to produce other monads that are consumed by other parts of the program.
 
 This means that IO can never cause a runtime error in Wall.  IO operations can of course report errors in their monads, but these errors flow through a Wall program thanks to Wall's system of monads and rules.
 
