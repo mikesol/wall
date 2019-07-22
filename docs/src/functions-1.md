@@ -34,10 +34,12 @@ Error. The function `[ \ Paris France \ Berlin Germany ]` does not contain `Buda
 Also, if you try to invoke something that is not a function like a function, it will complain.
 
 ```
-w> Paris=
-w> France=
-w> France Paris
-Error. `France` is not a function.
+w> 1 2
+Error. `1` is not a function.
+w> Paris Lyon France =
+w> country_to_city = [ \ France Lyon \ France Paris ]
+w> country_to_city France
+Error. `country_to_city` is not a function.
 ```
 
 ## `{}`
