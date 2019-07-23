@@ -13,7 +13,7 @@ Wall does its best to handle most recursive structures, but some are too difficu
 ```
 w> z = map! int ? k.== 15 k (z ? k.> 15 k.- 1 k.+ 1)
 w> q = map! int 15
-w> == z q
+w> == z q // This is true, but Wall doesn't know that (yet).
 Error. Relationship between the objects is unknown.
 ```
 
