@@ -4,7 +4,7 @@ Wall's killer feature is validation of input.  For safe code, meaning code that 
 
 ## Cumulative validation
 
-The Wall compiler keeps a running tab of the strictest possible validation rule applicable to each thing, named or unnamed.  In the case of a fully deterministic Wall program, every element has the strictest possible validation.  That means that functions do not need return types: the return type is completely deterministic and entirely based on how the function is applied to input.
+The Wall compiler keeps a running tab of the strictest possible validation rule applicable to each value, named or unnamed.
 
 ```
 w> c = 5
