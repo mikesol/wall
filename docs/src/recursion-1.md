@@ -8,19 +8,14 @@ w> car z
 6
 ```
 
-Recursion in Wall is just a form of syntactic sugar that expands a function 16 times and, if the function does not terminate before expansion ends, returns the special symbol `wall`.  You can override both of these by using the `@(terminal, numtimes)` operator after the symbol being recursed over.
+Wall does its best to handle most recursive structures, but some are too difficult for it to stomach.  For example, Wall is not smart enough to evaluate the following code and will throw an error.  Don't worry that you haven't seen `map!` yet - it just maps a function to a set.
 
 ```
-w> z = \ 'a z
-w> cdr z
-\ 'a $\ 'a $\ 'a $\ 'a $\ 'a $\ 'a $\ 'a $\ 'a ... \$ wall
-w> cadddr z
-'a
-w> a = \ 6 a @(5, 'b)
-\ 'a $\ 'a $\ 'a $\ 'a $\ 'a 'b
+w> z = map! int \ k $ ? k.== 15 k (z ? k.> 15 k.- 1 k.+ 1)
+w> q = map! int \ k 15
+w> == z q
+Error. Relationship between the objects is unknown.
 ```
-
-Note that the recursive function cannot be called directly or indirectly from the `@` function.
 
 A lot of pre-defined functions in Wall are defined using recursion.  For example, we have been creating lists in a rather annoying way so far by using the `\` function successively.  Wouldn't it be nice if we could create a list with a syntax like, for example, `\( 1 2 3 4 )\`?  Recursion to the rescue!
 
