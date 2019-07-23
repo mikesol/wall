@@ -8,7 +8,7 @@ w> car z
 6
 ```
 
-Wall does its best to handle most recursive structures, but some are too difficult for it to stomach.  For example, Wall is not smart enough to evaluate the following code and will throw an error.  Don't worry that you haven't seen `map!` yet - it just maps a function to a set.
+Wall does its best to handle most recursive structures, but some are too difficult for it to stomach.  For example, Wall is not smart enough (yet) to evaluate the following code and will throw an error.  Don't worry that you haven't seen `map!` yet - it just maps a function to a set.
 
 ```
 w> z = map! int \ k $ ? k.== 15 k (z ? k.> 15 k.- 1 k.+ 1)
