@@ -1,7 +1,7 @@
 from .data import W, SORT_TO_W
 from z3 import *
 from uuid import uuid4
-from operator import iadd, isub, imul, floordiv
+from operator import iadd, isub, imul, truediv
 
 _ALL = []
 
@@ -201,8 +201,8 @@ def _binary_op(isArg0, accArg0, isArg1, accArg1, conRet, retF, s=None):
   else:
     return out, constraint
 
-def _integer_binary_op_(dom, op, s=None):
-  return _binary_op(dom, getInt, isInt, getInt, P.int, op, s)
+def _integer_binary_op_(dom2, op, s=None):
+  return _binary_op(isInt, getInt, dom2, getInt, P.int, op, s)
 
 def _integer_binary_op(op, s=None):
   return _integer_binary_op_(isInt, op, s)
@@ -220,4 +220,4 @@ def integer_multiplication(s=None):
   return _integer_binary_op(imul, s)
 
 def integer_division(s=None):
-  return _integer_binary_op_(lambda x: And(isInt(x), getInt(x) != 0), floordiv, s)
+  return _integer_binary_op_(lambda x: And(isInt(x), getInt(x) != 0), truediv, s)

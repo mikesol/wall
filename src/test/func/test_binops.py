@@ -17,14 +17,22 @@ def test_addition():
   assert s.check() == sat
   s.pop()
   s.push()
+  c = wInt()
+  s.add(P.inta(c) <= 0)
+  s.add(P.inta(apFun(apFun(add, 4), c)) > 3)
+  assert s.check() == sat
+  s.pop()
+  s.push()
+  c = wInt()
+  s.add(P.inta(c) <= 0)
+  s.add(P.inta(apFun(apFun(add, 4), c)) > 4)
+  assert s.check() == unsat
+  s.pop()
+  s.push()
   s.add(apFun(apFun(add, 4), 5) == P.int(10))
   assert s.check() == unsat
   s.pop()
   s.push()
-  # we need to add this constraint because otherwise the accessor will work
-  # meaning that it returns never, but the accessor just returns a function anyway
-  # so we need to prove that this is not a function
-  # the reason that working with sets is better is that this would return False
   s.add(isFun(apFun(add, True)))
   assert s.check() == unsat
   s.pop()
@@ -34,4 +42,35 @@ def test_addition():
   s.pop()
   s.push()
   s.add(apFun(apFun(add, 4), True) == P.never)
+  assert s.check() == sat
+
+def test_division():
+  s = Solver()
+  l2 = level(2)
+  l1 = level(1)
+  div = integer_division(s)
+  s.add(isFun(div))
+  s.push()
+  s.add(apFun(apFun(div, 4), 5) == P.int(0))
+  assert s.check() == sat
+  s.pop()
+  s.push()
+  c = wInt()
+  s.add(isInt(apFun(apFun(div, 4), c)))
+  assert s.check() == sat
+  s.pop()
+  s.push()
+  s.add(isFun(apFun(div, True)))
+  assert s.check() == unsat
+  s.pop()
+  s.push()
+  s.add(apFun(apFun(div, 4), 0) == P.int(10))
+  assert s.check() == unsat
+  s.pop()
+  s.push()
+  s.add(apFun(apFun(div, 4), 1) == P.int(4))
+  assert s.check() == sat
+  s.pop()
+  s.push()
+  s.add(apFun(apFun(div, 4), 0) == P.never)
   assert s.check() == sat
