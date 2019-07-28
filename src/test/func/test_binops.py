@@ -8,8 +8,12 @@ def test_addition():
   add = integer_addition(s)
   s.add(isFun(add))
   s.push()
-  #s.add(l1.funa(l2.funa(add)[l1.down(P.int(4))])[P.int(5)] == P.int(9))
   s.add(apFun(apFun(add, 4), 5) == P.int(9))
+  assert s.check() == sat
+  s.pop()
+  s.push()
+  c = wInt()
+  s.add(isInt(apFun(apFun(add, 4), c)))
   assert s.check() == sat
   s.pop()
   s.push()
