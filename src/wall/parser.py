@@ -2,20 +2,17 @@ from parsimonious.grammar import Grammar
 
 grammar = Grammar(
     r"""
-    expr        = (assignment / emptyline)*
-
+    expr        = (assignment / emptyline)* (stmt / emptyline)?
     assignment  = (symbol_asgn / other_asgn)
+    stmt = !evil valueseq* value? space newline
     symbol_asgn = !evil valueseq* value? space equal space newline
     other_asgn  = !evil valueseq* value? space equal space !evil valueseq* value? space newline
-
     value       = (emptyset / flipper / bucks / dotbucks / paren / set / func / let / symword / word / quoted / tickquote / backticked / number)+
     evil        = (flipper / bucks / dotbucks)
     flipper     = dot space !number value
     bucks       = forcespace dollar space value
     dotbucks    = forcespace dollar space dot space value
-    twovalue    = value forcespace value
     valueseq    = value forcespace
-    twovalueseq = value forcespace value forcespace
     word        = ~r"[\w&/\\!@%^&*~<>,?:;|+\-_]+"
     tickquote   = ~r"'[^ \t\r\n]+"
     symword     = ~r'#(?:[^#\\]|\\.)+#'
