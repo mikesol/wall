@@ -57,7 +57,7 @@ def test_division():
   s.push()
   c = Const(str(uuid4()), P.sort)
   d = wInt()
-  s.add(P.inta(d) > -1)
+  s.add(P.inta(d) >= 0)
   # sat because c could be 0, so div by 0 could happen, meaning not int
   s.add(Exists(c, And(c==d, Not(isInt(apFun(apFun(div, 4), c))))))
   assert s.check() == sat
@@ -65,7 +65,7 @@ def test_division():
   s.push()
   c = Const(str(uuid4()), P.sort)
   d = wInt()
-  s.add(P.inta(d) > 0)
+  s.add(P.inta(d) >= 1)
   # unsat because c could not be 0, so must be int
   s.add(Exists(c, And(c==d, Not(isInt(apFun(apFun(div, 4), c))))))
   assert s.check() == unsat
