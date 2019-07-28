@@ -199,7 +199,7 @@ def _binary_op(isArg0, accArg0, isArg1, accArg1, conRet, retF, s=None):
     s.add(constraint)
     return out
   else:
-    return out, constraint
+    return out, [constraint]
 
 def _integer_binary_op_(dom2, op, s=None):
   return _binary_op(isInt, getInt, dom2, getInt, P.int, op, s)
@@ -212,9 +212,6 @@ def integer_addition(s=None):
 
 def integer_subtraction(s=None):
   return _integer_binary_op(isub, s)
-
-def integer_multiplication(s=None):
-  return _integer_binary_op(imul, s)
 
 def integer_multiplication(s=None):
   return _integer_binary_op(imul, s)

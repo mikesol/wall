@@ -71,7 +71,7 @@ def _W(n):
     return d if x == n else _(ComposedWallDatatype(d), x+1)
   return _(PrimitiveWallDatatype(), 0)
 
-DEPTH = 100
+DEPTH = 256
 W = _W(DEPTH)
 W_TO_SORT = dict()
 SORT_TO_W = dict()
