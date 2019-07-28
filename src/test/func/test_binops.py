@@ -55,10 +55,26 @@ def test_division():
   assert s.check() == sat
   s.pop()
   s.push()
-  c = wInt()
-  # unsat because c could be 0
-  s.add(isInt(apFun(apFun(div, 4), c)))
+  c = Const(str(uuid4()), P.sort)
+  d = wInt()
+  s.add(P.inta(d) > -1)
+  # sat because c could be 0, so div by 0 could happen, meaning not int
+  s.add(Exists(c, And(c==d, Not(isInt(apFun(apFun(div, 4), c))))))
+  assert s.check() == sat
+  s.pop()
+  s.push()
+  c = Const(str(uuid4()), P.sort)
+  d = wInt()
+  s.add(P.inta(d) > 0)
+  # unsat because c could not be 0, so must be int
+  s.add(Exists(c, And(c==d, Not(isInt(apFun(apFun(div, 4), c))))))
   assert s.check() == unsat
+  s.pop()
+  s.push()
+  c = Const(str(uuid4()), P.sort)
+  # sat because 0 in num is ok
+  s.add(ForAll([c], If(P.sort.is_int(c), isInt(apFun(apFun(div, c), 4)), True)))
+  assert s.check() == sat
   s.pop()
   s.push()
   s.add(isFun(apFun(div, True)))

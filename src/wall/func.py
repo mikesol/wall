@@ -220,4 +220,4 @@ def integer_multiplication(s=None):
   return _integer_binary_op(imul, s)
 
 def integer_division(s=None):
-  return _integer_binary_op_(lambda x: And(isInt(x), getInt(x) != 0), truediv, s)
+  return _integer_binary_op_(lambda x: xgetInt(x) != P.int(0), truediv, s)
