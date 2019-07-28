@@ -73,3 +73,10 @@ def _W(n):
 
 DEPTH = 100
 W = _W(DEPTH)
+W_TO_SORT = dict()
+SORT_TO_W = dict()
+_x = W
+while hasattr(_x, 'prev'):
+  W_TO_SORT[_x] = _x.sort
+  SORT_TO_W[_x.sort] = _x
+  _x = _x.prev

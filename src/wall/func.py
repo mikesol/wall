@@ -1,7 +1,7 @@
-from .data import W
+from .data import W, SORT_TO_W
 from z3 import *
 from uuid import uuid4
-from operator import add
+from operator import iadd, isub, imul, floordiv
 
 _ALL = []
 
@@ -28,6 +28,13 @@ def clevel(n, name=None, base=None):
   name = nize(name)
   return Const(name, level(n, base).sort)
 
+def hoist(x, n):
+  if n == 0:
+    return x
+  if n < 0:
+    return hoist(SORT_TO_W[x.sort()].downa(x), n+1)
+  return hoist(SORT_TO_W[x.sort()].next.down(x), n-1)
+
 def wrap(lev, v):
   return v if lev.level == 0 else lev.down(wrap(lev.prev, v))
 
@@ -38,9 +45,7 @@ def wrap(lev, v):
 _base = Const(str(uuid4()), P.sort)
 def _wT(n, c0, c1, base):
   n = nize(n)
-  def __wT(lev=W):
-    return wrap(lev, c0 if c1 is None else c0(c1(n))) if (base.sort() == lev.sort) else __wT(lev.prev)
-  return __wT()
+  return wrap(SORT_TO_W[base.sort()], c0 if c1 is None else c0(c1(n)))
 
 def wInt(n=None, base=_base):
   return _wT(n, P.int, Int, base)
@@ -64,11 +69,8 @@ def wNever(n=None, base=_base):
 # Primitive is?
 #########################
 
-
 def _is(f, v, c0):
-  def __is(lev=W):
-    return f(lev, v, c0) if (v.sort() == lev.sort) else __is(lev.prev)
-  return __is()
+  return f(SORT_TO_W[v.sort()], v, c0)
 
 def ___isT(lev, v, c0):
   return (getattr(lev.sort, c0)(v)
@@ -98,7 +100,6 @@ def isStr(v):
 def ___isC(lev, v, c0):
   if lev.level == 0:
     return False
-  #print(lev, c0)
   return Or(getattr(lev, c0)(v), If(lev.is_down(v), ___isC(lev.prev, lev.downa(v), c0), False))
 
 def _isC(v, c0):
@@ -123,9 +124,7 @@ def ___getT(lev, v, c0, weak):
     ___getT(lev.prev, lev.downa(v), c0, weak))
 
 def _getT(v, c0, weak):
-  def __getT(lev=W):
-    return ___getT(lev, v, c0, weak) if (v.sort() == lev.sort) else __getT(lev.prev)
-  return __getT()
+  return ___getT(SORT_TO_W[v.sort()], v, c0, weak)
 
 def getInt(v):
   return _getT(v, 'inta', False)
@@ -162,6 +161,23 @@ def xgetSym(v):
   return _xgetT(v, 'syma', P.sort.is_sym)
 
 ######################
+# Application
+######################
+
+def apFun(f, x):
+  if type(x) == type(0):
+    x = P.int(x)
+  elif type(x) == type(0.0):
+    x = P.real(x)
+  elif type(x) == type('s'):
+    x = P.str(x)
+  elif type(x) == type(True):
+    x = P.bool(x)
+  w = SORT_TO_W[f.sort()]
+  asfun = w.funa(f)
+  return asfun[hoist(x, (w.level - 1) - SORT_TO_W[x.sort()].level)]
+
+######################
 # Math
 ######################
 
@@ -185,5 +201,23 @@ def _binary_op(isArg0, accArg0, isArg1, accArg1, conRet, retF, s=None):
   else:
     return out, constraint
 
+def _integer_binary_op_(dom, op, s=None):
+  return _binary_op(dom, getInt, isInt, getInt, P.int, op, s)
+
+def _integer_binary_op(op, s=None):
+  return _integer_binary_op_(isInt, op, s)
+
 def integer_addition(s=None):
-  return _binary_op(isInt, getInt, isInt, getInt, P.int, add, s)
+  return _integer_binary_op(iadd, s)
+
+def integer_subtraction(s=None):
+  return _integer_binary_op(isub, s)
+
+def integer_multiplication(s=None):
+  return _integer_binary_op(imul, s)
+
+def integer_multiplication(s=None):
+  return _integer_binary_op(imul, s)
+
+def integer_division(s=None):
+  return _integer_binary_op_(lambda x: And(isInt(x), getInt(x) != 0), floordiv, s)
