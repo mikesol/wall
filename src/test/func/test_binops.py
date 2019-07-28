@@ -56,8 +56,9 @@ def test_division():
   s.pop()
   s.push()
   c = wInt()
+  # unsat because c could be 0
   s.add(isInt(apFun(apFun(div, 4), c)))
-  assert s.check() == sat
+  assert s.check() == unsat
   s.pop()
   s.push()
   s.add(isFun(apFun(div, True)))
