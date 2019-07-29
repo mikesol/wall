@@ -37,16 +37,20 @@ class PrimitiveWallDatatype(WallDatatype):
     self.prev = None
 
 class ComposedWallDatatype(WallDatatype):
-  slots = ['set','seta','is_set','fun','funa','is_fun','seq','seqa','is_seq','down','downa','is_down','level','sort','prev','con_to_acc','con_to_sort','next']
+  slots = ['set','seta','is_set','fun','funa','is_fun','seq','seqa','is_seq','seqsort','cons','car','cdr','empty','down','downa','is_down','level','sort','prev','con_to_acc','con_to_sort','next']
   def __init__(self, prev):
     self.level = prev.level + 1
     self.prev = prev
     self.prev.next = self
     data = Datatype('w%d' % self.level)
+    linkedlist = Datatype('linkedlist%d' % self.level)
+    linkedlist.declare('cons', ('car', prev.sort), ('cdr', linkedlist))
+    linkedlist.declare('empty')
+    linkedlist = linkedlist.create()
     cons = [
       ('set', ('seta', SetSort(prev.sort))),
       ('fun', ('funa', ArraySort(prev.sort, prev.sort))),
-      ('seq', ('seqa', SeqSort(prev.sort))),
+      ('seq', ('seqa', linkedlist)),
       ('down', ('downa', prev.sort)),
     ]
     l = lambda x: x+str(self.level)
@@ -54,6 +58,11 @@ class ComposedWallDatatype(WallDatatype):
       data.declare(l(x[0]), (l(x[1][0]), x[1][1]))
     data = data.create()
     self.sort = data
+    self.seqsort = linkedlist
+    self.cons = linkedlist.cons
+    self.car = linkedlist.car
+    self.cdr = linkedlist.cdr
+    self.empty = linkedlist.empty
     for x in cons:
       setattr(self, x[0], getattr(data, l(x[0])))
       setattr(self, 'is_'+x[0], getattr(data, l('is_'+x[0])))

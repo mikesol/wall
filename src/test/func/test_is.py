@@ -69,7 +69,7 @@ def test_is_fun():
 
 def test_is_seq():
   s = Solver()
-  i = W.seq(Const(str(uuid4()), SeqSort(level(-1).sort)))
+  i = W.seq(Const(str(uuid4()), W.seqsort))
   s.push()
   s.add(isSeq(i))
   assert s.check() == sat
