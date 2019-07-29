@@ -80,25 +80,6 @@ Error. Cannot understand how to use `$`.
 Error. Cannot understand how to use `.`.
 ```
 
-## String constants
-
-You've likely run into the scenario before where you create a string and assign it to the same name as the string.
-
-```
-w> FOOBAR = "FOOBAR"
-```
-
-In Wall, you can accomplish the same thing using the `\` morcel:
-
-```
-w> \ FOOBAR
-w> FOOBAR
-"FOOBAR"
-w> \ #DELICIOUSLY LONG#
-w> #DELICIOUSLY LONG#
-"DELICIOUSLY LONG"
-```
-
 ## Percent
 
 Sometimes, when working with functions, it is useful to refer to elements higher up in the function's heirarchy.  One way to do this is to manually create these references.
