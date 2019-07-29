@@ -95,7 +95,7 @@ w> log 10 100
 
 ## Strings
 
-Strings *are* functions in Wall and, as such, can be invoked to yield a value.  Specifically, they can be invoked with an index or set of indices to yield a substirng.
+Strings act like lists in Wall and, as such, can be invoked to yield a value.  Specifically, they can be invoked with an index or list of indices to yield a substirng.
 
 ```
 w> "abc" 0
