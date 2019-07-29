@@ -4,15 +4,15 @@ Assignment in Wall is accomplished with the equal sign.  Technically, all the sy
 
 ```
 w> apple banana pear =
-w> fruit = [ apple banana pear ]
+w> fruit = :[ apple banana pear ]
 w> fruit
-[ apple banana pear ]
+:[ apple banana pear ]
 ```
 
 Assignment in wall is immutable, meaning that once something has been asigned to a name, the name will refer to that thing for the duration of a program.
 
 ```
-w> stacy = []
-w> stacy = [[]]
+w> stacy = :[]
+w> stacy = :[:[]]
 Error. `stacy` cannot be reassigned.
 ```
