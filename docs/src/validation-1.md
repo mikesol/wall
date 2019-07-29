@@ -44,8 +44,6 @@ w> #chuck norris?# #chuck norris#
 true
 w> 0? 1
 false
-w> == int? (s+ (map (s- everything int) (flip \ false)) (map int (flip \ true)))
-true
 ```
 
 The predefined function `:` will force a compilation error if a value does not pass the validator. This can be a useful form of documentation when working in teams or if you, like most people, are forgetful.
