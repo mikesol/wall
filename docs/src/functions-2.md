@@ -26,6 +26,15 @@ w> just 'foo 4999
 'foo
 ```
 
+`==` represents equality of objects.
+
+```
+w> == 1 2
+false
+w> == id id
+true
+```
+
 ## Math
 
 Not surprisingly, `+` adds two numbers, `-` subtracts them, `*` multiplies them, and `\` divides them.  `\\` is integer division, `mod` is the modulo operation, and `**` is exponentiation.

@@ -5,7 +5,5 @@ Like in many other languages, `boolean` is a primitive type in Wall that can be 
 ```
 w> a = true
 w> b = false
-w> == a b
-false
 ```
 
