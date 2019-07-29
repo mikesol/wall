@@ -147,6 +147,19 @@ w> ? true 0 1
 0
 ```
 
+## Conversion
+
+You can convert basic values like so:
+
+```
+w> str2int "5"
+5
+w> int2real 5
+5.0
+w> sym2str #hello#
+"hello"
+```
+
 ## Sets
 
 Two sets can be combined using `s+`.  An element can be added to a set using `s+e`.

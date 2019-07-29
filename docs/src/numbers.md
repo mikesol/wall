@@ -21,9 +21,9 @@ w> -999999
 -999_999
 ```
 
-## `float`
+## `real`
 
-`float`-s are represented as double-precision floating numbers in Wall.
+`real`-s are represented as double-precision floating numbers in Wall.
 
 ```
 w> 5.1
@@ -41,7 +41,7 @@ w> -999999.001_300_0
 
 ## `complex`
 
-`complex` numbers work like `int`-s and `float`-s: the real part can be either an `int` or a `float`, and the imaginary part can be an `int` or a `float`.  Note that, to define a complex number, you must either separate the real and imaginary part by `+` or `-` or use the `.` postfix notation.
+`complex` numbers work like `int`-s and `real`-s: the real part can be either an `int` or a `real`, and the imaginary part can be an `int` or a `real`.  Note that, to define a complex number, you must either separate the real and imaginary part by `+` or `-` or use the `.` postfix notation.
 
 ```
 w> 0-4j
