@@ -41,6 +41,15 @@ true
 
 Here, the parentheses say to Wall "hey, forget about that greedy `==` for a second. Let's figure out what's inside here first, and then we'll feed it to the `==`."
 
+One important thing to note is that sets, lists and functions suspend **all** function invocation within their definitions.  That means that `[& true false]` is a list that has three members: `&`, `true`, and `false`.  To evaluate the function, it has to be enclosed in parentheses.
+
+```
+w> [& true false]
+[& true false]
+w> [(& true false)]
+[false]
+```
+
 ## Dots
 
 The `.` symbol in Wall *flips* function invocation so that what comes *after* the period calls whatever comes before the period.  Whitespace is optional both before and after the dot.
@@ -56,13 +65,6 @@ The dot syntax allows anything in Wall to become an infix operator, which makes 
 It is fitting that, when talking about a greedy protocol, we conclude with a discussion of the `$` sign.  `$` in Wall means "suspend the current stack and open a new one until there is no function on the new stack anymore *or* until there is a newline".
 
 ```
-w> \ 1 (\ 2 (\ 3 4))
-\ 1 (\ 2 (\ 3 4))
-w> \ 1 $ \ 2 $ \ 3 4
-\ 1 (\ 2 (\ 3 4))
-w> foo = \ 1 $ \ 2 $ \ 3
-w> foo 4
-\ 1 (\ 2 (\ 3 4))
 w> ? false 0 $? false 1 $? true 2 $? false 3 4
 2
 ```
@@ -72,6 +74,12 @@ w> ? false 0 $? false 1 $? true 2 $? false 3 4
 Lastly, the `.$` sign combines `.` and `$` into one uber sign.
 
 ```
-w> 6 .$\ 5 .$\ 4 3
-(\ 6 (\ 5 (\ 4 3)))
+w> 6 .$- 5 .$- 4 .- 3
+2
+w> == (6 .$- 5 .$- 4 .- 3) (- 6 (- 5 (- 4 3)))
+true
+w> 6 .- 5 .- 4 .- 3
+-6
+w> == (6 .- 5 .- 4 .- 3) (- (- (- 6 5) 4) 3)
+true
 ```

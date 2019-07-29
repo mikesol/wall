@@ -1,13 +1,15 @@
 # Functions V
 
-We've already seen several different ways to define functions in Wall, but none of them resonate with the common pattern of `(arg1, arg2) => { /* do stuff */}` that we're used to in other languages.  Wall has a way to do this as well: `<<` and `<<!`.
+Somtimes, you would like to define your own functions over an infinite domain, like all integers.  To do this, wall, has `fun` and `fun!`.
 
-## `<<` and `<<!`
+## `fun` and `fun!`
 
-`<<` is a predefined object that, intuitively, describes something that resembles a function constructor in other languages.  Because `<<` is an aggregator (like our linked list function defined in [Recursion II](/recursion-2)), it needs a terminating character, which in this case is `>>`. The return value of `<< ... >>` is itself a map that iterates over a cross product of the argument space with no last argument.  The last argument, then, serves as the body of the function.
+`fun` takes two arguments: a list of validators and any expression, and returns a nested function mapping the first domain to the second domain, the second domain to the third domain, etc. until it reaches the range, which is just the expression supplied to `fun` or `fun!`.  Under the hood, both `fun` and `fun!` use `@{}` to inject locally-scoped named values into the computational context.
+
+In the case of `fun`, values named `a0, a1, ... aN` are injected into the context, where `N` is the length of the incoming list.
 
 ```
-w> foo = <<! _? int? >> ? $> a1 5 0 a0
+w> foo = fun [_? int?] ? $> a1 5 0 a0
 w> foo {} 6
 {}
 w> foo {} 5
@@ -16,24 +18,22 @@ w> foo {} 5
 
 `foo` is a function that takes two arguments, where the first can be anything and the second must be an integer. It returns `0` if the second argument is greater than `5`, else it returns the first argument.
 
-`foo` produces arguments named `a0`, `a1` etc depending on the length of the input by using `@` under the hood.
-
-Sometimes, it is useful to work with named arguments.  There is a version of `<<!` called `<<` that does that too.
+Sometimes, it is useful to work with named arguments.  There is a version of `fun` called `fun!` that does this.
 
 ```
-w> foo = << 'a0 _? 'a1 int? >> ? $> a1 5 0 a0
+w> foo = fun! ['baz _? 'bar int?] ? $> bar 5 0 baz
 w> foo {} 6
 {}
 w> foo {} 5
 0
 ```
 
-For the supremely lazy, there is `<<n` that takes `n` arguments that can be anything, or `_?`.
+For the supremely lazy, there is `<< n` that takes `n` arguments whose validator is `_?`.
 
 ```
-w> foo = <<n 3 map! $? (set? a0) a0 [a0] [ \ k (== a1 a2) ]
-w> foo [1 2 3] 'foo 3.1416
-[ \ 1 false \ 2 false \ 3 false ]
-w> foo true 'foo 3.1416
-[ \ true false ]
+w> foo = << 2 (fmap! ($? (set? a0) a0 [a0]) (== a1 k))
+w> foo [1 2 3] 2
+{ 1 false 2 true 3 false }
+w> foo true true
+{ true true }
 ```

@@ -1,14 +1,11 @@
 # Functions I
 
-There is no inherent representation of functions in Wall.  There is, however, a convention that will allow us to build things that function like, well, functions.
-
-A function is a set containing at least one pair where no two pairs have the same `first` element.  This is kind of like the mathematical definition of a function with the important distinction that Wall will still consider a set a function even if it contains elements that are not ordered pairs, so long as no two pairs have the same first element.  Thus, the last two lines below are both functions.
+Functions in Wall are represented in curly brackets and represent key-value pairs.  Each pair is separated by a space, as are the elements within each pair.  Functions are roughly equivalent to `dict` in Python and `Object` in JavaScript, with the important caveat that they can have infinitely-large domains.
 
 ```
 w> Paris France Berlin Germany =
-w> #Capitals to Countries# =
-w> [ \ Paris France \ Berlin Germany ]
-w> [ #Capitals to Countries# \ Paris France \ Berlin Germany ]
+w> { Paris France Berlin Germany }
+{ Paris France Berlin Germany }
 ```
 
 ## Invocation
@@ -17,7 +14,7 @@ Of course, functions are no fun unless you can invoke them with an argument to y
 
 ```
 w> Paris France Berlin Germany =
-w> [ \ Paris France \ Berlin Germany ] Paris
+w> { Paris France Berlin Germany } Paris
 France
 ```
 
@@ -27,24 +24,9 @@ Wall will issue a compile-time error if a function cannot be evaluated because i
 
 ```
 w> Paris France Berlin Germany Budapest =
-w> [ \ Paris France \ Berlin Germany ] Budapest
-Error. The function `[ \ Paris France \ Berlin Germany ]` does not contain `Budapest` in its domain.
+w> { Paris France Berlin Germany } Budapest
+Error. The function `{ Paris France Berlin Germany }` does not contain `Budapest` in its domain.
 ```
-
-Also, if you try to invoke something that is not a function like a function, it will complain.
-
-```
-w> 1 2
-Error. `1` is not a function.
-w> Paris Lyon France =
-w> country_to_city = [ \ France Lyon \ France Paris ]
-w> country_to_city France
-Error. `country_to_city` is not a function.
-```
-
-## `{}`
-
-A common shorthand for function creation in Wall is `{ 1 2 3 4 }` instead of `[ \ 1 2 \ 3 4 ]`.  When possible, functions are printed using the `{}` syntax.
 
 ## Currying
 
@@ -59,7 +41,3 @@ w> FinalDirection = {
 w> FinalDirection Right Left
 Up
 ```
-
-## Objects
-
-In Wall, there are no "objects".  However, it is sometimes useful to refer to a function as an object.  You can of course call them whatever you'd like, but the important bit to remember is that they are a set of ordered pairs where no two first elements are the same.

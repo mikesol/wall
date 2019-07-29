@@ -17,15 +17,3 @@ This works as expected, but how does Wall know that `g` should fail when `y` is 
 ## Z3
 
 When Wall invokes its compiler, the first thing it does is invokes the [Z3](https://github.com/Z3Prover/z3) SMT prover to prove the correctness of the program.
-
-## Recursion
-
-Under the hood, Z3 does its best to handle most recursive structures, but some are too difficult for it to stomach.  For example, Wall is not smart enough (yet) to evaluate the following code and will throw an error.
-
-```
-w> z = map! int \ k $ ? k.== 15 k (z ? k.> 15 k.- 1 k.+ 1)
-w> q = map! int \ k 15
-w> == z q // This is true, but Wall doesn't know that (yet).
-Error. Relationship between the objects is unknown.
-```
-

@@ -9,50 +9,30 @@ The Wall compiler keeps a running tab of the strictest possible validation rule 
 ```
 w> c = 5
 w> d = c + 1
-w> [ \ 6 7 ] d
+w> { 6 7 } d
 7
-w> [ \ 6 7 ] c
-Error. The function [ \ 6 7 ] does not contain 5 in its domain.
+w> { 6 7 } c
+Error. The function `{ 6 7 }` does not contain `5` in its domain.
 ```
 
 It is important to note that the error above is a *compile-time* error, meaning that as you are typing the code in your editor or compiling it, Wall will complain.
 
 ```
 w> a = floor (* 5 rand)
-w> [ \ 0 1 \ 1 2 \ 2 5 \ 3 100 \ 4 52 ] a
+w> { 0 1 1 2 2 5 3 100 4 52 } a
 100
 w> a = floor (* 5 rand)
-w> [ \ 0 1 \ 1 2 \ 2 5 \ 3 100 ] a
-Error. The domain of the function [ \ 0 1 \ 1 2 \ 2 5 \ 3 100 ] is not a superset of possible values for a:[0 1 2 3 4].
-w> [ \ 0 1 \ 1 2 \ 2 5 \ 3 100 ] (// a 2)
+w> { 0 1 1 2 2 5 3 100 } a
+Error. The function [ \ 0 1 \ 1 2 \ 2 5 \ 3 100 ] may not contain `a` in its domain.
+w> { 0 1 1 2 2 5 3 100 } (// a 2)
 1
 ```
 
 Again, the error above is *compile-time* in Wall.
 
-## Our first validators
+## Validators
 
 Validators are functions that have every possible Wall value in their domain mapped to `true` or `false` in their range.
-
-Our first validator, which we will call `exists?`, will return `true` if something exists and `false` if it doesn't.  As everything in Wall exists, it will always return `true`.
-
-```
-w> exists? = map everything (flip \ true)
-w> exists? 1
-true
-w> exists? 2
-false
-```
-
-Building upon the success of our first validator, our second validor `does-not-exist?` will check if a thing does not exist.  Of course, as the thing needs to exist to inquire about its existance, this validator will always return `false`.
-
-```
-w> does-not-exist? = map everything (flip \ false)
-w> does-not-exist? 1
-false
-w> does-not-exist? 2
-false
-```
 
 Wall comes with lots of validators already defined, like `int?`, `complex?`, `0?` etc.
 
@@ -78,3 +58,16 @@ w> bar = : string? 5
 Error. The key 5 does not exist on the object `:` string?.
 ```
  
+ ## Writing validators
+
+ Writing our own validators is easy!
+
+ ```
+ w> <5? = fmap! everything (? (int? k) (< k 5) false)
+ w> <5? 0
+ true
+ w> <5? 5
+ false
+ w> <5? 'foo
+ false
+ ```
