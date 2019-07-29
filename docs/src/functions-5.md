@@ -1,39 +1,35 @@
 # Functions V
 
-Somtimes, you would like to define your own functions over an infinite domain, like all integers.  To do this, wall, has `fun` and `fun!`.
+In the last section, we saw that `int?` is a validator.  We saw that `<5?` is also a validator.  Both are functions that map all possible objects to either `true` or `false`.
 
-## `fun` and `fun!`
-
-`fun` takes two arguments: a list of validators and any expression, and returns a nested function mapping the first domain to the second domain, the second domain to the third domain, etc. until it reaches the range, which is just the expression supplied to `fun` or `fun!`.  Under the hood, both `fun` and `fun!` use `@{}` to inject locally-scoped named values into the computational context.
-
-In the case of `fun`, values named `a0, a1, ... aN` are injected into the context, where `N` is the length of the incoming list.
+We have also seen that functins defined with `fun` take a validator and use it to construct the domain of the function.  For example:
 
 ```
-w> foo = fun [_? int?] ? $> a1 5 0 a0
-w> foo {} 6
-{}
-w> foo {} 5
+w> foo = fun [int?] a0 + 1
+w> == int (dom foo)
+true
+```
+
+So, what if we construct a similar function with `<5?`?  Let's see:
+
+```
+w> <5? = << 1 (& (int? a0) (< a0 5))
+w> foo = fun [<5?] a0 + 1
+w> == int (dom foo)
+false
+w> == (filt! int (>= 5)) (dom foo)
+true
+```
+
+Custom validators also enforce compile-time errors for invalid input.
+
+```
+w> <5? = ?ify (filt! int (> 5))
+w> foo = fun [_? <5?] (? (> a1 3) 0 a0)
+w> foo 'hello -1
+'hello
+w> foo {} 4
 0
-```
-
-`foo` is a function that takes two arguments, where the first can be anything and the second must be an integer. It returns `0` if the second argument is greater than `5`, else it returns the first argument.
-
-Sometimes, it is useful to work with named arguments.  There is a version of `fun` called `fun!` that does this.
-
-```
-w> foo = fun! ['baz _? 'bar int?] ? $> bar 5 0 baz
-w> foo {} 6
-{}
-w> foo {} 5
-0
-```
-
-For the supremely lazy, there is `<< n` that takes `n` arguments whose validator is `_?`.
-
-```
-w> foo = << 2 (fmap! ($? (set? a0) a0 [a0]) (== a1 k))
-w> foo [1 2 3] 2
-{ 1 false 2 true 3 false }
-w> foo true true
-{ true true }
+w> foo {} 10
+Error. The function `foo {}` does not contain the value `10` in its domain.
 ```

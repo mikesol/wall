@@ -1,88 +1,39 @@
 # Functions IV
 
-Some functions in Wall mimic control structures in imperative languages: constructors, loops, etc.  Here, we see the four most common "control" functions in Wall: `flip`, `filt`, `map` and `red`.
+Somtimes, you would like to define your own functions over an infinite domain, like all integers.  To do this, wall, has `fun` and `fun!`.
 
-## `flip`
+## `fun` and `fun!`
 
-Flip takes three arguments: a function and two arguments (call them `a` and `b` to that function).  It then invokes the function with `b` followed by `a` instead of `a` and then `b`.  For example, we can define a mirror function to `>=` called `>='` using flip.
+`fun` takes two arguments: a list of validators and any expression, and returns a nested function mapping the first domain to the second domain, the second domain to the third domain, etc. until it reaches the range, which is just the expression supplied to `fun` or `fun!`.  Under the hood, both `fun` and `fun!` use `@{}` to inject locally-scoped named values into the computational context.
 
-```
-w> >=' = flip <
-w> >=' 4 3
-true
-w> >=' 4 4
-true
-w> >=' 4 5
-false
-w> == >=' >=
-true
-```
-
-## `filt`
-
-Filt, not surprisingly, filters a list or set:
+In the case of `fun`, values named `a0, a1, ... aN` are injected into the context, where `N` is the length of the incoming list.
 
 ```
-w> filt [1 2 3 4] (< 2)
-[3 4]
+w> foo = fun [_? int?] ? $> a1 5 0 a0
+w> foo {} 6
+{}
+w> foo {} 5
+0
 ```
 
-## `map`
+`foo` is a function that takes two arguments, where the first can be anything and the second must be an integer. It returns `0` if the second argument is greater than `5`, else it returns the first argument.
 
-`map` maps values from a list, set or function to another list, set or function.  To remind you of the various ways we can express map using parentheses and dots, check out the equivalent examples below.
-
-```
-w> map [1 2 3] (+ 3)
-[4 5 6]
-w> [1 2 3].map (+ 3)
-[4 5 6]
-w> [1 2 3].map 3.+
-[4 5 6]
-w> 3.+.[1 2 3].map
-[4 5 6]
-w> [1 2 3].map 0.*
-[0 0 0]
-w> :[1 2 3].map 0.*
-[0]
-w> {1 2 3 4 5 6}.map 0.*
-{ 1 0 3 0 5 0 }
-```
-
-A cousing of `map`, called `fmap`, maps a set, list, or function to a function.
+Sometimes, it is useful to work with named arguments.  There is a version of `fun` called `fun!` that does this.
 
 ```
-w> fmap [1 2 3] (* 3)
-{ 1 3 2 6 3 9 }
-w> fmap :[1 2 3] (* 3)
-{ 1 3 2 6 3 9 }
-w> fmap { 'a 1 'b 2 'c 3 } (* 3)
-{ 'a 3 'b 6 'c 9 }
+w> foo = fun! ['baz _? 'bar int?] ? $> bar 5 0 baz
+w> foo {} 6
+{}
+w> foo {} 5
+0
 ```
 
-There is also a function `xmap` that works like `fmap` but is applied to the function's keys. `xmap` needs to be an injunctive function, otherwise the compiler will throw an error.
+For the supremely lazy, there is `<< n` that takes `n` arguments whose validator is `_?`.
 
 ```
-w> xmap { 1 2 3 4 } (* 3)
-{ 3 2 9 4 }
-w> xmap { 1 2 3 4 } (* 0)
-Error. The function `xmap { 1 2 3 4 }` does not contain `(* 0)` in its domain.
+w> foo = << 2 (fmap! ($? (set? a0) a0 [a0]) (== a1 k))
+w> foo [1 2 3] 2
+{ 1 false 2 true 3 false }
+w> foo true true
+{ true true }
 ```
-
-## `red`
-
-`red` is used to perform a reduction over a list or set. The penultimate argument is a function that takes two arguments: the aggregator and the next value.  The final argument is an initial value to serve as the aggregator.
-
-```
-w> red [1 2 3] + 0
-6
-w> red :[[1 2] [2 3] [3]] s+ []
-[1 2 3]
-```
-
-If reduce is being performed on a set and the function is not transitive, Wall will throw an error.
-
-```
-w> red :[1 2 3 4 5] mod 0
-Error. The function `red :[ 1 2 3 4 5 ]` does not have `mod` in its domain.
-```
-

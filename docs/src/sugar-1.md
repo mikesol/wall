@@ -1,6 +1,78 @@
 # Sugar I
 
-Like lots of other languages, Wall has some delicious morcels of syntactic sugar that make it a little easier to read and write code.  We have already seen two of them: `.` and `$`.  In editors, sugar is colored differently, and sugar can *never* be interpreted as symbols or named values.  That means that you can't do something like:
+Like lots of other languages, Wall has some delicious morcels of syntactic sugar that make it a little easier to read and write code.  We have already seen one piece of sugar, `=`, that allows you to name things.  Let's check out some more!
+
+
+## Parentheses
+
+By default, all function invocations in Wall are maximally *greedy*.  That is, when invoked, they will try to gobble anything to the left of them, even if it is a function.
+
+```
+w> name = { > "greater than" < "less than" }
+w> name <
+"less than"
+```
+
+However, sometimes, we don't want this at all.  Consider the following case:
+
+```
+w> == == 3 4 == 4 5
+Error. `false` is not a function.
+```
+
+Intuitively, we would like to ask "Is 3 == 4 equal to 4 == 5?".  We can do this with parentheses.  Let's revisit the `==` example above, but use parentheses to make it work.
+
+```
+w> == (== 3 4) (== 4 5)
+true
+```
+
+Here, the parentheses say to Wall "hey, forget about that greedy `==` for a second. Let's figure out what's inside here first, and then we'll feed it to the `==`."
+
+One important thing to note is that sets, lists and functions suspend **all** function invocation within their definitions.  That means that `[& true false]` is a list that has three members: `&`, `true`, and `false`.  To evaluate the function, it has to be enclosed in parentheses.
+
+```
+w> [& true false]
+[& true false]
+w> [(& true false)]
+[false]
+```
+
+## Dots
+
+The `.` symbol in Wall *flips* function invocation so that what comes *after* the period calls whatever comes before the period.  Whitespace is optional both before and after the dot.
+
+```
+w> (3 .== 4) .== (4 .== 5)
+```
+
+The dot syntax allows anything in Wall to become an infix operator, which makes it look and feel a bit more like Python or JavaScript.
+
+## Dollars
+
+It is fitting that, when talking about a greedy protocol, we conclude with a discussion of the `$` sign.  `$` in Wall means "suspend the current stack and open a new one until there is no function on the new stack anymore *or* until there is a newline".
+
+```
+w> ? false 0 $? false 1 $? true 2 $? false 3 4
+2
+```
+
+## Dotted dollars
+
+Lastly, the `.$` sign combines `.` and `$` into one uber sign.
+
+```
+w> 6 .$- 5 .$- 4 .- 3
+2
+w> == (6 .$- 5 .$- 4 .- 3) (- 6 (- 5 (- 4 3)))
+true
+w> 6 .- 5 .- 4 .- 3
+-6
+w> == (6 .- 5 .- 4 .- 3) (- (- (- 6 5) 4) 3)
+true
+```
+
+We have already seen two of them: `.` and `$`.  In editors, sugar is colored differently, and sugar can *never* be interpreted as symbols or named values.  That means that you can't do something like:
 
 ```
 w> [ $ . ]

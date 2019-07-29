@@ -1,85 +1,88 @@
 # Functions III
 
-Let's dive a bit deeper into function composition and invocation in Wall.
+Some functions in Wall mimic control structures in imperative languages: constructors, loops, etc.  Here, we see the four most common "control" functions in Wall: `flip`, `filt`, `map` and `red`.
 
-## Greed
+## `flip`
 
-By default, all function invocations in Wall are maximally *greedy*.  That is, when invoked, they will gobble any argument that may be in their domain, even if it is a function.  Sometimes, this is what we want.
-
-```
-w> name = { > "greater than" < "less than" }
-w> name <
-"less than"
-```
-
-This also provides a sensible default for lots of cases where writing parentheses is annoying.  For example:
+Flip takes three arguments: a function and two arguments (call them `a` and `b` to that function).  It then invokes the function with `b` followed by `a` instead of `a` and then `b`.  For example, we can define a mirror function to `>=` called `>='` using flip.
 
 ```
-w> + + 5 3 1
-9
-```
-
-As `+` is not in the domain of `+`, `+` ignores it and waits until a value in its domain shows up.  If nothing comes before a newline, it will raise an error.
-
-However, sometimes, we don't want this at all.  Consider the following case:
-
-```
-w> == == 3 4 == 4 5
-Error. `false` is not a function.
-```
-
-Intuitively, we would like to ask "Is 3 == 4 equal to 4 == 5?".  We can do this with parentheses.
-
-## Parentheses
-
-In order to fix this greedy problem, Wall (like lots of other languages) uses parentheses to signal "evaluate whatever is inside here before moving onto the outer context."  Let's revisit the `==` example above, but use parentheses to make it work.
-
-```
-w> == (== 3 4) (== 4 5)
+w> >=' = flip <
+w> >=' 4 3
+true
+w> >=' 4 4
+true
+w> >=' 4 5
+false
+w> == >=' >=
 true
 ```
 
-Here, the parentheses say to Wall "hey, forget about that greedy `==` for a second. Let's figure out what's inside here first, and then we'll feed it to the `==`."
+## `filt`
 
-One important thing to note is that sets, lists and functions suspend **all** function invocation within their definitions.  That means that `[& true false]` is a list that has three members: `&`, `true`, and `false`.  To evaluate the function, it has to be enclosed in parentheses.
-
-```
-w> [& true false]
-[& true false]
-w> [(& true false)]
-[false]
-```
-
-## Dots
-
-The `.` symbol in Wall *flips* function invocation so that what comes *after* the period calls whatever comes before the period.  Whitespace is optional both before and after the dot.
+Filt, not surprisingly, filters a list or set:
 
 ```
-w> (3 .== 4) .== (4 .== 5)
+w> filt [1 2 3 4] (< 2)
+[3 4]
 ```
 
-The dot syntax allows anything in Wall to become an infix operator, which makes it look and feel a bit more like Python or JavaScript.
+## `map`
 
-## Dollars
-
-It is fitting that, when talking about a greedy protocol, we conclude with a discussion of the `$` sign.  `$` in Wall means "suspend the current stack and open a new one until there is no function on the new stack anymore *or* until there is a newline".
+`map` maps values from a list, set or function to another list, set or function.  To remind you of the various ways we can express map using parentheses and dots, check out the equivalent examples below.
 
 ```
-w> ? false 0 $? false 1 $? true 2 $? false 3 4
-2
+w> map [1 2 3] (+ 3)
+[4 5 6]
+w> [1 2 3].map (+ 3)
+[4 5 6]
+w> [1 2 3].map 3.+
+[4 5 6]
+w> 3.+.[1 2 3].map
+[4 5 6]
+w> [1 2 3].map 0.*
+[0 0 0]
+w> :[1 2 3].map 0.*
+[0]
+w> {1 2 3 4 5 6}.map 0.*
+{ 1 0 3 0 5 0 }
 ```
 
-## Dotted dollars
-
-Lastly, the `.$` sign combines `.` and `$` into one uber sign.
+A cousing of `map`, called `fmap`, maps a set, list, or function to a function.
 
 ```
-w> 6 .$- 5 .$- 4 .- 3
-2
-w> == (6 .$- 5 .$- 4 .- 3) (- 6 (- 5 (- 4 3)))
-true
-w> 6 .- 5 .- 4 .- 3
--6
-w> == (6 .- 5 .- 4 .- 3) (- (- (- 6 5) 4) 3)
-true
+w> fmap [1 2 3] (* 3)
+{ 1 3 2 6 3 9 }
+w> fmap :[1 2 3] (* 3)
+{ 1 3 2 6 3 9 }
+w> fmap { 'a 1 'b 2 'c 3 } (* 3)
+{ 'a 3 'b 6 'c 9 }
 ```
+
+There is also a function `xmap` that works like `fmap` but is applied to the function's keys. `xmap` needs to be an injunctive function, otherwise the compiler will throw an error.
+
+```
+w> xmap { 1 2 3 4 } (* 3)
+{ 3 2 9 4 }
+w> xmap { 1 2 3 4 } (* 0)
+Error. The function `xmap { 1 2 3 4 }` does not contain `(* 0)` in its domain.
+```
+
+## `red`
+
+`red` is used to perform a reduction over a list or set. The penultimate argument is a function that takes two arguments: the aggregator and the next value.  The final argument is an initial value to serve as the aggregator.
+
+```
+w> red [1 2 3] + 0
+6
+w> red :[[1 2] [2 3] [3]] s+ []
+[1 2 3]
+```
+
+If reduce is being performed on a set and the function is not transitive, Wall will throw an error.
+
+```
+w> red :[1 2 3 4 5] mod 0
+Error. The function `red :[ 1 2 3 4 5 ]` does not have `mod` in its domain.
+```
+
