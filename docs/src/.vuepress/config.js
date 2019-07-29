@@ -27,7 +27,6 @@ module.exports = {
               ['/strings', 'Strings'],
               ['/booleans', 'Booleans'],
               ['/functions-2', 'Functions II'],
-              ['/functions-3', 'Functions III'],
               ['/sugar-1', 'Sugar I'],
             ]
           },
@@ -36,11 +35,11 @@ module.exports = {
             collapsable: true,
             children: [
               ['/errors', 'Errors'],
-              ['/functions-4', 'Functions IV'],
+              ['/functions-3', 'Functions III'],
               ['/sets-2', 'Sets II'],
               ['/sugar-2', 'Sugar II'],
               ['/validation-1', 'Validation I'],
-              ['/functions-5', 'Functions V'],
+              ['/functions-4', 'Functions IV'],
               ['/recursion', 'Recursion'],
               ['/validation-2', 'Validation II']
             ]
@@ -49,7 +48,7 @@ module.exports = {
             title: 'Soaring',
             collapsable: true,
             children: [
-              ['/functions-6', 'Functions VI'],
+              ['/functions-5', 'Functions V'],
               ['/modules', 'Modules'],
               ['/packages', 'Packages'],
               ['/indeterminacy', 'Indeterminacy'],
