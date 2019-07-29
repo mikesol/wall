@@ -6,14 +6,14 @@ def test_addition():
   l2 = level(2)
   l1 = level(1)
   add = integer_addition(s)
-  s.add(isFun(add))
+  s.add(isFun(add) == P.bool(True))
   s.push()
   s.add(apFun(apFun(add, 4), 5) == P.int(9))
   assert s.check() == sat
   s.pop()
   s.push()
   c = wInt()
-  s.add(isInt(apFun(apFun(add, 4), c)))
+  s.add(isInt(apFun(apFun(add, 4), c)) == P.bool(True))
   assert s.check() == sat
   s.pop()
   s.push()
@@ -33,7 +33,7 @@ def test_addition():
   assert s.check() == unsat
   s.pop()
   s.push()
-  s.add(isFun(apFun(add, True)))
+  s.add(isFun(apFun(add, True)) == P.bool(True))
   assert s.check() == unsat
   s.pop()
   s.push()
@@ -49,20 +49,20 @@ def test_division():
   l2 = level(2)
   l1 = level(1)
   div = integer_division(s)
-  s.add(isFun(div))
+  s.add(isFun(div) == P.bool(True))
   s.push()
   s.add(apFun(apFun(div, 4), 5) == P.int(0))
   assert s.check() == sat
   s.pop()
   s.push()
   c = Int(str(uuid4()))
-  s.add(ForAll([c], isInt(apFun(apFun(div, 4), P.int(c)))))
+  s.add(ForAll([c], P.bool(True) == isInt(apFun(apFun(div, 4), P.int(c)))))
   assert s.check() == unsat
   s.pop()
   s.push()
   c = Const(str(uuid4()), P.sort)
   # sat because c could be 0, so div by 0 could happen, meaning not int
-  s.add(Exists(c, And(isInt(c), Not(isInt(apFun(apFun(div, 4), c))))))
+  s.add(Exists(c, And(P.bool(True) == isInt(c), Not(P.bool(True) == isInt(apFun(apFun(div, 4), c))))))
   assert s.check() == sat
   s.pop()
   s.push()
@@ -70,17 +70,17 @@ def test_division():
   d = wInt()
   s.add(P.inta(d) >= 1)
   # unsat because c could not be 0, so must be int
-  s.add(Exists(c, And(c==d, Not(isInt(apFun(apFun(div, 4), c))))))
+  s.add(Exists(c, And(c==d, Not(P.bool(True) == isInt(apFun(apFun(div, 4), c))))))
   assert s.check() == unsat
   s.pop()
   s.push()
   c = Const(str(uuid4()), P.sort)
   # sat because 0 in num is ok
-  s.add(ForAll([c], If(P.sort.is_int(c), isInt(apFun(apFun(div, c), 4)), True)))
+  s.add(ForAll([c], If(P.sort.is_int(c), P.bool(True) == isInt(apFun(apFun(div, c), 4)), True)))
   assert s.check() == sat
   s.pop()
   s.push()
-  s.add(isFun(apFun(div, True)))
+  s.add(isFun(apFun(div, True)) == P.bool(True))
   assert s.check() == unsat
   s.pop()
   s.push()

@@ -70,7 +70,7 @@ def wNever(n=None, base=_base):
 #########################
 
 def _is(f, v, c0):
-  return f(SORT_TO_W[v.sort()], v, c0)
+  return P.bool(f(SORT_TO_W[v.sort()], v, c0))
 
 def ___isT(lev, v, c0):
   return (getattr(lev.sort, c0)(v)
@@ -201,11 +201,12 @@ def _binary_op(isArg0, accArg0, isArg1, accArg1, conRet, retF, s=None):
   else:
     return out, [constraint]
 
+_ii = lambda x: isInt(x) == P.bool(True)
 def _integer_binary_op_(dom2, op, s=None):
-  return _binary_op(isInt, getInt, dom2, getInt, P.int, op, s)
+  return _binary_op(_ii, getInt, dom2, getInt, P.int, op, s)
 
 def _integer_binary_op(op, s=None):
-  return _integer_binary_op_(isInt, op, s)
+  return _integer_binary_op_(_ii, op, s)
 
 def integer_addition(s=None):
   return _integer_binary_op(iadd, s)
