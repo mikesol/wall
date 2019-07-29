@@ -23,7 +23,7 @@ w> { 0 1 1 2 2 5 3 100 4 52 } a
 100
 w> a = floor (* 5 rand)
 w> { 0 1 1 2 2 5 3 100 } a
-Error. The function [ \ 0 1 \ 1 2 \ 2 5 \ 3 100 ] may not contain `a` in its domain.
+Error. The function { 0 1 1 2 2 5 3 100 } may not contain `a` in its domain.
 w> { 0 1 1 2 2 5 3 100 } (// a 2)
 1
 ```

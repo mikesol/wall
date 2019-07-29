@@ -9,9 +9,9 @@ Building rules in Wall is done with the `rules` function. `rules` accepts a list
 ```
 w> age-rule = rules [int? [(<? 0) (just 0)] [(>? 150) (just 150)]]
 w> age-rule 1
-\ 'success 1
+{ 'success 1 }
 w> age-rule -1
-\ 'success 0
+{} 'success 0 }
 w> age-rule 'foo
 false
 ```
