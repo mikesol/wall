@@ -22,11 +22,11 @@ module.exports = {
             title: 'Getting comfortable',
             collapsable: true,
             children: [
-              ['/tests', 'Tests'],
               ['/numbers', 'Numbers'],
               ['/strings', 'Strings'],
               ['/booleans', 'Booleans'],
               ['/functions-2', 'Functions II'],
+              ['/tests', 'Tests'],
               ['/sugar-1', 'Sugar I'],
             ]
           },
