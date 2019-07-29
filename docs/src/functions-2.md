@@ -178,20 +178,33 @@ w> subs? [1] [1 2 3 4]
 true
 ```
 
-## Functions
+## Lists
 
-Similar functions `f+e` and `f-` exist for functions. `f+e` gives priority to the new pair when there is a conflict with a previous one.
+You can use `car` and `cdr` to get the head and tail of a list.
 
 ```
-w> f+e { 1 2 3 4 } \ 5 6
-{ 1 2 3 4 }
-w> f+e { 1 2 3 4 } \ 3 5
-{ 1 2 3 5 }
+w> car \ 6 3
+6
+w> cdr \ 6 3
+3
+```
+
+
+
+## Functions
+
+Similar functions `f+` and `f-` exist for functions.
+
+```
+w> f+e { 1 2 3 4 } { 5 6 7 8 }
+{ 1 2 3 4 5 6 7 8 }
+w> f+e { 1 2 3 4 } { 3 5 7 8 }
+{ 1 2 3 5 7 8 }
 w> f- { 1 2 3 4 } 1
 { 3 4 }
 ```
 
-Two really important functions on functions are `dom`, which returns a function's domain, and `ran`, which returns its range.
+And who could forget classics like `dom`, which returns a function's domain, and `ran`, which returns its range?
 
 ```
 w> dom { 1 2 3 4 }

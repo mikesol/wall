@@ -1,6 +1,6 @@
 # Sets II
 
-Wall has lots of predefined sets that are a lot like predefined functions - they would be way too annoying to define manually.  For example, every primitive type in Wall is just set, so we can do stuff like:
+Wall has lots of predefined sets.  For example, every primitive type in Wall is just set, so we can do stuff like:
 
 ```
 w> int .== (s+e int 0)
@@ -16,20 +16,13 @@ true
 
 ## `everything`
 
-There is one special set called `everything` that contains *almost* everything that Wall does or will ever contain, including itself.
+There is one special set called `everything` that contains everything that Wall does or will ever contain, including itself.
 
 ```
 w> int.subs? everything
 true
 w> everything.s- everything
-[]
+:[]
 w> everything.subs? everything
 true
-```
-
-Importantly, `everything` leaves out the functions `(`, `{` and `[` symbols `)`, `}` and `]`.  The set `evverrrythinggg` contains these.
-
-```
-w> len(s- evverrrythinggg everything)
-6
 ```

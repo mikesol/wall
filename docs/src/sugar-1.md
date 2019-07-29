@@ -27,67 +27,62 @@ w> #DELICIOUSLY LONG#
 "DELICIOUSLY LONG"
 ```
 
-## `%`
+## Percent
 
-Sometimes, when working with "container" primitive types like sets and pairs, it is useful to refer to elements higher up in the heirarchy.  One way to do this is to manually create these references.
+Sometimes, when working with functions, it is useful to refer to elements higher up in the function's heirarchy.  One way to do this is to manually create these references.
 
 ```
 w> #one level back# =
-w> c = [ \ 'level 'c ]
-w> b = [ \ 'level 'b \ 'next $& [ \ #one level back# b ] c ]
-w> a = [ \ 'level 'a \ 'next $& [ \ #one level back# a ] b ]
+w> c = { 'level 'c }
+w> b = { 'level 'b 'next $& { #one level back# b } c }
+w> a = { 'level 'a 'next $& { #one level back# a } b }
 w> #b up# = b #one level back#
 w> == #b up# a
 true
-w> lr = \ 'foo (car lr)
-w> cdr lr
-'foo
 ```
 
-Wall provides the family of `%` commands that are references to other bits of structures to make this sort of manipulation a bit easier.
+Wall provides the family of `%` commands to make this sort of manipulation a bit easier.
 
-- `%` the innermost enclosing set to which an element belongs
-- `%k` the innermost `first` value of an enclosing pair to which an element belongs
-- `%v` the innermost `second` value of an enclosing pair to which an element belongs
+- `%` the current function
+- `%k` the key pointing to the current value
 
-Adding percent signs increases how far in the heirarchy we go.
+Adding percent signs increases how far in the heirarchy we go.  So, for example, `%%` is the previous function, `%%k` is the key pointing to the key pointing to the current value, etc.
 
-Sometimes, you want to refer to other bits of an `object`-s *original* enclosing set or pair.  To do this, we use the same convention as above, but ending with an exclamation point:
+Sometimes, you want to refer to other bits of a function's *original* enclosure.  To do this, we use the same convention as above, but ending with an exclamation point:
 
-- `%!`: the *original* innermost enclosing set to which an element belongs
-- `%k` the *original* innermost `first` value of an enclosing pair to which an element belongs
-- `%v` the *original* innermost `second` value of an enclosing pair to which an element belongs
+- `%!`: the *original* current function
+- `%k` the *original* key pointing to the current value
 
 ```
-w> a = [ \ 'a [ \ %k %% %k ] ]
-w> b = [ \ 'a [ \ %k! %%! %k! ] ]
+w> a = { 'a { %k %% 'b } 'b 1 }
+w> b = { 'a { %k! %%! 'b } 'b 1 }
 w> a 'a
-[ \ 'a ' a ]
+{ 'a 1 }
 w> b 'a
-[ \ 'a 'a ]
-w> c = [ \ 'q a 'a ]
-w> d = [ \ 'q b 'a ]
-w> c q'
-\ 'q 'q
-w> d q'
-\ 'a 'a
+{ 'a 1 }
+w> c = { 'q (a 'a) 'b 3 }
+w> d = { 'q (b 'a) 'b 3 }
+w> c 'q
+{ 'q 3 }
+w> d 'q
+{ 'a 1 }
 ```
 
 Because the un-exclamationed form of `%k`, `%%` etc resolves to *any* enclosing element, there will be no compiler error until you attempt to *access* an object with `%k`, `%%` etc.
 
 ```
-w> a = [ \ %k %%k ]
-w> b = [ \ %k! %%k! ]
+w> a = { %k %%k }
+w> b = { %k! %%k! }
 Error. %% b is not a function.
-w> c = [ \ 0 a ]
-w> d = [ \ 0 [ \ 1 a ] ]
+w> c = { 0 a }
+w> d = { 0 { 1 a } }
 w> d 0 1
-\ 1 0
+{ 1 0 }
 w> c 0
 Error. %% c is not a function. 
 ```
 
-## `@`
+## Ampersand
 
 Sometimes, you need to give something a name only in a limited context and then have the name evaporate.  In Haskell, this is accomplished with `let`.  In Wall, this is accomplished with `@`.  `@` accepts a function with *only* strings in the domain (it will complain otherwise) and has access to all elements in the current *and* outer scopes.
 

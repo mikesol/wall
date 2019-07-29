@@ -28,11 +28,11 @@ w> min0x -1
 0
 ```
 
-Under the hood, `map!` injects a variable `k` into the local context using `@` under the hood.  Its cousin, `map!!`, does the same thing for functions, automatically applying `id` (the identity function) to anything that is not a pair and otherwise injecting `k` and `v` for the key and value, respectively.
+Under the hood, `map!` and `fmap!` inject a variable `k` into the local context using `@` under the hood.  `fmap!` also has a variant `fmap!!` that injects `k` and `v` for the key and value, respectively.
 
 ```
-w> map!! [ \ 0 1 \ 2 3 \ 4 5 ] \ k (+ v 7)
-[ \ 0 8 \ 2 10 \4 12 ]
+w> fmap!! { 0 1 2 3 4 5 } (+ k v)
+{ 0 1 2 5 4 9 }
 ```
 
 The same is true of `red` - `red!` injects the accumulator `a` and the key `k`, while `red!!` throws in v for good measure.

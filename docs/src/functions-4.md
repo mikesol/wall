@@ -20,7 +20,7 @@ true
 
 ## `filt`
 
-Filt, not surprisingly, filters a set:
+Filt, not surprisingly, filters a list or set:
 
 ```
 w> filt [1 2 3 4] (< 2)
@@ -29,7 +29,7 @@ w> filt [1 2 3 4] (< 2)
 
 ## `map`
 
-`map` maps values from a set to another set.  To remind you of the various ways we can express map using parentheses and dots, check out the equivalent examples below.
+`map` maps values from a list, set or function to another list, set or function.  To remind you of the various ways we can express map using parentheses and dots, check out the equivalent examples below.
 
 ```
 w> map [1 2 3] (+ 3)
@@ -38,41 +38,51 @@ w> [1 2 3].map (+ 3)
 [4 5 6]
 w> [1 2 3].map 3.+
 [4 5 6]
+w> 3.+.[1 2 3].map
+[4 5 6]
 w> [1 2 3].map 0.*
+[0 0 0]
+w> :[1 2 3].map 0.*
 [0]
+w> {1 2 3 4 5 6}.map 0.*
+{ 1 0 3 0 5 0 }
 ```
 
-A variant of map, `map:` also works on lists.  Recall that there is no primitive type for a list, so we use duck typing to represent a pair whose second element is either a pair or something else, terminating at "something else".  `map:` takes that "something else" as its first argument and then works as expected.
+A cousing of `map`, called `fmap`, maps a set, list, or function to a function.
 
 ```
-; =
-w> map: ; ( \ 1 ( \ 2 ; )) 3.+
-\; 4 5 ;\
+w> fmap [1 2 3] (* 3)
+{ 1 3 2 6 3 9 }
+w> fmap :[1 2 3] (* 3)
+{ 1 3 2 6 3 9 }
+w> fmap { 'a 1 'b 2 'c 3 } (* 3)
+{ 'a 3 'b 6 'c 9 }
 ```
 
-A built-in version of `map` exists for the `()` symbol.
+There is also a function `xmap` that works like `fmap` but is applied to the function's keys. `xmap` needs to be an injunctive function, otherwise the compiler will throw an error.
 
 ```
-w> map:() ( \ 1 ( \ 2 () )) 3.+
-\() 1 2 ()\
+w> xmap { 1 2 3 4 } (* 3)
+{ 3 2 9 4 }
+w> xmap { 1 2 3 4 } (* 0)
+Error. The function `xmap { 1 2 3 4 }` does not contain `(* 0)` in its domain.
 ```
 
 ## `red`
 
-`red` is used to perform a reduction over a set. The penultimate argument is a transitive function that takes two arguments: the aggregator and the next value.  The final argument is an initial value to serve as the aggregator.
+`red` is used to perform a reduction over a list or set. The penultimate argument is a function that takes two arguments: the aggregator and the next value.  The final argument is an initial value to serve as the aggregator.
 
 ```
 w> red [1 2 3] + 0
 6
-w> red [[1 2] [2 3] [3]] s+ []
+w> red :[[1 2] [2 3] [3]] s+ []
 [1 2 3]
 ```
 
-If the function is not transitive, Wall will throw an error.
+If reduce is being performed on a set and the function is not transitive, Wall will throw an error.
 
 ```
-w> red { 1 2 1 3 1 5 } f+e []
-Error. The function `red [\ 1 2 \ 1 3 \ 1 5]` does not `f+e` in its domain.
+w> red :[1 2 3 4 5] mod 0
+Error. The function `red :[ 1 2 3 4 5 ]` does not have `mod` in its domain.
 ```
 
-When `red:` and `red:()` are used, the transitivity is not needed as the order of evaluation is known.
