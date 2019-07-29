@@ -210,13 +210,22 @@ true
 You can use `car` and `cdr` to get the head and tail of a list.
 
 ```
-w> car \ 6 3
+w> car [ 6 3 ]
 6
-w> cdr \ 6 3
-3
+w> cdr [ 6 3 ]
+[3]
 ```
 
+`cons` appends to a list, `reverse` reverses a list and `concat` concatenates two lists.
 
+```
+w> cons 1 []
+[ 1 ]
+w> reverse [1 2 3]
+[ 3 2 1 ]
+w> concat [1 2 3] [4 5 6]
+[ 1 2 3 4 5 6 ]
+```
 
 ## Functions
 
