@@ -10,19 +10,19 @@ module.exports = {
             children: [
               ['/getting', 'Getting Wall'],
               ['/anatomy', 'Anatomy'],
+              ['/comments', 'Comments'],
               ['/symbols', 'Symbols'],
               ['/sets-1', 'Sets I'],
               ['/assignment', 'Assignment'],
               ['/lists', 'Lists'],
               ['/functions-1', 'Functions I'],
-              ['/comments', 'Comments'],
-              ['/tests', 'Tests'],
             ]
           },
           {
             title: 'Getting comfortable',
             collapsable: true,
             children: [
+              ['/tests', 'Tests'],
               ['/numbers', 'Numbers'],
               ['/strings', 'Strings'],
               ['/booleans', 'Booleans'],
