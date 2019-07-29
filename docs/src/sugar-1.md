@@ -106,8 +106,8 @@ Sometimes, when working with functions, it is useful to refer to elements higher
 ```
 w> #one level back# =
 w> c = { 'level 'c }
-w> b = { 'level 'b 'next $& { #one level back# b } c }
-w> a = { 'level 'a 'next $& { #one level back# a } b }
+w> b = { 'level 'b 'next (f+ { #one level back# b } c) }
+w> a = { 'level 'a 'next (f+ { #one level back# a } b) }
 w> #b up# = b #one level back#
 w> == #b up# a
 true
@@ -126,8 +126,8 @@ Sometimes, you want to refer to other bits of a function's *original* enclosure.
 - `%k` the *original* key pointing to the current value
 
 ```
-w> a = { 'a { %k %% 'b } 'b 1 }
-w> b = { 'a { %k! %%! 'b } 'b 1 }
+w> a = { 'a { %k (%% 'b) } 'b 1 }
+w> b = { 'a { %k! (%%! 'b) } 'b 1 }
 w> a 'a
 { 'a 1 }
 w> b 'a
