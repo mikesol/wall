@@ -57,13 +57,7 @@ def test_division():
   s.push()
   c = Int(str(uuid4()))
   s.add(ForAll([c], isInt(apFun(apFun(div, 4), P.int(c)))))
-  # interestingly, the universal qualifier over d does not yield unsat
-  # why? what is wrong with the two lines below?
-  # d = Const('asf8afu0hfwnf', P.sort)
-  # s.add(ForAll([d], Implies(isInt(d), isInt(apFun(apFun(div, 4), d)))))
-  # unsat because there exists an int that can defeat this
   assert s.check() == unsat
-  # alternative of above
   s.pop()
   s.push()
   c = Const(str(uuid4()), P.sort)
