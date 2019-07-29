@@ -5,7 +5,7 @@ In the last section, we saw that `int?` is a validator.  We saw that `<5?` is al
 We have also seen that functins defined with `fun` take a validator and use it to construct the domain of the function.  For example:
 
 ```
-w> foo = fun [int?] a0 + 1
+w> foo = fun [int?] (+ a0 1)
 w> == int (dom foo)
 true
 ```
