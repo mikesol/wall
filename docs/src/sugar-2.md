@@ -65,10 +65,10 @@ w> red!! [ \ 0 1 \ 2 3 ] (s+ [ \ k (+ k v ) ]) []
 
 ## Namespace conflicts
 
-As mentioned, Wall does not allow for two elements to have the same name in the same scope *or* in nested scopes.  This poses a challenge if we want to nest maps.  To get around it, we have the following (very lazy) functions for *map* and *red* that create different variable names.
+As mentioned, Wall does not allow for two elements to have the same name in the same scope *or* in nested scopes.  This poses a challenge if we want to nest maps.  To get around it, we have the following (very lazy) versions for *map* and *red* that create different variable names in the range of `a-z`.
 
 ```
-w> foo = [ \ 0 [ \ 1 2 ] ]
-w> map!!a-b foo [ \ a.+ 1 (map!!c-d b [ \ (c.+ 2) (d.+ 3) ]) ]
-[ \ 1 [ \ 3 5 ] ]
+w> foo = [[1 2] [3] [4 5 6]]
+w> map!a foo (map!b a (+ b 1))
+[ [ 2 3 ] [ 4 ] [ 5 6 7 ] ]
 ```
