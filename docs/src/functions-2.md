@@ -249,7 +249,7 @@ w> ran { 1 2 3 4 }
 [ 3 4 ]
 ```
 
-Lastly, while we invoke functions using a syntax `foo 1`, we can also invoke them using the function `invoke`:
+Lastly, while we invoke functions using a syntax `foo 1`, we can also invoke them using the function `invoke`.
 
 ```
 w> { 1 2 3 4 } 1
