@@ -1,6 +1,6 @@
 # Functions II
 
-We have already seen several pre-defined functions in Wall, like `car`, `cdr` etc.  There are many more: `<`, `+`, `cos`, `map`, etc.  Wall pre-defines hundreds of functions in the language that you can use right out of the box.  They are pre-defined for several reasons
+Wall predefines hundreds of functions in the language that you can use right out of the box.  They are predefined for several reasons
 
 - they would be really difficult or bothersome to define; and/or
 - the maintainers have an opinionated veiw about how they should be defined; and/or
