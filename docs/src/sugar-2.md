@@ -2,6 +2,25 @@
 
 More sugar!!!
 
+## String constants
+
+You've likely run into the scenario before where you create a string and assign it to the same name as the string.
+
+```
+w> FOOBAR = "FOOBAR"
+```
+
+In Wall, you can accomplish the same thing using the `\` morcel:
+
+```
+w> \ FOOBAR
+w> FOOBAR
+"FOOBAR"
+w> \ #DELICIOUSLY LONG#
+w> #DELICIOUSLY LONG#
+"DELICIOUSLY LONG"
+```
+
 ## Pattern matching
 
 What would a functional language be without pattern matching?  Pattern matching works in assignment or in `@` blocks.  Patterns are always functions that map value names to operations on the object on the right that would yield that value.
