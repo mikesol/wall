@@ -8,7 +8,7 @@ w> z 5
 120
 ```
 
-# Strategies
+## Strategies
 
 Under the hood, Wall does its best to handle most recursive functions, but some are too difficult for it to stomach.  For example, Wall is not smart enough (yet) to evaluate the following code and will throw an error.
 
