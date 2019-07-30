@@ -71,8 +71,8 @@ Error. The function `xmap { 1 2 3 4 }` does not contain `(* 0)` in its domain.
 ```
 w> red [1 2 3] + 0
 6
-w> red :[[1 2] [2 3] [3]] s+ []
-[1 2 3]
+w> red :[:[1 2] :[2 3] :[3]] s+ :[]
+:[ 1 2 3 ]
 ```
 
 If reduce is being performed on a set and the function is not transitive, Wall will throw an error.
