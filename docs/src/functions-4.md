@@ -40,8 +40,10 @@ For the supremely lazy, there is `<< n` that takes `n` arguments whose validator
 
 ```
 w> foo = << 2 (fmap! ($? (set? a0) a0 [a0]) (== a1 k))
-w> foo [1 2 3] 2
+w> foo :[1 2 3] 2
 { 1 false 2 true 3 false }
 w> foo true true
 { true true }
+w> (foo int 2) 3
+false
 ```
