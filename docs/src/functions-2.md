@@ -123,24 +123,18 @@ w> re:match '123 "123 foo bar" 0
 "123"
 ```
 
-## Comparisons
+## Numeric comparisons
 
 Not surprisingly...
 
 ```
 w> < 3 4
 true
-w> < 4 3
+w> > 3 4
 false
 w> <= 4 4
 true
-w> == 4 3
-false
-w> == [1 2] [2 1]
-true
 ```
-
-Ok, the last one may have been a bit surprising.  In Wall, equality means "contains the same stuff."  So if two sets or two pairs have the same stuff, they are equal according to Wall.
 
 ## Logic
 
