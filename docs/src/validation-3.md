@@ -22,7 +22,7 @@ false
 
 ```
 w> age-rule = rules [int? [(<? 0) (just 0)] [(>? 150) (just 150)]]
-w> congrats = fun [age-rule] `Congratulations! You are ${} years old!`
+w> congrats = fun [age-rule] `Congratulations! You are ${a0} years old!`
 w> congrats 5
 "Congratulations! You are 5 years old."
 w> congrats -10
