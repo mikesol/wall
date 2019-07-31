@@ -8,7 +8,7 @@ w> == + +'
 true
 ```
 
-The same can be accomplished using validators using `fun` and `fun!`.
+The same can be accomplished with validators using `fun` and `fun!`.
 
 ## `fun` and `fun!`
 
