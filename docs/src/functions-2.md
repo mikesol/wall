@@ -93,6 +93,19 @@ w> log 10 100
 2
 ```
 
+## Numeric comparisons
+
+Not surprisingly...
+
+```
+w> < 3 4
+true
+w> > 3 4
+false
+w> <= 4 4
+true
+```
+
 ## Strings
 
 Strings act like lists in Wall and, as such, can be invoked to yield a value.  Specifically, they can be invoked with an index or list of indices to yield a substirng.
@@ -123,20 +136,7 @@ w> re:match '123 "123 foo bar" 0
 "123"
 ```
 
-## Numeric comparisons
-
-Not surprisingly...
-
-```
-w> < 3 4
-true
-w> > 3 4
-false
-w> <= 4 4
-true
-```
-
-## Logic
+## Boolean logic
 
 Also not surprisingly...
 
