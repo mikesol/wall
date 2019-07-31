@@ -179,29 +179,29 @@ w> sym2str #hello#
 Two sets can be combined using `s+`.  An element can be added to a set using `s+e`.
 
 ```
-w> s+ [1 2 3] [2 3 4]
-[1 2 3 4]
-w> s+e [1 2 3] 5
-[1 2 3 5]
+w> s+ :[1 2 3] :[2 3 4]
+:[ 1 2 3 4 ]
+w> s+e :[1 2 3] 5
+:[ 1 2 3 5 ]
 ```
 
 The difference of two sets is `s-`, and an element can be taken from a set using `s-e`. Note that if any elemetn from the stuff to be taken away is not present in the original set, an error will be thrown.
 
 ```
-w> s- [1 2 3] [2 3]
-[1]
-w> s-e [1 2 3] 1
-[2 3]
-w> s- [1 2 3] [3 4]
-Error. The function `s- [1 2 3]` does not contain the element `[3 4]` in its domain.
+w> s- :[1 2 3] :[2 3]
+:[ 1 ]
+w> s-e :[1 2 3] 1
+:[ 2 3 ]
+w> s- :[1 2 3] :[3 4]
+Error. The function `s- :[ 1 2 3 ]` does not contain the element `:[ 3 4 ]` in its domain.
 ```
 
 Set inclusion can be tested with `in?`, and subset-itude can be tested with `subs?`.
 
 ```
-w> in? 1 [1 2 3 4]
+w> in? 1 :[1 2 3 4]
 true
-w> subs? [1] [1 2 3 4]
+w> subs? :[1] :[1 2 3 4]
 true
 ```
 
@@ -229,15 +229,17 @@ w> concat [1 2 3] [4 5 6]
 
 ## Functions
 
-Similar functions `f+` and `f-` exist for functions.
+Similar functions `f+`, `f-`, and `f-e` exist for functions.
 
 ```
 w> f+ { 1 2 3 4 } { 5 6 7 8 }
 { 1 2 3 4 5 6 7 8 }
 w> f+ { 1 2 3 4 } { 3 5 7 8 }
 { 1 2 3 5 7 8 }
-w> f- { 1 2 3 4 } 1
+w> f-e { 1 2 3 4 } 1
 { 3 4 }
+w> f- { 1 2 3 4 } :[1 3]
+{}
 ```
 
 And who could forget classics like `dom`, which returns a function's domain, and `ran`, which returns its range?

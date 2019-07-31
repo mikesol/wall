@@ -1,6 +1,14 @@
 # Functions IV
 
-Somtimes, you would like to define your own functions over an infinite domain, like all integers.  To do this, wall, has `fun` and `fun!`.
+Somtimes, you would like to define your own functions over an infinite domain, like all integers.  We have already seen a way to do this using `fmap`.
+
+```
+w> +' = fmap!a int (fmap!b int (+ a b))
+w> == + +'
+true
+```
+
+The same can be accomplished using validators using `fun` and `fun!`.
 
 ## `fun` and `fun!`
 

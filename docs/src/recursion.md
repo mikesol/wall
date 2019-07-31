@@ -8,6 +8,8 @@ w> z 5
 120
 ```
 
+## Strategies
+
 Under the hood, Wall does its best to handle most recursive functions, but some are too difficult for it to stomach.  For example, Wall is not smart enough (yet) to evaluate the following code and will throw an error.
 
 ```
@@ -55,3 +57,14 @@ true
 ```
 
 In spite of this limitation, `ter` is an effective, if not verbose, method to hack around compilation errors from recursive functions.
+
+## Recursive predefined functions
+
+The function `red` as well as all functions based on it are recursive and run into the same problems as above.  Thus, even for some trivial problems, Wall throws a compilation error.
+
+```
+w> == 0 (red (map everything 0) + 0)
+Error. Relationship between the objects is unknown.
+```
+
+Hopefully, in the future, recursive function support in Wall will become more robust.

@@ -40,27 +40,18 @@ Note that pattern matching only works on parts of values that have no ambiguity.
 We've seen functions like `map` and `red`, but they have much more usable variants called `map!` and `red!` that use `@` under the hood to create some yummy named things.
 
 ```
-w> min0x = map! int \ k $? k .$> 0 0 k
+w> min0x = fmap! int (? (< k 0) 0 k)
 w> min0x 4
 4
 w> min0x -1
 0
 ```
 
-Under the hood, `map!` and `fmap!` inject a variable `k` into the local context using `@` under the hood.  `fmap!` also has a variant `fmap!!` that injects `k` and `v` for the key and value, respectively.
-
-```
-w> fmap!! { 0 1 2 3 4 5 } (+ k v)
-{ 0 1 2 5 4 9 }
-```
-
-The same is true of `red` - `red!` injects the accumulator `a` and the key `k`, while `red!!` throws in v for good measure.
+The same is true of `red` - `red!` injects the accumulator `a` and the key `k`.
 
 ```
 w> red! [1 2 3] (+ a (* 2 k)) 0
 12
-w> red!! [ \ 0 1 \ 2 3 ] (s+ [ \ k (+ k v ) ]) []
-[ \ 0 1 \ 2 5 ]
 ```
 
 ## Namespace conflicts
