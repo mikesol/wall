@@ -12,6 +12,6 @@ Wall is a good fit for programmers that work a lot with asynchronous IO and enjo
 
 This document provides a gentle introduction to Wall, built very much the way the language is itself.  We recommend reading it sequentially.  In it, there are ample links to reference materials for further exploration.
 
-## Where is Wall?
+## Where is the source code?
 
-The source code for Wall is under active development on [GitHub](https://www.github.com/mikesol/wall).
+The source code for this documentation as well as the Wall language itself is under active development on [GitHub](https://www.github.com/mikesol/wall).
