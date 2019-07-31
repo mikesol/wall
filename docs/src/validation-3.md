@@ -4,7 +4,7 @@ Up until now, we have only seen validators that can accept or reject an argument
 
 ## `rules`
 
-Building rules in Wall is done with the `rules` function. `rules` accepts a list containing *either* validators *or* a two-element list with a validator and a change to be performed if the validator fails.  `rules` will apply itself until the validator passes or fails, and if it can potentially result in infinite recursion, it will raise a compilation error.
+Building rules in Wall is done with the `rules` function. `rules` accepts a list where each element is *either* a validator *or* a list containing an odd number of members in the pattern `[v0 f0 v1 f1 ... vN]` where `v` is a validator and `f` is a function to be applied to the argument if the validator fails.  `rules` will apply itself until the validator passes or fails, and if it can potentially result in infinite recursion, it will raise a compilation error.
 
 ```
 w> age-rule = rules [int? [(<? 0) (just 0)] [(>? 150) (just 150)]]
