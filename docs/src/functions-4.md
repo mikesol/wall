@@ -12,7 +12,7 @@ The same can be accomplished with validators using `fun` and `fun!`.
 
 ## `fun` and `fun!`
 
-`fun` takes two arguments: a list of validators and any expression, and returns a nested function mapping the first domain to the second domain, the second domain to the third domain, etc. until it reaches the range, which is just the expression supplied to `fun` or `fun!`.  Under the hood, both `fun` and `fun!` use `@{}` to inject locally-scoped named values into the computational context.
+`fun` takes two arguments: a list of validators and any expression.  It uses the validators to construct the domain of the (nested) function(s), and uses the expression to construct the range.
 
 In the case of `fun`, values named `a0, a1, ... aN` are injected into the context, where `N` is the length of the incoming list.
 
