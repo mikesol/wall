@@ -106,6 +106,25 @@ w> <= 4 4
 true
 ```
 
+## Boolean logic
+
+Also not surprisingly...
+
+```
+w> & true false
+false
+w> | true false
+true
+w> x| false false
+true
+w> -> true false
+false
+w> <-> true true
+true
+w> ? true 0 1
+0
+```
+
 ## Strings
 
 Strings act like lists in Wall and, as such, can be invoked to yield a value.  Specifically, they can be invoked with an index or list of indices to yield a substirng.
@@ -134,25 +153,6 @@ w> split "has spaces" " " 0
 "has"
 w> re:match '123 "123 foo bar" 0
 "123"
-```
-
-## Boolean logic
-
-Also not surprisingly...
-
-```
-w> & true false
-false
-w> | true false
-true
-w> x| false false
-true
-w> -> true false
-false
-w> <-> true true
-true
-w> ? true 0 1
-0
 ```
 
 ## Conversion
