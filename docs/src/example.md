@@ -22,8 +22,7 @@ We rewrite our program with the following tweaks.
 
 ```
 // random-string.wall
-\import ['http:get] 'http-client
-\import ['xJsonString] 'json
+\import ['http:get 'xJsonString] 'http-client
 body = (http:get 'https://www.randomstring.com) 'body
 input = xJsonString body
 badNews = "Sorry, no random string today!"
@@ -42,10 +41,10 @@ $ wall -e random-string.wall
 Sorry, no random string today.
 ```
 
-In the function above, `xJsonString` is a rule provided in the 'json library. Let's look at its definition:
+In the function above, `xJsonString` is a rule provided in the `http` library, which is imported into `http-client`. Let's look at its definition:
 
 ```
-// json.wall
+// http.wall
 xJsonString = rules [http:200? [http:json-response? parseJson] string?]
 ```
 
