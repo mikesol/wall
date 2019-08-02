@@ -1,4 +1,4 @@
-# Wall
+# Example
 
 We can combine functions and modules into powerful constructs to validate input at compile time.  Let's explore a short Wall program that shows some of these benefits.
 
