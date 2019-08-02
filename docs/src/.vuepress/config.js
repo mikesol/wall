@@ -48,13 +48,13 @@ module.exports = {
             title: 'Soaring',
             collapsable: true,
             children: [
-              ['/functions-5', 'Functions V'],
               ['/modules', 'Modules'],
               ['/packages', 'Packages'],
               ['/indeterminacy', 'Indeterminacy'],
               ['/validation-3', 'Validation III'],
               ['/io', 'IO'],
               ['/threading', 'Threading']
+              ['/wall', 'Wall'],
             ]
           },
           {

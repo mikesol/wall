@@ -23,8 +23,30 @@ We rewrite our program with the following tweaks.
 ```
 // random-string.wall
 \import ['http:get] 'http-client
-\import ['isJsonString?] 'json
+\import ['xJsonString] 'json
 body = (http:get 'https://www.randomstring.com) 'body
-input = rules [[isJsonString?] (parseJson body)]
-++ "Here's a random string:" ((parseJson body) 'result)
+input = xJsonString body
+badNews = "Sorry, no random string today!"
+goodNews = fmap! string (++ "Here's a random string:" k)
+input == false ? badNews (goodNews (input 'success))
 ```
+
+And now, when we run it...
+
+```
+$ wall -e random-string.wall
+Here's a random string: foo.
+$ wall -e random-string.wall
+Here's a random string: bar.
+$ wall -e random-string.wall
+Sorry, no random string today.
+```
+
+In the function above, `xJsonString` is a rule provided in the 'json library. Let's look at its definition:
+
+```
+// json.wall
+xJsonString = rules [http:200? [http:json-response? parseJson] string?]
+```
+
+`xJsonString` will return `{ 'success "some string" }` upon success and `false` upon failure.
