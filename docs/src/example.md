@@ -43,11 +43,11 @@ $ wall -e random-string.wall
 Sorry, no random string today.
 ```
 
-In the function above, `xJsonString` is a rule provided in the `http` library, which is imported into `http-client`. Let's look at its definition:
+In the function above, `x-json-string` is a rule provided in the `http` library, which is imported into `http-client`. Let's look at its definition:
 
 ```
 // http.wall
-xJsonString = rules [http:200? [http:json-response? parse-json-response] string?]
+x-json-string = rules [http:200? [http:json-response? parse-json-response] string?]
 ```
 
-`xJsonString` will return `{ 'success "some string" }` upon success and `false` upon failure.
+`x-json-string` will return `{ 'success "some string" }` upon success and `false` upon failure.
