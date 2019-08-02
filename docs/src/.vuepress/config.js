@@ -53,8 +53,8 @@ module.exports = {
               ['/indeterminacy', 'Indeterminacy'],
               ['/validation-3', 'Validation III'],
               ['/io', 'IO'],
-              ['/threading', 'Threading']
-              ['/wall', 'Wall'],
+              ['/threading', 'Threading'],
+              ['/wall', 'Wall']
             ]
           },
           {
