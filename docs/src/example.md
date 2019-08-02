@@ -23,9 +23,9 @@ We rewrite our program with the following tweaks.
 
 ```
 // random-string.wall
-\import ['http:get 'xJsonString] 'http-client
+\import ['http:get 'x-json-string] 'http-client
 rs = http:get 'https://www.randomstring.com
-input = xJsonString rs
+input = x-json-string rs
 badNews = "Sorry, no random string today!"
 goodNews = fmap! string (++ "Here's a random string:" k)
 input == false ? badNews (goodNews (input 'success))
