@@ -198,22 +198,11 @@ def hoist2(v, tl = W.level):
   l = SORT_TO_W[v.sort()]
   if l == P:
     return hoist(v, tl.level)
-  # for functions, the problem is that if an unhoisted x produced
-  # a non-never y, we will want to make that x produce never
-  # but the hoisted version produce the desired y
-  # this is an issue because hoisted to unhoisted is one to many
-  # so there is no way to have Lambda(hoisted_x) and somehow get an
-  # unhoisted x from that?
-  # hoisted = Lambda(x,
-  #   If(unhoisted(x), never,
-  #   If(Exists(y, unhoisted(y) && old[y] != never && x == hoist(y)), <<<-problem old[y] ))
-  # this illustrates the problem. there could be infinite old[y]'s that satisfy this constraint
-  # how do we choose?
-  # one way to do it is to always point to the hoisted version
-  # so
-  # hoisted = Lambda(x, If(unhoisted(x), hoisted[hoist[x]], ... ))
-  # of course, the recursive definition will probably cause issues with
-  # qualifiers and whatnot...
+  # basic problem is that we have
+  # { 'a { 'a { 'a id } } } 'a 'a 'a
+  # this gets the id function, but it is the id function on level -3
+  # how do we raise it to -1?
+  # we are stuck, because even if -3 is there, -1 is 
   if l.is_fun(v):
     pass
   # problem here: we will just hit an infinite loop in compile
