@@ -24,8 +24,8 @@ jobs:
           name: install dependencies
           command: |
             cd src
-            python3 -m venv .venv
-            .venv/bin/activate
+            python3 -m venv venv
+            venv/bin/activate
             pip install --upgrade pip
             pip install -r requirements.txt
 
@@ -33,5 +33,5 @@ jobs:
           name: run tests
           command: |
             cd src
-            .venv/bin/activate
+            venv/bin/activate
             pytest
