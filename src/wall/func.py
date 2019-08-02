@@ -209,7 +209,11 @@ def hoist2(v, tl = W.level):
   #   If(Exists(y, unhoisted(y) && old[y] != never && x == hoist(y)), <<<-problem old[y] ))
   # this illustrates the problem. there could be infinite old[y]'s that satisfy this constraint
   # how do we choose?
-  #
+  # one way to do it is to always point to the hoisted version
+  # so
+  # hoisted = Lambda(x, If(unhoisted(x), hoisted[hoist[x]], ... ))
+  # of course, the recursive definition will probably cause issues with
+  # qualifiers and whatnot...
   if l.is_fun(v):
     pass
   # problem here: we will just hit an infinite loop in compile
