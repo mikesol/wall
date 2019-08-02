@@ -54,7 +54,7 @@ module.exports = {
               ['/validation-3', 'Validation III'],
               ['/io', 'IO'],
               ['/threading', 'Threading'],
-              ['/wall', 'Wall']
+              ['/example', 'Example']
             ]
           },
           {
