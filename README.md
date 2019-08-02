@@ -1,6 +1,6 @@
 # Wall
 
-[![CircleCI](https://circleci.com/gh/mikesol/wall.svg?style=svg)](https://circleci.com/gh/mikesol/wall)
+[![CircleCI](https://circleci.com/gh/mikesol/wall/tree/wall.svg?style=svg)](https://circleci.com/gh/mikesol/wall/tree/wall)
 
 
 This is the base repository for the Wall programming language, a language that I would like to help implement one day.
