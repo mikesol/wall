@@ -178,6 +178,43 @@ def apFun(f, x):
   return asfun[hoist(x, (w.level - 1) - SORT_TO_W[x.sort()].level)]
 
 ######################
+# Hoist
+######################
+
+def hoist2(v, tl = W.level):
+  # drill down to hit the first thing we can elevate
+  # once we hit this, emit a version of that at the current level
+  # if we hit a primitive, emit a series of downs to the primitive
+  l = SORT_TO_W[v.sort()]
+  if l == P:
+    return hoist(v, tl.level)
+  # for functions, the problem is that if an unhoisted x produced
+  # a non-never y, we will want to make that x produce never
+  # but the hoisted version produce the desired y
+  # this is an issue because hoisted to unhoisted is one to many
+  # so there is no way to have Lambda(hoisted_x) and somehow get an
+  # unhoisted x from that?
+  # hoisted = Lambda(x,
+  #   If(unhoisted(x), never,
+  #   If(Exists(y, unhoisted(y) && old[y] != never && x == hoist(y)), <<<-problem old[y] ))
+  # this illustrates the problem. there could be infinite old[y]'s that satisfy this constraint
+  # how do we choose?
+  #
+  if l.is_fun(v):
+    pass
+  # problem here: we will just hit an infinite loop in compile
+  # time because we will keep iterating the checks, meaning that
+  # the checks themselves do not hit a stop condition, they
+  # just emit a stop condition indefinitely
+  # AFAIK, there is no procedure that can indicate "hoist on list"
+  # or rather, we would have to have an array called hoist
+  # hoist == Lambda(x, If(ll.is_nil(x), x, ll.cons(shoist(ll.car(x), hoist[ll.cdr(x)]))))
+  elif l.is_list(v):
+    pass
+  elif l.
+  
+
+######################
 # Math
 ######################
 
