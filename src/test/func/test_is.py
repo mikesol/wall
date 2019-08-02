@@ -96,3 +96,19 @@ def test_is_set():
   s.push()
   s.add(isReal(i) == P.bool(True))
   assert s.check() == unsat
+
+def test_is_subtype():
+  s = Solver()
+  a = Array(str(uuid4()), level(0).sort, level(0).sort)
+  b = Array(str(uuid4()), level(0).sort, level(0).sort)
+  a = Store(a, P.int(5), P.bool(True))
+  aa = level(1).fun(a)
+  bb = level(1).fun(b)
+  s = Solver()
+  s.push()
+  s.add(isSubtype(bb, aa) == P.bool(True))
+  assert s.check() == sat
+  s.pop()
+  s.push()
+  s.add(isSubtype(aa, bb) == P.bool(False))
+  assert s.check() == sat

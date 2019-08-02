@@ -114,6 +114,16 @@ def isSet(v):
 def isSeq(v):
   return _isC(v, 'is_seq')
 
+def hasAllKeys(a, b):
+  '''
+  Returns P.bool(True) if all the keys that are not never in `a`
+  are also not never in `b`. 
+  '''
+  l = SORT_TO_W[a.sort()]
+  c = Const(str(uuid4()), l.funa(a).domain())
+  # todo - widen to never at arbitrary level
+  return P.bool(Not(Exists(c, And(Not(l.funa(a)[c] == P.never), l.funa(b)[c] == P.never))))
+
 #########################
 # Primitive get
 #########################
@@ -211,7 +221,7 @@ def hoist2(v, tl = W.level):
   # hoist == Lambda(x, If(ll.is_nil(x), x, ll.cons(shoist(ll.car(x), hoist[ll.cdr(x)]))))
   elif l.is_list(v):
     pass
-  elif l.
+  # etc...
   
 
 ######################
