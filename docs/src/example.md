@@ -9,14 +9,15 @@ In our program, we are calling an API called `randomstring.com` that returns a r
 \import ['http:get] 'wall-client
 \import ['parse-json] 'json
 body = (http:get 'https://www.randomstring.com) 'body
-++ "Here's a random string:" ((parse-json body) 'result)
+response = body 'response
+++ "Here's a random string:" ((parse-json response) 'result)
 ```
 
 When we invoke wall with the `-e` flag for execute, we get the following error.
 
 ```
 $ wall -e random-string.wall
-Error. The function `parseJson body` may not contain the key `'result` in its domain.
+Error. The function `body` may not contain the key `'response` in its domain.
 ```
 
 We rewrite our program with the following tweaks.
