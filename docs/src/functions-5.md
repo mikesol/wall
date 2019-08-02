@@ -1,35 +1,30 @@
-# Functions V
+# Wall
 
-In the last section, we saw that `int?` is a validator.  We saw that `<5?` is also a validator.  Both are functions that map all possible objects to either `true` or `false`.
+We can combine functions and modules into powerful constructs to validate input at compile time.  Let's explore a short Wall program that shows some of these benefits.
 
-We have also seen that functins defined with `fun` take a validator and use it to construct the domain of the function.  For example:
-
-```
-w> foo = fun [int?] (+ a0 1)
-w> == int (dom foo)
-true
-```
-
-So, what if we construct a similar function with `<5?`?  Let's see:
+In our program, we are calling an API called `randomstring.com` that returns a random string.
 
 ```
-w> <5? = << 1 (& (int? a0) (< a0 5))
-w> foo = fun [<5?] a0 + 1
-w> == int (dom foo)
-false
-w> == (filt! int (>= 5)) (dom foo)
-true
+// random-string.wall
+\import ['http:get] 'wall-client
+body = (http:get 'https://www.randomstring.com) 'body
+++ "Here's a random string:" ((parseJson body) 'result)
 ```
 
-Custom validators also enforce compile-time errors for invalid input.
+When we invoke wall with the `-e` flag for execute, we get the following error.
 
 ```
-w> <5? = ?ify (filt! int (> 5))
-w> foo = fun [_? <5?] (? (> a1 3) 0 a0)
-w> foo 'hello -1
-'hello
-w> foo {} 4
-0
-w> foo {} 10
-Error. The function `foo {}` does not contain the value `10` in its domain.
+$ wall -e random-string.wall
+Error. The function `parseJson body` may not contain the key `'result` in its domain.
+```
+
+We rewrite our program with the following tweaks.
+
+```
+// random-string.wall
+\import ['http:get] 'http-client
+\import ['isJsonString?] 'json
+body = (http:get 'https://www.randomstring.com) 'body
+input = rules [[isJsonString?] (parseJson body)]
+++ "Here's a random string:" ((parseJson body) 'result)
 ```

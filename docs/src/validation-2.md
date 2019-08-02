@@ -35,6 +35,21 @@ w> == <5? yet-another<5?
 true
 ```
 
+## Using your own validators
+
+You can use your own validators the same way you'd use a pre-defined validator in any Wall function defined by `fun` or `fun!`.
+
+```
+w> <5? = ?ify (filt! int (> 5))
+w> foo = fun [_? <5?] (? (> a1 3) 0 a0)
+w> foo 'hello -1
+'hello
+w> foo {} 4
+0
+w> foo {} 10
+Error. The function `foo {}` does not contain the value `10` in its domain.
+```
+
 ## Strategies for making validators
 
 There are two common strategies to make a validator:
