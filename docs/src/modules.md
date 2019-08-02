@@ -21,7 +21,6 @@ false
 ```
 In case you want to rename a function, you can use a pair in import:
 
-
 ```
 // exportables.wall
 foo = <<! _? >> a0

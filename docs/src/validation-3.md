@@ -4,15 +4,21 @@ Up until now, we have only seen validators that can accept or reject an argument
 
 ## `rules`
 
-Building rules in Wall is done with the `rules` function. `rules` accepts a list where each element is *either* a validator *or* a list containing an odd number of members in the pattern `[v0 f0 v1 f1 ... vN]` where `v` is a validator and `f` is a function to be applied to the argument if the validator fails.  `rules` will apply itself until the validator passes or fails, and if it can potentially result in infinite recursion, it will raise a compilation error.
+Building rules in Wall is done with the `rules` function. `rules` accepts a list where each element is *either*
+
+- a validator; *or*
+- a two-element list with a validator and a function to be applied to the input if the validation succeeds; *or*
+- a two-element list with a validator and a function to be applied to the input if the validation succeeds and a function to be applied to the input if the validation fails.
+
+The rules in the list are applied from left to right.  As a convention, rules in Wall start with the letter `x`.
 
 ```
-w> age-rule = rules [int? [(<? 0) (just 0)] [(>? 150) (just 150)]]
-w> age-rule 1
+w> xAge = rules [int? [(>=? 0) id (just 0)] [(<? 150) id (just 150)]]
+w> xAge 1
 { 'success 1 }
-w> age-rule -1
+w> xAge -1
 { 'success 0 }
-w> age-rule 'foo
+w> xAge 'foo
 false
 ```
 
@@ -21,8 +27,8 @@ false
 `fun` and `fun!` accept rules as well as validators.
 
 ```
-w> age-rule = rules [int? [(<? 0) (just 0)] [(>? 150) (just 150)]]
-w> congrats = fun [age-rule] `Congratulations! You are ${a0} years old!`
+w> xAge = rules [int? [(<? 0) (just 0)] [(>? 150) (just 150)]]
+w> congrats = fun [xAge] `Congratulations! You are ${a0} years old!`
 w> congrats 5
 "Congratulations! You are 5 years old."
 w> congrats -10

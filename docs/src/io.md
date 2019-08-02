@@ -58,10 +58,10 @@ Error. The function `file 'r 'foo.txt` may not contain `value in its domain.
 
 ## Network calls
 
-We recommend using a high-level networking library for network `io`, like `wall-server` or `wall-client`.
+We recommend using a high-level networking library for network `io`, like `http-server` or `http-client`.
 
 ```
-w> \import ['http:get] 'wall-client
+w> \import ['http:get] 'http-client
 w> http:get 'https://www.randomstring.com
-{ 'value 'foo }
+{ 'code 200 'headers { ... } 'body '"foo" }
 ```
