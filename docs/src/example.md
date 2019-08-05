@@ -6,7 +6,7 @@ In our program, we are calling an API called `randomstring.com` that returns a r
 
 ```
 // random-string.wall
-\import ['http:get] 'wall-client
+\import ['http:get] 'http-client
 \import ['parse-json] 'json
 body = (http:get 'https://www.randomstring.com) 'body
 response = body 'response
