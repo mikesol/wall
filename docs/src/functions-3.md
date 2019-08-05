@@ -66,19 +66,11 @@ Error. The function `xmap { 1 2 3 4 }` does not contain `(* 0)` in its domain.
 
 ## `red`
 
-`red` is used to perform a reduction over a list or set. The penultimate argument is a function that takes two arguments: the aggregator and the next value.  The final argument is an initial value to serve as the aggregator.
+`red` is used to perform a reduction over a list. The penultimate argument is a function that takes two arguments: the aggregator and the next value.  The final argument is an initial value to serve as the aggregator.
 
 ```
 w> red [1 2 3] + 0
 6
-w> red :[:[1 2] :[2 3] :[3]] s+ :[]
-:[ 1 2 3 ]
 ```
 
-If reduce is being performed on a set and the function is not transitive, Wall will throw an error.
-
-```
-w> red :[1 2 3 4 5] mod 0
-Error. The function `red :[ 1 2 3 4 5 ]` does not have `mod` in its domain.
-```
-
+Importantly, `red` cannot be performed on a set.

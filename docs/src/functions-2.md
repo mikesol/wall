@@ -219,6 +219,8 @@ w> reverse [1 2 3]
 [ 3 2 1 ]
 w> concat [1 2 3] [4 5 6]
 [ 1 2 3 4 5 6 ]
+w> len [1 2 3]
+3
 ```
 
 ## Functions
