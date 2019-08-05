@@ -199,6 +199,8 @@ w> subs? :[1] :[1 2 3 4]
 true
 ```
 
+Note that Wall is not smart enough to know a set's cardinality, nor can it convert from sets to lists.  If you need to measure a collection's length or need an easy accessor function, use a list.
+
 ## Lists
 
 You can use `car` and `cdr` to get the head and tail of a list.
@@ -219,6 +221,8 @@ w> reverse [1 2 3]
 [ 3 2 1 ]
 w> concat [1 2 3] [4 5 6]
 [ 1 2 3 4 5 6 ]
+w> len [1 2 3]
+3
 ```
 
 ## Functions
