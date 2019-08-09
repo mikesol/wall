@@ -1,6 +1,9 @@
 module.exports = {
   title: 'Wall',
   description: 'The Wall Programming Language',
+  head: [
+    ['link', { rel: 'icon', href: '/logo.png' }]
+  ],
   themeConfig: {
     sidebar: [
       '/',
