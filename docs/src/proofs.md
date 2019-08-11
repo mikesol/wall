@@ -30,3 +30,5 @@ true
 ### Axiom of choice
 
 Informally, the axiom of choice says that if we have a non-empty set, we can choose an arbitrary value from that non-empty set. This is what allows the function `choose` to be possible in Wall for *any* set.
+
+While we can choose a value from any set, because it is impossible to know *which* element it is, we can never remove that element from the set. Counterintuitively, this is even the case in sets that only contain one element. One way to think of this is that while sets contain specific elements, `choice` removes the element's specificity and assigns to it only properties. Thus, even if we are sure that a set `s` contains only one element and that `choice s` will surely choose *that* element, we cannot go backwards from the specific chosen element to the actual element in the set because `choice` erases that element's specificity.
