@@ -1,4 +1,4 @@
-# Tests
+# Tests I
 
 In Wall, tests can be colocated with code or in their own files.  They exist in blocks that start with `@begin-test` and end with `@end-test`.  The named values in these blocks are unavailable to the rest of the file.
 
@@ -12,10 +12,10 @@ foo = 'foo
 baz = 'baz
 @end-before-all
 
-@begin-test "'foo is defined the same as 'baz"
+@begin-test "'foo is defined the same as 'baz in my-func"
 a = my-func foo
 b = my-func baz
-== a b
+expect a 'toEqual b
 @end-test
 
 my-func = { 'foo 'bar 'baz 'bar }

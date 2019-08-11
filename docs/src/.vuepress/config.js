@@ -30,7 +30,8 @@ module.exports = {
           ['/strings', 'Strings'],
           ['/booleans', 'Booleans'],
           ['/functions-2', 'Functions II'],
-          ['/tests', 'Tests'],
+          ['/tests-1', 'Tests I'],
+          ['/validation-1', 'Validation I'],
           ['/sugar-1', 'Sugar I'],
         ]
       },
@@ -41,11 +42,11 @@ module.exports = {
           ['/errors', 'Errors'],
           ['/functions-3', 'Functions III'],
           ['/sets-2', 'Sets II'],
+          ['/validation-2', 'Validation II'],
           ['/sugar-2', 'Sugar II'],
-          ['/validation-1', 'Validation I'],
           ['/functions-4', 'Functions IV'],
           ['/recursion', 'Recursion'],
-          ['/validation-2', 'Validation II']
+          ['/validation-3', 'Validation III']
         ]
       },
       {
@@ -55,8 +56,9 @@ module.exports = {
           ['/modules', 'Modules'],
           ['/packages', 'Packages'],
           ['/indeterminacy', 'Indeterminacy'],
-          ['/validation-3', 'Validation III'],
+          ['/validation-4', 'Validation IV'],
           ['/io', 'IO'],
+          ['/tests-2', 'Tests 2'],
           ['/threading', 'Threading'],
           ['/example', 'Example']
         ]
