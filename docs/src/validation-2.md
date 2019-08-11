@@ -1,113 +1,43 @@
 # Validation II
 
-We've already seen several validators in Wall and seen how they can be used to construct a function with `fun` and `fun!`.  In this section, we will see some more strategies on how to build validators.
+We have seen that Wall validates input whenever there is a function invocation: when it sees `f a`, it asks itself, "Given the properties I know about `a`, does there exist a possible value of `a` that is not in the domain of `f`." There are many ways to construct a domain for a function `f`, but one common way is by using **validators**. In this section, we will introduce validators, and in subsequent sections, we will see how they can be used to define functions.
 
-## Rolling your own validators
+## Validators
 
-Remembering `<5?` from the first validator section, we can write this function several ways.
+Validators are functions that have every possible Wall value in their domain mapped to `true` or `false` in their range.
+
+Wall comes with lots of validators already defined, like `int?`, `complex?`, `0?` etc.
 
 ```
-w> <5? = fmap! everything (? (int? k) (< k 5) false)
-w> also<5? = fun [_?] (& (int? a0) (< a0 5))
-w> <5? 4
+w> int? 1
 true
-w> also<5? 5
+w> #chuck norris# =
+w> #chuck norris?# #chuck norris#
+true
+w> 0? 1
 false
-w> == <5? also<5?
-true
 ```
 
-We could have written our validator like this as well.
+The predefined function `:` will force a compilation error if a value does not pass the validator. This can be a useful form of documentation when working in teams or if you, like most people, are forgetful.
 
 ```
-w> <5? = fmap! everything (? (int? k) (< k 5) false)
-w> another<5? = f+ (fmap everything false) (fmap! int (< k 5))
-w> == <5? another<5?
-true
-```
-
-Yet another strategy is to use the `?ify` function, which creates a validator from a set that should validate positively.
-
-```
-w> <5? = fmap! everything (? (int? k) (< k 5) false)
-w> yet-another<5? = ?ify (filt! int (> 5))
-w> == <5? yet-another<5?
-true
-```
-
-## Using your own validators
-
-You can use your own validators the same way you'd use a pre-defined validator in any Wall function defined by `fun` or `fun!`.
-
-```
-w> <5? = ?ify (filt! int (> 5))
-w> foo = fun [_? <5?] (? (> a1 3) 0 a0)
-w> foo 'hello -1
-'hello
-w> foo {} 4
-0
-w> foo {} 10
-Error. The function `foo {}` does not contain the value `10` in its domain.
-```
-
-## Strategies for making validators
-
-There are two common strategies to make a validator:
-
-- Create a set of elements that are valid and call `?ify` on that set.
-- Define a function that yields an object mapping all elements to either `true` or `false`.
- 
-### `?ify` strategy
-
-The example below shows two validators defined with the `?fy` strategy.
-
-```
-w> a0? = ?ify :[{ 'a 0 }]
-w> a0? { 'a 0 }
-true
-w> a0? 0
-false
-w> n_n+1? = ?ify (dom (fun [int?] { 'n a0 'n+1 (+ a0 1) }))
-w> n_n+1? { 'n 0 'n+1 1 }
-true
-w> n_n+1? { 'n 0 'n+1 2 }
-false
-w> n_n+1? 0
-false
+w> foo = : int? 5
+w> foo
+5
+w> bar = : string? 5
+Error. The key 5 does not exist on the object `:` string?.
 ```
  
-### `fun` strategy
+ ## Writing validators
 
-The example below shows the same two validators defined using `fun`.
+ Writing our own validators is easy!
 
-```
-w> a0? = fun [_?] (a0 == { 'a 0 })
-w> a0? { 'a 0 }
-true
-w> a0? 0
-false
-w> n_n+1? = fun [_?] (
-    (fun? a0) .&
-    (== :['n 'n+1] (dom a0)) .&
-    (== (a0 'n+1) (+ 1 (a0 'n))))
-w> n_n+1? { 'n 0 'n+1 1 }
-true
-w> n_n+1? { 'n 0 'n+1 2 }
-false
-w> n_n+1? 0
-false
-```
-
-## Predefined validators
-
-Wall ships with hundreds of predefined validators that end with `?` *and* functions that work on validators that end with `??`.  The latter functions combine the results of validators - for example `|??` applies the `|` operation to the result of two validators.
-
-Here are some, just as a taste of what is possible:
-
-| Function        | Validates                                         |
-| --------------- | ------------------------------------------------- |
-| `int?`          | Is this an integer?                               |
-| `->? x y`       | Is this a function that takes `x` and returns `y` |
-| `list?`         | Is this a list?                                   |
-| `inside? x`     | Is x inside this?                                 |
-| `<? x`          | Is this less than x?                              | 
+ ```
+ w> <5? = fmap! everything (? (int? k) (< k 5) false)
+ w> <5? 0
+ true
+ w> <5? 5
+ false
+ w> <5? 'foo
+ false
+ ```

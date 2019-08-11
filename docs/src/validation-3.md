@@ -1,38 +1,113 @@
 # Validation III
 
-Up until now, we have only seen validators that can accept or reject an argument.  In real life, this is rarely how things work.  We may want to accept an object if it meets certain criteria, reject it if it meets others, and modify it if it meets yet others.  In this section, we will look at *rules*. Rules, in Wall, produce a function that is in the form `{ 'success "what success looks like" }` *or* `false`.
+We've already seen several validators in Wall and seen how they can be used to construct a function with `fun` and `fun!`.  In this section, we will see some more strategies on how to build validators.
 
-## `rules`
+## Rolling your own validators
 
-Building rules in Wall is done with the `rules` function. `rules` accepts a list where each element is *either*
-
-- a validator; *or*
-- a two-element list with a validator and a function to be applied to the input if the validation succeeds; *or*
-- a two-element list with a validator and a function to be applied to the input if the validation succeeds and a function to be applied to the input if the validation fails.
-
-The rules in the list are applied from left to right.  As a convention, rules in Wall start with the letter `x`.
+Remembering `<5?` from the first validator section, we can write this function several ways.
 
 ```
-w> xAge = rules [int? [(>=? 0) id (just 0)] [(<? 150) id (just 150)]]
-w> xAge 1
-{ 'success 1 }
-w> xAge -1
-{ 'success 0 }
-w> xAge 'foo
+w> <5? = fmap! everything (? (int? k) (< k 5) false)
+w> also<5? = fun [_?] (& (int? a0) (< a0 5))
+w> <5? 4
+true
+w> also<5? 5
+false
+w> == <5? also<5?
+true
+```
+
+We could have written our validator like this as well.
+
+```
+w> <5? = fmap! everything (? (int? k) (< k 5) false)
+w> another<5? = f+ (fmap everything false) (fmap! int (< k 5))
+w> == <5? another<5?
+true
+```
+
+Yet another strategy is to use the `?ify` function, which creates a validator from a set that should validate positively.
+
+```
+w> <5? = fmap! everything (? (int? k) (< k 5) false)
+w> yet-another<5? = ?ify (filt! int (> 5))
+w> == <5? yet-another<5?
+true
+```
+
+## Using your own validators
+
+You can use your own validators the same way you'd use a pre-defined validator in any Wall function defined by `fun` or `fun!`.
+
+```
+w> <5? = ?ify (filt! int (> 5))
+w> foo = fun [_? <5?] (? (> a1 3) 0 a0)
+w> foo 'hello -1
+'hello
+w> foo {} 4
+0
+w> foo {} 10
+Error. The function `foo {}` does not contain the value `10` in its domain.
+```
+
+## Strategies for making validators
+
+There are two common strategies to make a validator:
+
+- Create a set of elements that are valid and call `?ify` on that set.
+- Define a function that yields an object mapping all elements to either `true` or `false`.
+ 
+### `?ify` strategy
+
+The example below shows two validators defined with the `?fy` strategy.
+
+```
+w> a0? = ?ify :[{ 'a 0 }]
+w> a0? { 'a 0 }
+true
+w> a0? 0
+false
+w> n_n+1? = ?ify (dom (fun [int?] { 'n a0 'n+1 (+ a0 1) }))
+w> n_n+1? { 'n 0 'n+1 1 }
+true
+w> n_n+1? { 'n 0 'n+1 2 }
+false
+w> n_n+1? 0
+false
+```
+ 
+### `fun` strategy
+
+The example below shows the same two validators defined using `fun`.
+
+```
+w> a0? = fun [_?] (a0 == { 'a 0 })
+w> a0? { 'a 0 }
+true
+w> a0? 0
+false
+w> n_n+1? = fun [_?] (
+    (fun? a0) .&
+    (== :['n 'n+1] (dom a0)) .&
+    (== (a0 'n+1) (+ 1 (a0 'n))))
+w> n_n+1? { 'n 0 'n+1 1 }
+true
+w> n_n+1? { 'n 0 'n+1 2 }
+false
+w> n_n+1? 0
 false
 ```
 
-## Functions with rules
+## Predefined validators
 
-`fun` and `fun!` accept rules as well as validators.
+Wall ships with hundreds of predefined validators that end with `?` *and* functions that work on validators that end with `??`.  The latter functions combine the results of validators - for example `|??` applies the `|` operation to the result of two validators.
 
-```
-w> xAge = rules [int? [(<? 0) (just 0)] [(>? 150) (just 150)]]
-w> congrats = fun [xAge] `Congratulations! You are ${a0} years old!`
-w> congrats 5
-"Congratulations! You are 5 years old."
-w> congrats -10
-"Congratulations! You are 0 years old."
-w> congrats 'bob
-Error. The function `congrats` does not contain `'bob` in its domain.
-```
+Here are some, just as a taste of what is possible:
+
+| Function        | Validates                                         |
+| --------------- | ------------------------------------------------- |
+| `int?`          | Is this an integer?                               |
+| `->? x y`       | Is this a function that takes `x` and returns `y` |
+| `list?`         | Is this a list?                                   |
+| `inside? x`     | Is x inside this?                                 |
+| `<? x`          | Is this less than x?                              | 
