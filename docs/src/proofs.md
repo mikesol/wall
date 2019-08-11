@@ -1,18 +1,8 @@
 # Proofs
 
-So let's say we have the following Wall session.
+As previously mentioned, Wall keeps track of the properties of all values in the current scope. For example, if `c = 5`, then `c` has the property of being equal to five at compilation time, and at runtime, c *is* five.
 
-```
-w> g = <<! (<? 2) >> + a0 1
-w> y = rand0 ; .* 5
-w> z = rand0 ; .* 2
-w> g z
-1.734243
-w> g y
-Error. The function `g` may not contain key `y`.
-```
-
-This works as expected, but how does Wall know that `g` should fail when `y` is applied?  The intuitive answer is "because Wall knows that `rand0` returns a value between 0 and 1, so y is between 0 and 5, so it may be greater than 2 and thus g cannot ingest it."  But how do we *know* that there exists a number between 0 and 5 such that the number does not exist in the set of numbers between 0 and 2.  Well, we have to proove it.
+Internally, every property about a Wall value is used to prove theorems. Theorems are only ever about function invocation and are in the form *"If A and B and C, then there exists an x such that x = D and x is in the domain of f."* Naturally, *A*, *B*, and *C* need to say something meaningful about both *D* and *f* for a proof to be constructed. Proofs that are not verifiably true underlie every compilation error in Wall.
 
 ## Coq
 
