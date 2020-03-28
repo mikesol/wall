@@ -4,7 +4,7 @@ There are three primitive numeric types in Wall: `int`, `float` and `complex`.
 
 ## `int`
 
-In Wall, `int` represents and integer (surprise!). Integers in Wall are unbounded, which means they can be as big or tiny as you'd like to be. Groups of three digits can be separated by an underscore (`_`).
+In Wall, `int` represents and integer. Integers in Wall are unbounded, which means they can be as big or tiny as you'd like to be. Groups of three digits can be separated by an underscore (`_`).
 
 ```
 w> 5

@@ -20,7 +20,7 @@ true
 
 ## `filt`
 
-Filt, not surprisingly, filters a list or set:
+`filt` filters a list or set:
 
 ```
 w> filt [1 2 3 4] (< 2)
