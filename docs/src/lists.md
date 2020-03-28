@@ -24,6 +24,6 @@ Lists are just functions containing contiguous integers in the range starting fr
 w> a b =
 w> [a b]
 [a b]
-w> { 0 a 1 b}
+w> { 0 a 1 b }
 [a b]
 ```
