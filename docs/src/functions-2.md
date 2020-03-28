@@ -42,7 +42,7 @@ true
 
 ## Math
 
-Not surprisingly, `+` adds two numbers, `-` subtracts them, `*` multiplies them, and `\` divides them.  `\\` is integer division, `mod` is the modulo operation, and `**` is exponentiation.
+`+` adds two numbers, `-` subtracts them, `*` multiplies them, and `\` divides them.  `\\` is integer division, `mod` is the modulo operation, and `**` is exponentiation.
 
 ```
 w> + 1 2
@@ -95,7 +95,7 @@ w> log 10 100
 
 ## Numeric comparisons
 
-Not surprisingly...
+Here are some classic numeric comparisons, like less than and greater than, implemented in wall.
 
 ```
 w> < 3 4
