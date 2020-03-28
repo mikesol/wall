@@ -4,9 +4,7 @@ This is the documentation for the Wall programming language.
 
 ## What is Wall?
 
-Wall is a statically-typed dialect of Lisp with inferred types, dependent types and duck typing. It features a compiler, an interpreter and plugins for various editors.
-
-Wall is a good fit for programmers that work a lot with asynchronous IO and enjoy a functional style.  Its closest relative from the Lisp family is Scheme, but it also takes inspiration from TypeScript, F*, Idris and Haskell.
+Wall is a dialect of Lisp that keeps track of functions' potential domains and ranges at compile time, throwing compile errors if a function is invoked with a value that is potentially outside of its range. Wall's closest relatives from the Lisp family are Scheme and Clojure, but it also takes inspiration from TypeScript, F*, Idris, Haskell, Erlang and Lua.
 
 ## What is this document?
 

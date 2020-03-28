@@ -41,3 +41,7 @@ w> FinalDirection = {
 w> FinalDirection Right Left
 Up
 ```
+
+## You'll be seeing a lot of these
+
+Functions are the only data structure available in Wall. They is inspired by [Lua's tables](https://www.lua.org/pil/2.5.html), which are Lua's only data structure.  That means that, when we see [Sets](./sets-1) and [Lists](./lists-1) later on, they will also be functions.
