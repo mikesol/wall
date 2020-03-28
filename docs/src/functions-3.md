@@ -20,16 +20,25 @@ true
 
 ## `filt`
 
-`filt` filters a list or set:
+`filt` filters a list or funtion based on a predicate applied to the values:
 
 ```
 w> filt [1 2 3 4] (< 2)
 [3 4]
+w> filt {55: 1, 63: 2, 77: 3, 89: 4} (< 2)
+{77: 3, 89: 4}
+```
+
+A version for sets, `filt-s`, applies a predicate to values in a set.
+
+```
+w> filt-s :[1 2 3 4] (< 2)
+:[3 4]
 ```
 
 ## `map`
 
-`map` maps values from a list, set or function to another list, set or function.  To remind you of the various ways we can express map using parentheses and dots, check out the equivalent examples below.
+`map` maps values from a list, set or function to another list, set or function.
 
 ```
 w> map [1 2 3] (+ 3)
@@ -44,33 +53,16 @@ w> {1: 2, 3: 4, 5: 6}.map (* 0)
 { 1: 0, 3: 0, 5: 0 }
 ```
 
-A cousing of `map`, called `fmap`, maps a set, list, or function to a function.
-
-```
-w> fmap [1 2 3] (* 3)
-{ 1: 3, 2: 6, 3: 9 }
-w> fmap :[1 2 3] (* 3)
-{ 1: 3, 2: 6, 3: 9 }
-w> fmap { 'a: 1, 'b: 2, 'c: 3 } (* 3)
-{ 'a: 3, 'b: 6, 'c: 9 }
-```
-
-There is also a function `xmap` that works like `fmap` but is applied to the function's keys. `xmap` needs to be an injunctive function, otherwise the compiler will throw an error.
-
-```
-w> xmap { 1: 2, 3: 4 } (* 3)
-{ 3: 2, 9: 4 }
-w> xmap { 1: 2, 3: 4 } (* 0)
-Error. The function `xmap { 1: 2, 3: 4 }` does not contain `(* 0)` in its domain.
-```
-
 ## `red`
 
-`red` is used to perform a reduction over a list. The penultimate argument is a function that takes two arguments: the aggregator and the next value.  The final argument is an initial value to serve as the aggregator.
+`red` is used to perform a reduction over a function:
+
+- the first argument is the function;
+- the second argument is a sorting function for values in he first argument;
+- the third argument is a function that acts on the aggregator and the next value; and
+- the final argument is an initial value to serve as the aggregator.
 
 ```
-w> red [1 2 3] + 0
+w> red [1 2 3] < + 0
 6
 ```
-
-Importantly, `red` cannot be performed on a set.
