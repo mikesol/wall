@@ -1,6 +1,6 @@
 # Guards I
 
-We have seen that Wall validates input whenever there is a function invocation. When it sees `f a`, it asks itself, "Given the properties I know about `f` and `a`, does there exist a possible value of `a` that is not in the domain of `f`?" There are many ways to construct a domain for a function `f`, but one common way is by using **guards**. In this section, we will introduce guards, and in subsequent sections, we will see how they can be used to define functions.
+We have seen that Wall validates input whenever there is a function invocation. When it sees `f a`, it asks itself, "Given the properties I know about `f` and `a`, does there exist a possible value of `a` that is not in the domain of `f`?" One way to construct a domain for a function `f` is by using **guards**. In this section, we will introduce guards, and in subsequent sections, we will see how they can be used to define functions.
 
 ## Hello guards
 
