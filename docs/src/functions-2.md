@@ -42,7 +42,7 @@ w> just 'foo 4999
 w> == 1 2
 false
 w> c = 2
-w> == { 1 2 } { 1 c }
+w> == { 1: 2 } { 1: c }
 true
 w> == just id
 false
@@ -148,7 +148,7 @@ w> "שלום" O
 "ש"
 w> "שלום peace" 0
 "ש"
-w> "שלום peace" [0 1 2 3 4]
+w> "שלום peace" [0 1: 2, 3: 4]
 "שלום p"
 w> "שלום peace" 5
 "ש"
@@ -180,13 +180,13 @@ w> sym2str #hello#
 
 ## Lists
 
-You can use `car` and `cdr` to get the head and tail of a list.
+You can use `head` and `tail` to get the head and tail of a list.
 
 ```
-w> car [ 6 3 ]
+w> head [ 6 4 3 ]
 6
-w> cdr [ 6 3 ]
-[3]
+w> tail [ 6 4 3 ]
+[4 3]
 ```
 
 `cons` appends to a list, `reverse` reverses a list and `concat` concatenates two lists.
@@ -197,7 +197,7 @@ w> cons 1 []
 w> reverse [1 2 3]
 [ 3 2 1 ]
 w> concat [1 2 3] [4 5 6]
-[ 1 2 3 4 5 6 ]
+[ 1: 2, 3: 4 5 6 ]
 w> len [1 2 3]
 3
 ```
@@ -208,7 +208,7 @@ Two sets can be combined using `s+`.  An element can be added to a set using `s+
 
 ```
 w> s+ :[1 2 3] :[2 3 4]
-:[ 1 2 3 4 ]
+:[ 1: 2, 3: 4 ]
 w> s+e :[1 2 3] 5
 :[ 1 2 3 5 ]
 ```
@@ -227,9 +227,9 @@ Error. The function `s- :[ 1 2 3 ]` does not contain the element `:[ 3 4 ]` in i
 Set inclusion can be by invoking the set with a value (as the set is just a function). Testing if a subset is in a set is achieved with `subs?`.
 
 ```
-w> :[1 2 3 4] 1
+w> :[1: 2, 3: 4] 1
 true
-w> subs? :[1] :[1 2 3 4]
+w> subs? :[1] :[1: 2, 3: 4]
 true
 ```
 
@@ -238,30 +238,30 @@ true
 Just as sets above have `s+`, `s-` and `s-3`, functions have `f+`, `f-`, and `f-e`.
 
 ```
-w> f+ { 1 2 3 4 } { 5 6 7 8 }
-{ 1 2 3 4 5 6 7 8 }
-w> f+ { 1 2 3 4 } { 3 5 7 8 }
-{ 1 2 3 5 7 8 }
-w> f-e { 1 2 3 4 } 1
-{ 3 4 }
-w> f- { 1 2 3 4 } :[1 3]
+w> f+ { 1: 2, 3: 4 } { 5: 6, 7: 8 }
+{ 1: 2, 3: 4, 5: 6, 7: 8 }
+w> f+ { 1: 2, 3: 4 } { 3: 5, 7: 8 }
+{ 1: 2, 3: 5, 7: 8 }
+w> f-e { 1: 2, 3: 4 } 1
+{ 3: 4 }
+w> f- { 1: 2, 3: 4 } :[1 3]
 {}
 ```
 
 Furthermore, `dom` returns a function's domain, and `ran` returns its range.
 
 ```
-w> dom { 1 2 3 4 }
+w> dom { 1: 2, 3: 4 }
 [ 1 2 ]
-w> ran { 1 2 3 4 }
+w> ran { 1: 2, 3: 4 }
 [ 3 4 ]
 ```
 
 Lastly, while we invoke functions using a syntax `foo 1`, we can also invoke them using the function `invoke`.
 
 ```
-w> { 1 2 3 4 } 1
+w> { 1: 2, 3: 4 } 1
 1
-w> invoke  { 1 2 3 4 } 1
+w> invoke  { 1: 2, 3: 4 } 1
 1
 ```
