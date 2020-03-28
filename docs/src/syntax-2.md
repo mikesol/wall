@@ -1,65 +1,94 @@
-# Sugar II
+# Syntax II
 
-More sugar!!!
+Here are some more syntactical conventions in Wall.
 
-## String constants
+## Percent
 
-You've likely run into the scenario before where you create a string and assign it to the same name as the string.
-
-```
-w> FOOBAR = "FOOBAR"
-```
-
-In Wall, you can accomplish the same thing using the `\` morcel:
+Sometimes, when working with a function, it is useful to refer to elements higher up in the function's heirarchy.  One way to do this is to manually create these references.
 
 ```
-w> \ FOOBAR
-w> FOOBAR
-"FOOBAR"
-w> \ #DELICIOUSLY LONG#
-w> #DELICIOUSLY LONG#
-"DELICIOUSLY LONG"
+w> #one level back# =
+w> c = { 'level 'c }
+w> b = { 'level 'b 'next (f+ { #one level back# b } c) }
+w> a = { 'level 'a 'next (f+ { #one level back# a } b) }
+w> #b up# = b #one level back#
+w> == #b up# a
+true
 ```
 
-## Pattern matching
+Wall provides the family of `%` commands to make this sort of manipulation a bit easier.
 
-Pattern matching works in assignment or in `@` blocks.  Patterns are always functions that map value names to operations on the object on the right that would yield that value.
+- `%` the current function
+- `%k` the key pointing to the current value
 
-```
-w> { 'a id 'b id } = { 'a 0 'b 1 }
-w> a
-0
-w> b
-1
-```
+Adding percent signs increases how far in the heirarchy we go.  So, for example, `%%` is the previous function, `%%k` is the key pointing to the key pointing to the current value, etc.
 
-Note that pattern matching only works on parts of values that have no ambiguity.  If an object is created conditionally based on a random value or IO operation, pattern matching will only work on the part of the object that is non-random.
+Sometimes, you want to refer to other bits of a function's *original* enclosure.  To do this, we use the same convention as above, but ending with an exclamation point:
 
-## The `!` family
-
-We've seen functions like `map` and `red`, but they have much more usable variants called `map!` and `red!` that use `@` under the hood to create some yummy named things.
+- `%!`: the *original* current function
+- `%k` the *original* key pointing to the current value
 
 ```
-w> min0x = fmap! int (? (< k 0) 0 k)
-w> min0x 4
-4
-w> min0x -1
-0
+w> a = { 'a { %k (%% 'b) } 'b 1 }
+w> b = { 'a { %k! (%%! 'b) } 'b 1 }
+w> a 'a
+{ 'a 1 }
+w> b 'a
+{ 'a 1 }
+w> c = { 'q (a 'a) 'b 3 }
+w> d = { 'q (b 'a) 'b 3 }
+w> c 'q
+{ 'q 3 }
+w> d 'q
+{ 'a 1 }
 ```
 
-The same is true of `red` - `red!` injects the accumulator `a` and the key `k`.
+Because the un-exclamationed form of `%k`, `%%` etc resolves to *any* enclosing element, there will be no compiler error until you attempt to *access* an object with `%k`, `%%` etc.
 
 ```
-w> red! [1 2 3] (+ a (* 2 k)) 0
-12
+w> a = { %k %%k }
+w> b = { %k! %%k! }
+Error. %% b is not a function.
+w> c = { 0 a }
+w> d = { 0 { 1 a } }
+w> d 0 1
+{ 1 0 }
+w> c 0
+Error. %% c is not a function. 
 ```
 
-## Namespace conflicts
+## Ampersand
 
-As mentioned, Wall does not allow for two elements to have the same name in the same scope *or* in nested scopes.  This poses a challenge if we want to nest maps.  To get around it, we have the following (very lazy) versions for *map* and *red* that create different variable names in the range of `a-z`.
+Sometimes, you need to give something a name only in a limited context and then have the name evaporate.  In Haskell, this is accomplished with `let`.  In Wall, this is accomplished with `@`.  `@` accepts a function with *only* strings in the domain (it will complain otherwise) and has access to all elements in the current *and* outer scopes.
+
 
 ```
-w> foo = [[1 2] [3] [4 5 6]]
-w> map!a foo (map!b a (+ b 1))
-[ [ 2 3 ] [ 4 ] [ 5 6 7 ] ]
+w> @ { 'a 3 'b 2 } { a b b a }
+{ 3 2 2 3 }
 ```
+
+By default `@` do not accumulate, meaning that only the values from the final `@` are useable in the object.  To force an `@` to persist, use `@>`.  To pull in the values from a prior at, use `>@`.  To exclude values from an `@`, use `~`.
+
+```
+w> @ { 'a { 'c 3 } 'b 2 } >@ { 'c (a 'c) } { b c c a }
+{ 3 2 2 { 'c 3 } }
+w> @> { 'a { 'c 3 } 'b 2 } @ { 'c (a 'c) } { b c c a }
+{ 3 2 2 { 'c 3 } }
+```
+
+Anything in `@` cannot conflict with a toplevel name *or* a name in a lower scope.  So the compiler will raise an error for something like this:
+
+```
+w> @ { 'a 1 'b 2 } { @ { 'a 1 'b 2 } a a b b }
+Error. Cannot reassign `a`.
+```
+
+`@` can also come *after* a named `object`, in which case it will persist to *any* time the named `object` is used.
+
+```
+w> b = { 1 0 } @ { 'a 1 }
+w> b a
+3
+```
+
+In editors like VS Code, you can always see the currently defined names in the Wall inspector and their scopes.
