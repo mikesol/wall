@@ -18,7 +18,7 @@ b = my-func baz
 expect a 'toEqual b
 @end-test
 
-my-func = { 'foo 'bar 'baz 'bar }
+my-func = { 'foo: 'bar, 'baz: 'bar }
 ```
 
 ```

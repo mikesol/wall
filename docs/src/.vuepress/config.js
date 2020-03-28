@@ -31,7 +31,6 @@ module.exports = {
           ['/booleans', 'Booleans'],
           ['/functions-2', 'Functions II'],
           ['/tests-1', 'Tests I'],
-          ['/validation-1', 'Validation I'],
           ['/syntax-1', 'Syntax I'],
         ]
       },
@@ -42,11 +41,11 @@ module.exports = {
           ['/errors', 'Errors'],
           ['/functions-3', 'Functions III'],
           ['/sets-2', 'Sets II'],
-          ['/validation-2', 'Validation II'],
+          ['/guards-1', 'Guards I'],
           ['/syntax-2', 'Syntax II'],
           ['/functions-4', 'Functions IV'],
           ['/recursion', 'Recursion'],
-          ['/validation-3', 'Validation III']
+          ['/guards-2', 'Guards II']
         ]
       },
       {
@@ -56,7 +55,6 @@ module.exports = {
           ['/modules', 'Modules'],
           ['/packages', 'Packages'],
           ['/indeterminacy', 'Indeterminacy'],
-          ['/validation-4', 'Validation IV'],
           ['/io', 'IO'],
           ['/tests-2', 'Tests 2'],
           ['/threading', 'Threading'],
