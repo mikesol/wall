@@ -23,7 +23,7 @@ w> #DELICIOUSLY LONG#
 
 ## Pattern matching
 
-What would a functional language be without pattern matching?  Pattern matching works in assignment or in `@` blocks.  Patterns are always functions that map value names to operations on the object on the right that would yield that value.
+Pattern matching works in assignment or in `@` blocks.  Patterns are always functions that map value names to operations on the object on the right that would yield that value.
 
 ```
 w> { 'a id 'b id } = { 'a 0 'b 1 }

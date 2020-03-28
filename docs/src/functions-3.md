@@ -40,28 +40,28 @@ w> [1 2 3].map (* 0)
 [0 0 0]
 w> :[1 2 3].map (* 0)
 [0]
-w> {1 2 3 4 5 6}.map (* 0)
-{ 1 0 3 0 5 0 }
+w> {1: 2, 3: 4, 5: 6}.map (* 0)
+{ 1: 0, 3: 0, 5: 0 }
 ```
 
 A cousing of `map`, called `fmap`, maps a set, list, or function to a function.
 
 ```
 w> fmap [1 2 3] (* 3)
-{ 1 3 2 6 3 9 }
+{ 1: 3, 2: 6, 3: 9 }
 w> fmap :[1 2 3] (* 3)
-{ 1 3 2 6 3 9 }
-w> fmap { 'a 1 'b 2 'c 3 } (* 3)
-{ 'a 3 'b 6 'c 9 }
+{ 1: 3, 2: 6, 3: 9 }
+w> fmap { 'a: 1, 'b: 2, 'c: 3 } (* 3)
+{ 'a: 3, 'b: 6, 'c: 9 }
 ```
 
 There is also a function `xmap` that works like `fmap` but is applied to the function's keys. `xmap` needs to be an injunctive function, otherwise the compiler will throw an error.
 
 ```
-w> xmap { 1 2 3 4 } (* 3)
-{ 3 2 9 4 }
-w> xmap { 1 2 3 4 } (* 0)
-Error. The function `xmap { 1 2 3 4 }` does not contain `(* 0)` in its domain.
+w> xmap { 1: 2, 3: 4 } (* 3)
+{ 3: 2, 9: 4 }
+w> xmap { 1: 2, 3: 4 } (* 0)
+Error. The function `xmap { 1: 2, 3: 4 }` does not contain `(* 0)` in its domain.
 ```
 
 ## `red`

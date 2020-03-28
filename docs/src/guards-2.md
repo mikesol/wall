@@ -1,10 +1,10 @@
-# Validation III
+# Guards II
 
-We've already seen several validators in Wall and seen how they can be used to construct a function with `fun` and `fun!`.  In this section, we will see some more strategies on how to build validators.
+We've already seen several guards in Wall and seen how they can be used to construct a function with `fun` and `fun!`.  In this section, we will see some more strategies on how to build guards.
 
-## Rolling your own validators
+## Rolling your own guards
 
-Remembering `<5?` from the first validator section, we can write this function several ways.
+Remembering `<5?` from the first guard section, we can write this function several ways.
 
 ```
 w> <5? = fmap! everything (? (int? k) (< k 5) false)
@@ -17,7 +17,7 @@ w> == <5? also<5?
 true
 ```
 
-We could have written our validator like this as well.
+We could have written our guard like this as well.
 
 ```
 w> <5? = fmap! everything (? (int? k) (< k 5) false)
@@ -26,7 +26,7 @@ w> == <5? another<5?
 true
 ```
 
-Yet another strategy is to use the `?ify` function, which creates a validator from a set that should validate positively.
+Yet another strategy is to use the `?ify` function, which creates a guard from a set that should validate positively.
 
 ```
 w> <5? = fmap! everything (? (int? k) (< k 5) false)
@@ -35,9 +35,9 @@ w> == <5? yet-another<5?
 true
 ```
 
-## Using your own validators
+## Using your own guards
 
-You can use your own validators the same way you'd use a pre-defined validator in any Wall function defined by `fun` or `fun!`.
+You can use your own guards the same way you'd use a pre-defined guard in any Wall function defined by `fun` or `fun!`.
 
 ```
 w> <5? = ?ify (filt! int (> 5))
@@ -50,16 +50,16 @@ w> foo {} 10
 Error. The function `foo {}` does not contain the value `10` in its domain.
 ```
 
-## Strategies for making validators
+## Strategies for making guards
 
-There are two common strategies to make a validator:
+There are two common strategies to make a guard:
 
 - Create a set of elements that are valid and call `?ify` on that set.
 - Define a function that yields an object mapping all elements to either `true` or `false`.
  
 ### `?ify` strategy
 
-The example below shows two validators defined with the `?fy` strategy.
+The example below shows two guards defined with the `?fy` strategy.
 
 ```
 w> a0? = ?ify :[{ 'a 0 }]
@@ -78,7 +78,7 @@ false
  
 ### `fun` strategy
 
-The example below shows the same two validators defined using `fun`.
+The example below shows the same two guards defined using `fun`.
 
 ```
 w> a0? = fun [_?] (a0 == { 'a 0 })
@@ -98,9 +98,9 @@ w> n_n+1? 0
 false
 ```
 
-## Predefined validators
+## Predefined guards
 
-Wall ships with hundreds of predefined validators that end with `?` *and* functions that work on validators that end with `??`.  The latter functions combine the results of validators - for example `|??` applies the `|` operation to the result of two validators.
+Wall ships with hundreds of predefined guards that end with `?` *and* functions that work on guards that end with `??`.  The latter functions combine the results of guards - for example `|??` applies the `|` operation to the result of two guards.
 
 Here are some, just as a taste of what is possible:
 
