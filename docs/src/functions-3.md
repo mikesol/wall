@@ -53,6 +53,14 @@ w> {1: 2, 3: 4, 5: 6}.map (* 0)
 { 1: 0, 3: 0, 5: 0 }
 ```
 
+A version for sets, `map-s`, applies a mapping function to values in a set.
+
+```
+w> map-s :[1 2 3 4] (+ 1)
+:[2 3 4 5]
+```
+
+
 ## `red`
 
 `red` is used to perform a reduction over a function:
