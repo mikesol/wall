@@ -16,10 +16,10 @@ module.exports = {
           ['/anatomy', 'Anatomy'],
           ['/comments', 'Comments'],
           ['/symbols', 'Symbols'],
-          ['/sets-1', 'Sets I'],
           ['/assignment', 'Assignment'],
-          ['/lists', 'Lists'],
           ['/functions-1', 'Functions I'],
+          ['/sets-1', 'Sets I'],
+          ['/lists', 'Lists'],
         ]
       },
       {
