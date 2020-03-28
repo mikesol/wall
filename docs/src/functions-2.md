@@ -168,39 +168,6 @@ w> sym2str #hello#
 "hello"
 ```
 
-## Sets
-
-Two sets can be combined using `s+`.  An element can be added to a set using `s+e`.
-
-```
-w> s+ :[1 2 3] :[2 3 4]
-:[ 1 2 3 4 ]
-w> s+e :[1 2 3] 5
-:[ 1 2 3 5 ]
-```
-
-The difference of two sets is `s-`, and an element can be taken from a set using `s-e`. Note that if any elemetn from the stuff to be taken away is not present in the original set, an error will be thrown.
-
-```
-w> s- :[1 2 3] :[2 3]
-:[ 1 ]
-w> s-e :[1 2 3] 1
-:[ 2 3 ]
-w> s- :[1 2 3] :[3 4]
-Error. The function `s- :[ 1 2 3 ]` does not contain the element `:[ 3 4 ]` in its domain.
-```
-
-Set inclusion can be tested with `in?`, and subset-itude can be tested with `subs?`.
-
-```
-w> in? 1 :[1 2 3 4]
-true
-w> subs? :[1] :[1 2 3 4]
-true
-```
-
-Note that Wall is not smart enough to know a set's cardinality, nor can it convert from sets to lists.  If you need to measure a collection's length or need an easy accessor function, use a list.
-
 ## Lists
 
 You can use `car` and `cdr` to get the head and tail of a list.
@@ -225,9 +192,40 @@ w> len [1 2 3]
 3
 ```
 
+## Sets
+
+Two sets can be combined using `s+`.  An element can be added to a set using `s+e`.
+
+```
+w> s+ :[1 2 3] :[2 3 4]
+:[ 1 2 3 4 ]
+w> s+e :[1 2 3] 5
+:[ 1 2 3 5 ]
+```
+
+The difference of two sets is `s-`, and an element can be taken from a set using `s-e`. Note that if any elemetn from the stuff to be taken away is not present in the original set, an error will be thrown.
+
+```
+w> s- :[1 2 3] :[2 3]
+:[ 1 ]
+w> s-e :[1 2 3] 1
+:[ 2 3 ]
+w> s- :[1 2 3] :[3 4]
+Error. The function `s- :[ 1 2 3 ]` does not contain the element `:[ 3 4 ]` in its domain.
+```
+
+Set inclusion can be by invoking the set with a value (as the set is just a function). Testing if a subset is in a set is achieved with `subs?`.
+
+```
+w> :[1 2 3 4] 1
+true
+w> subs? :[1] :[1 2 3 4]
+true
+```
+
 ## Functions
 
-Similar functions `f+`, `f-`, and `f-e` exist for functions.
+Just as sets above have `s+`, `s-` and `s-3`, functions have `f+`, `f-`, and `f-e`.
 
 ```
 w> f+ { 1 2 3 4 } { 5 6 7 8 }
@@ -240,7 +238,7 @@ w> f- { 1 2 3 4 } :[1 3]
 {}
 ```
 
-And who could forget classics like `dom`, which returns a function's domain, and `ran`, which returns its range?
+Furthermore, `dom` returns a function's domain, and `ran` returns its range.
 
 ```
 w> dom { 1 2 3 4 }
