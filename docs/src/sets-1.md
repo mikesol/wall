@@ -8,7 +8,7 @@ w> :[ apple banana pear ]
 :[ apple banana pear ]
 ```
 
-Sets are just functions whose domain contains all valid Wall values and whose range is `true` and `false`. All elements present in the set produce `true`, and all elements not present in the set produce `false`. Thus, the following code is valid Wall syntax.
+Sets are just functions whose domain contains all valid Wall values and whose range contains `true` and `false`. All elements present in the set produce `true`, and all elements not present in the set produce `false`. Thus, the following code is valid Wall syntax.
 
 ```
 w> apple banana pear =

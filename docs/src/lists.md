@@ -18,4 +18,12 @@ w> [a b] 0
 a
 ```
 
-Wall will throw a compile-time error if a list cannot be indexed either because the index is out of bounds or the size of the list is unknown.
+Lists are just functions containing contiguous integers in the range starting from 0. Thus, the following two structures are identical:
+
+```
+w> a b =
+w> [a b]
+[a b]
+w> { 0 a 1 b}
+[a b]
+```
