@@ -4,8 +4,8 @@ Functions in Wall are represented in curly brackets and represent key-value pair
 
 ```
 w> Paris France Berlin Germany =
-w> { Paris France Berlin Germany }
-{ Paris France Berlin Germany }
+w> { Paris: France, Berlin: Germany }
+{ Paris: France, Berlin: Germany }
 ```
 
 ## Invocation
@@ -14,7 +14,7 @@ Of course, functions are no fun unless you can invoke them with an argument to y
 
 ```
 w> Paris France Berlin Germany =
-w> { Paris France Berlin Germany } Paris
+w> { Paris: France, Berlin: Germany } Paris
 France
 ```
 
@@ -24,8 +24,8 @@ Wall will issue a compile-time error if a function cannot be evaluated because i
 
 ```
 w> Paris France Berlin Germany Budapest =
-w> { Paris France Berlin Germany } Budapest
-Error. The function `{ Paris France Berlin Germany }` does not contain `Budapest` in its domain.
+w> { Paris: France, Berlin: Germany } Budapest
+Error. The function `{ Paris: France, Berlin: Germany }` does not contain `Budapest` in its domain.
 ```
 
 ## Currying
@@ -35,8 +35,8 @@ There is no such thing in Wall as a function with more than one argument.  Like 
 ```
 w> Left Right Up Down =
 w> FinalDirection = {
-    Left { Right Up Left Down }
-    Right { Left Up Right Down }
+    Left: { Right: Up, Left: Down },
+    Right: { Left: Up, Right: Down }
 }
 w> FinalDirection Right Left
 Up

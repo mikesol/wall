@@ -32,7 +32,7 @@ module.exports = {
           ['/functions-2', 'Functions II'],
           ['/tests-1', 'Tests I'],
           ['/validation-1', 'Validation I'],
-          ['/sugar-1', 'Sugar I'],
+          ['/syntax-1', 'Syntax I'],
         ]
       },
       {
@@ -43,7 +43,7 @@ module.exports = {
           ['/functions-3', 'Functions III'],
           ['/sets-2', 'Sets II'],
           ['/validation-2', 'Validation II'],
-          ['/sugar-2', 'Sugar II'],
+          ['/syntax-2', 'Syntax II'],
           ['/functions-4', 'Functions IV'],
           ['/recursion', 'Recursion'],
           ['/validation-3', 'Validation III']
