@@ -8,6 +8,16 @@ Wall predefines hundreds of functions in the language that you can use right out
 
 It is outside the scope of this section to present all of the pre-defined functinos in Wall.  Here, we will just show some popular ones.
 
+- [General](#general)
+- [Math](#math)
+- [Numeric comparisons](#numeric-comparisons)
+- [Boolean logic](#boolean-logic)
+- [Strings](#strings)
+- [Coercion](#coercion)
+- [Lists](#lists)
+- [Sets](#sets)
+- [Functions](#functions)
+
 ## General
 
 `id` is the identity function in Wall.
@@ -155,9 +165,9 @@ w> re:match '123 "123 foo bar" 0
 "123"
 ```
 
-## Conversion
+## Coercion
 
-You can convert basic values like so:
+You can coerce certain primitive types to other primitive types like so:
 
 ```
 w> str2int "5"
