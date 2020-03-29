@@ -2,40 +2,29 @@
 
 This section will teach you how to define your own functions over large domains.
 
-## `fun` and `fun!`
+## `fun`
 
-`fun` takes two arguments: a list of sets and any expression.  It uses the sets to construct the domain of the (nested) function(s), and uses the expression to construct the range.
-
-In the case of `fun`, values named `a0, a1, ... aN` are injected into the context, where `N` is the length of the incoming list.
+`fun` takes two arguments: a list of sets and an expression.  It uses the sets to construct the domain of the function, and uses the expression to construct the range.  Internally, `fun` calls `bind` on the expression to bind it to its arguments. For more on bind, see [Percent](./syntax-2#perent).
 
 ```
-w> foo = fun [_? int?] ? $> a1 5 0 a0
-w> foo {} 6
-{}
-w> foo {} 5
+w> anything-or-0 = fun [_ int] (? (> %k 5) 0 %%k)
+w> anything-or-0 'hello 6
+'hello
+w> anything-or-0 'hello 5
 0
+w> hello-or-0 = anything-or-0 'hello
+w> hello-or-0 6
+'hello
 ```
 
-`foo` is a function that takes two arguments, where the first can be anything and the second must be an integer. It returns `0` if the second argument is greater than `5`, else it returns the first argument.
-
-Sometimes, it is useful to work with named arguments.  There is a version of `fun` called `fun!` that does this.
+Recalling from the [Percent](./syntax-2#percent) section, `%k` refers to one level up in a function heirarchy and `%%k` represents to two levels up.  In pseudocode, we could say that `foo` is constructed like so:
 
 ```
-w> foo = fun! ['baz _? 'bar int?] ? $> bar 5 0 baz
-w> foo {} 6
-{}
-w> foo {} 5
-0
+foo = {
+  <element of _>: {
+    <element of int>: bind (? (> %k 5) 0 %%k)
+  }
+}
 ```
 
-For the supremely lazy, there is `<< n` that takes `n` arguments whose validator is `_?`.
-
-```
-w> foo = << 2 (fmap! ($? (set? a0) a0 [a0]) (== a1 k))
-w> foo :[1 2 3] 2
-{ 1: false, 2: true, 3: false }
-w> foo true true
-{ true: true }
-w> (foo int 2) 3
-false
-```
+With this representation, and following the syntax presented in [Percent](./syntax-2#percent) it is more clear that `%k` represents `<element of int>` and `%%k` represents `<element of _>`.
