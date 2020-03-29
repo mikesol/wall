@@ -6,12 +6,12 @@ In Wall, tests that are co-located in files do not work this way. Instead, these
 
 ## `expect`
 
-Like many test runners, Wall has an assertion-like syntax based on the word `expect`. Here is a simple test in Wall:
+Wall has an assertion-like syntax based on the word `expect`. Here is a simple test in Wall:
 
 ```
 // simple-test.wall
 @begin-test
-expect (1.+ 1) 'toBe 2
+expect (+ 1 1) 'toBe 2
 @end-test
 ```
 
