@@ -119,7 +119,7 @@ true
 
 ## Boolean logic
 
-Also not surprisingly...
+Here are some boolean operators in Wall.
 
 ```
 w> & true false
@@ -173,6 +173,8 @@ You can coerce certain primitive types to other primitive types like so:
 ```
 w> str2int "5"
 5
+w> str2bytes "hello"
+b"hello"
 w> int2real 5
 5.0
 w> sym2str #hello#
