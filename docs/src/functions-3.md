@@ -53,7 +53,7 @@ w> {1: 2, 3: 4, 5: 6}.map (* 0)
 { 1: 0, 3: 0, 5: 0 }
 ```
 
-A version for sets, `map-s`, applies a mapping function to values in a set.
+A version for sets, `map-s`, applies a mapping function to keys in a set that map to `true`.
 
 ```
 w> map-s :[1 2 3 4] (+ 1)
