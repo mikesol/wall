@@ -214,7 +214,7 @@ w> s+e :[1 2 3] 5
 :[ 1 2 3 5 ]
 ```
 
-The difference of two sets is `s-`, and an element can be taken from a set using `s-e`. Note that if any elemetn from the stuff to be taken away is not present in the original set, an error will be thrown.
+The difference of two sets is `s-`, and an element can be taken from a set using `s-e`.
 
 ```
 w> s- :[1 2 3] :[2 3]
@@ -222,16 +222,27 @@ w> s- :[1 2 3] :[2 3]
 w> s-e :[1 2 3] 1
 :[ 2 3 ]
 w> s- :[1 2 3] :[3 4]
-Error. The function `s- :[ 1 2 3 ]` does not contain the element `:[ 3 4 ]` in its domain.
+:[ 1 2 ]
 ```
 
-Set inclusion can be by invoking the set with a value (as the set is just a function). Testing if a subset is in a set is achieved with `subs?`.
+Testing for inclusion in a set is done by invoking the set with a value (as the set is just a function). Testing if a subset is in a set can be achieved with `subs?`.
 
 ```
 w> :[1: 2, 3: 4] 1
 true
 w> subs? :[1] :[1: 2, 3: 4]
 true
+```
+
+A set can be transformed to a function that keeps only those values that evaluate to `true` by using `keep`.
+
+```
+w> int 'foo
+false
+w> (keep int) 5
+true
+w> (keep int) 'foo
+IncorrectDomainError. The function `(keep int)` does not or may not contain the element `'foo` in its domain.
 ```
 
 ## Functions
