@@ -2,32 +2,25 @@
 
 There are some pre-defined Wall functions, like `rand`, `now` and `ptr`, that return different values every time a script is invoked and perhaps every time the element is encountered.  Let's check them out!
 
-## `rand` and `rand0`
+## `rand`
 
-`rand` returns a random value with integer seed `n`.  `rand0` returns a random value with a seed of 0.  Because Wall does not contain 0-value functions, both `rand` and `rand0` require a value (any value) to be triggered.
+`rand` returns a random value generator seeded with integer seed `n`. The result of `rand n` is triggered by passing it any value.
 
 ```
-w> a = rand0
-w> b = a
-w> == a b
-true
-w> == (a 0) (b 0)
-false
+w> rand-seeded-with-5 = rand 5
+w> rand-seeded-with-5 'hello
+0.3425601241
+w> rand-seeded-with-5 'hello
+0.0943142369
 ```
 
 ## `now`
 
-Now is the current timestamp, expressed as a float in microseconds since the beginning of the epoch.
+Now is the current timestamp, expressed as a float in microseconds since the beginning of the epoch. Now needs to be invoked with any key as input.
 
 ```
-w> a = now
-w> b = a
-w> == a b
-false
-w> a = now 0
-w> b = a
-w> a .== b
-true
+w> now _
+1585472068494
 ```
 
 ## `ptr`

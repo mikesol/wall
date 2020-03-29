@@ -25,7 +25,7 @@ Wall provides the family of `%` commands to make this sort of manipulation a bit
 
 Adding percent signs increases how far back in the heirarchy we go.  So, for example, `%%` is the previous function.
 
-The family of `%` signs are always *pointers*, that is, they represent relationships in a heirarchy, but do not actualize that relatinoship. To actualize all pointers in a function structure, the function `bind` must be caused. Note that `bind` will traverse a nest function to bind *all* of the `%` values in the tree.
+The family of `%` signs are always *pointers*, that is, they represent relationships in a heirarchy, but do not actualize that relatinoship. To actualize all pointers in a function structure, the function `bind` must be called. Note that `bind` will traverse a nest function to bind *all* of the `%` values in the tree.
 
 ```
 w> fun1 = { 'a { %k: (%% 'b) }, 'b: 1 }
