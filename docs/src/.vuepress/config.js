@@ -51,7 +51,6 @@ module.exports = {
         collapsable: true,
         children: [
           ['/modules', 'Modules'],
-          ['/packages', 'Packages'],
           ['/indeterminacy', 'Indeterminacy'],
           ['/io', 'IO'],
           ['/tests-2', 'Tests 2'],

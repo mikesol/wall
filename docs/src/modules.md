@@ -2,39 +2,27 @@
 
 Modules in Wall work like languages like Haskell.  Functions can be exported using `export` and imported using `import`.
 
-```
-// exportables.wall
-foo = <<! _? >> a0
-bar = <<! boolean? >> not a0
-\export [foo bar]
-```
+For example, we can export two functions from the module `my-math.wall`.
 
 ```
-// importables.wall
-\import ['foo 'bar] 'exportables
-foo (bar true)
+// my-math.wall
+add-5 = + 5
+times-2 = * 2
+\export [add-5 times-2]
 ```
 
-```
-$ wall importables.wall
-false
-```
-In case you want to rename a function, you can use a pair in import:
+And then import them like so:
 
 ```
-// exportables.wall
-foo = <<! _? >> a0
-bar = <<! boolean? >> not a0
-\export [foo bar]
+w> \import { add-5, times-2 } 'my-math
+w> add-5 3
+8
 ```
 
-```
-// importables.wall
-\import ['foo \ 'bar 'baz] 'exportables
-foo (baz true)
-```
+In case you want to rename a function, you can modify the function in the import:
 
 ```
-$ wall importables.wall
-false
+w> \import { add-5: awesome-5-adder, times-2 } 'my-math
+w> awesome-5-adder 3
+8
 ```
