@@ -1,6 +1,8 @@
 # Tests II
 
-Tests in Wall are not tests in the conventional sense, where a test runner runs a battery of tests and they succeed or fail. While this is possible, it requires an additional level of orchestration. Tests that are co-located in files do not work this way. Instead, these tests run at *compile time*.
+In most languages, a testing framework (ie [ava](https://github.com/avajs/ava) in JavaScript, [pytest](https://docs.pytest.org/en/latest/) in Python) is used to exeute a group of tests.
+
+In wall, tests that are co-located in files do not work this way. Instead, these tests execute at *compile time*.
 
 ## `expect`
 
