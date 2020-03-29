@@ -56,20 +56,6 @@ w> fun4 'q
 { 'a: 1 }
 ```
 
-Because the un-exclamationed form of `%k`, `%%` etc resolves to *any* enclosing element, there will be no compiler error until you attempt to *access* an object with `%k`, `%%` etc.
-
-```
-w> a = { %k %%k }
-w> b = { %k! %%k! }
-Error. %% b is not a function.
-w> c = { 0 a }
-w> d = { 0 { 1 a } }
-w> d 0 1
-{ 1 0 }
-w> c 0
-Error. %% c is not a function. 
-```
-
 ## Ampersand
 
 Sometimes, you need to create an assignment in a local scope that does not persist to the top level.  [In Haskell, this is accomplished with `let`](http://learnyouahaskell.com/syntax-in-functions#let-it-be).  In Wall, this is accomplished with `@`.
