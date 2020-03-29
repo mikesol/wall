@@ -33,6 +33,4 @@ w> baz
 baz
 ```
 
-Symbols are useful in Wall in that they are guaranteed to only exist in Wall.  That is, they are native to Wall and can never be imported from some other format like JSON or YAML, nor can they be exported to another format.
-
-Of course, you can't do much useful stuff with symbols aside from print "Hello, world!" to the command line.  In the next section, we'll see how sets offer a slight improvement.
+Symbols are the thing as [*atoms* in Erlang](http://erlang.org/doc/reference_manual/data_types.html#atom).
