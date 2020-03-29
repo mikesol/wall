@@ -192,11 +192,9 @@ w> tail [ 6 4 3 ]
 [4 3]
 ```
 
-`cons` appends to a list, `reverse` reverses a list and `concat` concatenates two lists.
+`reverse` reverses a list and `concat` concatenates two lists.
 
 ```
-w> cons 1 []
-[ 1 ]
 w> reverse [1 2 3]
 [ 3 2 1 ]
 w> concat [1 2 3] [4 5 6]
