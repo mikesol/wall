@@ -26,7 +26,6 @@ The Wall compiler, called `wall`, reads a Wall program and prints the result to 
 For the remainder of the exercises in this guide, we will use the Wall interpreter.  The Wall interpreter can be invoked by typing `wall` on the command line.  The same example above can be accomplished as follows:
 
 ```
-w> #Hello, world!# =
 w> #Hello, world!#
 Hello, world!
 ```

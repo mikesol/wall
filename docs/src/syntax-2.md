@@ -25,83 +25,66 @@ Wall provides the family of `%` commands to make this sort of manipulation a bit
 
 Adding percent signs increases how far back in the heirarchy we go.  So, for example, `%%` is the previous function.
 
-Sometimes, you want to refer to other bits of a function's *original* enclosure.  To do this, we use the same convention as above, but ending with an exclamation point:
-
-- `%!`: the *original* current function
-- `%k!` the *original* key pointing to the current value
-
-In the example below, `fun1` and `fun2` start by meaning the same thing. However, `fun3` and `fun4` show how `%` and `%!` lead to different behavior.
+The family of `%` signs are always *pointers*, that is, they represent relationships in a heirarchy, but do not actualize that relatinoship. To actualize all pointers in a function structure, the function `bind` must be caused. Note that `bind` will traverse a nest function to bind *all* of the `%` values in the tree.
 
 ```
-w> // fun1 = { 'a: { 'a: (fun1 'b) }, 'b: 1 }
-w> fun1 = { 'a { %k: (%% 'b) ,} 'b: 1 }
-w> // fun2 = { 'a: { 'a: (fun2 'b) }, 'b: 1 }
-w> fun2 = { 'a: { %k!: (%%! 'b) }, 'b: 1 }
+w> fun1 = { 'a { %k: (%% 'b) }, 'b: 1 }
 w> fun1 'a
-{ 'a 1 }
-w> fun2 'a
-{ 'a 1 }
-w> // because fun1 uses % instead of %!, when fun3
-w> // is defined, a will refer to the structure of
-w> // fun3 instead of referring to fun1
-w> // fun3 = { 'q: { 'q: (fun3 'b) }, 'b: 3 }
-w> fun3 = { 'q: (fun1 'a), 'b: 3 }
-w> // fun4, on the other hand, will refer to fun2
-w> // because fun2 used %! instead of %
-w> // fun4 = { 'q: { 'a: (fun2 'b) }, 'b: 3 }
-w> fun4 = { 'q: (fun2 'a), 'b: 3 }
-w> fun3 'q
-{ 'q: 3 }
-w> fun4 'q
+{ %k: (%% 'b) }
+w> (bind fun1) 'a
 { 'a: 1 }
-```
-
-Because the un-exclamationed form of `%k`, `%%` etc resolves to *any* enclosing element, there will be no compiler error until you attempt to *access* an object with `%k`, `%%` etc.
-
-```
-w> a = { %k %%k }
-w> b = { %k! %%k! }
-Error. %% b is not a function.
-w> c = { 0 a }
-w> d = { 0 { 1 a } }
-w> d 0 1
-{ 1 0 }
-w> c 0
-Error. %% c is not a function. 
+w> fun2 = { 'q: (fun1 'a), 'b: 3 }
+w> fun2 'q
+{ %k: (%% 'b) }
+w> (bind fun2) 'q
+{ 'q: 3 }
 ```
 
 ## Ampersand
 
-Sometimes, you need to give something a name only in a limited context and then have the name evaporate.  In Haskell, this is accomplished with `let`.  In Wall, this is accomplished with `@`.  `@` accepts a function with *only* strings in the domain (it will complain otherwise) and has access to all elements in the current *and* outer scopes.
+Sometimes, you need to create an assignment in a local scope that does not persist to the top level.  [In Haskell, this is accomplished with `let`](http://learnyouahaskell.com/syntax-in-functions#let-it-be).  In Wall, this is accomplished with `@`.
+
+`@` accepts a function with *only* symbols in the domain (it won't compile otherwise). Then, it treats domain-range pairs as assignments in the following value.
 
 
 ```
-w> @ { 'a 3 'b 2 } { a b b a }
-{ 3 2 2 3 }
+w> @ { x: 3, y: 2 } { a: y, b: x }
+{ a: 2, b: 3 }
 ```
 
-By default `@` do not accumulate, meaning that only the values from the final `@` are useable in the object.  To force an `@` to persist, use `@>`.  To pull in the values from a prior at, use `>@`.  To exclude values from an `@`, use `~`.
+Multiple `@` can be used, and parentheses work the same way as with function evaluation to delimit a scope:
 
 ```
-w> @ { 'a { 'c 3 } 'b 2 } >@ { 'c (a 'c) } { b c c a }
-{ 3 2 2 { 'c 3 } }
-w> @> { 'a { 'c 3 } 'b 2 } @ { 'c (a 'c) } { b c c a }
-{ 3 2 2 { 'c 3 } }
+w> @ { x: 3} (@ { y: 2 } { a: y, b: x })
+{ a: 2, b: 3 }
 ```
 
-Anything in `@` cannot conflict with a toplevel name *or* a name in a lower scope.  So the compiler will raise an error for something like this:
+Any assignments in `@` cannot conflict with an assignment in a higher scope.  So the compiler will raise an error for something like this:
 
 ```
-w> @ { 'a 1 'b 2 } { @ { 'a 1 'b 2 } a a b b }
-Error. Cannot reassign `a`.
+w> @ { a: 1, b: 2 } @ { a: 1, b: 2 } { a: a, b: b }
+CannotReassignError. Cannot reassign `a`.
 ```
 
-`@` can also come *after* a named `object`, in which case it will persist to *any* time the named `object` is used.
+## Function shorthand
+
+Like in JavaScript ES6, functions keys that are symbols and do not point to a value will point to the assigned value of that symbol if assigned or to the symbol if not assigned.
 
 ```
-w> b = { 1 0 } @ { 'a 1 }
-w> b a
-3
+w> b = 1
+w> c = { a, b }
+w> c
+{ a: a, b: 1 }
 ```
 
-In editors like VS Code, you can always see the currently defined names in the Wall inspector and their scopes.
+## Pattern matching
+
+Wall supports pattern matching for assignments.  The left-hand side of the assignment must be a function that maps each key to a function that accept the right-hand side as an argument and returns a value. To read up on `flip` and `invoke`, you can consult [Functions 2](./functions-2).
+
+```
+w> { a: flip invoke x, b: flip invoke y } = { x: 1, y: 2 }
+w> a
+1
+w> b
+2
+```

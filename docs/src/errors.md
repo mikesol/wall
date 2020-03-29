@@ -2,7 +2,7 @@
 
 Now that you've learned the basics in Wall, you can already to a fair bit of exploring.  While exploring, if you're anything like everyone else, you will surely run into errors.
 
-The two main errors in Wall are `NotAFunctionError` and `IncorrectDomainError`.
+The three main errors in Wall are `NotAFunctionError`, `CannotReassignError` and `IncorrectDomainError`.
 
 ## Not a function
 
@@ -19,6 +19,16 @@ w> good 1
 w> bad = (? (< rand 0.5) {1: 2} 1)
 w> bad 1
 NotAFunctionError. `bad` is or may not be a function.
+```
+
+## Cannot reassign
+
+We saw in the [Assignment](./assignment) section that a symbol cannot be reassigned.
+
+```
+w> stacy fred = 
+w> stacy = fred
+CannotReassignError. `stacy` cannot be reassigned.
 ```
 
 ## Incorrect domain

@@ -2,7 +2,7 @@
 
 Some functions in Wall mimic control structures in imperative languages.  For example, if statements and loops are accomplished with functions in Wall.  Below are some common control functions.
 
-## ?
+## Question mark
 
 The question mark in Wall is a function that accepts `true` or `false`, an value in case of true and value in case of false.
 
