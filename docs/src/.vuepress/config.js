@@ -41,9 +41,9 @@ module.exports = {
           ['/errors', 'Errors'],
           ['/functions-3', 'Functions III'],
           ['/sets-2', 'Sets II'],
-          ['/guards-1', 'Guards I'],
           ['/syntax-2', 'Syntax II'],
           ['/functions-4', 'Functions IV'],
+          ['/syntax-3', 'Syntax III'],
           ['/recursion', 'Recursion'],
           ['/guards-2', 'Guards II']
         ]

@@ -21,7 +21,7 @@ w> bad 1
 NotAFunctionError. `bad` is or may not be a function.
 ```
 
-## Incorrect domain error
+## Incorrect domain
 
 An incorrect domain error is raised when a function is called with a value that is or may not be in the domain of the function.
 

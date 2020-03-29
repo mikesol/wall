@@ -1,7 +1,6 @@
-# Sugar I
+# Syntax I
 
- Wall has some syntactic shortcuts that make it a little easier to read and write code.
-
+Wall has some syntactic shortcuts that make it a little easier to read and write code.
 
 ## Parentheses
 
