@@ -25,6 +25,20 @@ Wall provides the family of `%` commands to make this sort of manipulation a bit
 
 Adding percent signs increases how far back in the heirarchy we go.  So, for example, `%%` is the previous function.
 
+```
+w> // fun1 = { 'a: { 'a: (fun1 'b) }, 'b: 1 }
+w> fun1 = { 'a { %k: (%% 'b) ,} 'b: 1 }
+w> fun1 'a
+{ 'a 1 }
+w> // because fun1 uses % instead of %!, when fun3
+w> // is defined, a will refer to the structure of
+w> // fun3 instead of referring to fun1
+w> // fun3 = { 'q: { 'q: (fun3 'b) }, 'b: 3 }
+w> fun3 = { 'q: (fun1 'a), 'b: 3 }
+w> fun3 'q
+{ 'q: 3 }
+```
+
 Sometimes, you want to refer to other bits of a function's *original* enclosure.  To do this, we use the same convention as above, but ending with an exclamation point:
 
 - `%!`: the *original* current function
@@ -33,25 +47,14 @@ Sometimes, you want to refer to other bits of a function's *original* enclosure.
 In the example below, `fun1` and `fun2` start by meaning the same thing. However, `fun3` and `fun4` show how `%` and `%!` lead to different behavior.
 
 ```
-w> // fun1 = { 'a: { 'a: (fun1 'b) }, 'b: 1 }
-w> fun1 = { 'a { %k: (%% 'b) ,} 'b: 1 }
 w> // fun2 = { 'a: { 'a: (fun2 'b) }, 'b: 1 }
 w> fun2 = { 'a: { %k!: (%%! 'b) }, 'b: 1 }
-w> fun1 'a
-{ 'a 1 }
 w> fun2 'a
 { 'a 1 }
-w> // because fun1 uses % instead of %!, when fun3
-w> // is defined, a will refer to the structure of
-w> // fun3 instead of referring to fun1
-w> // fun3 = { 'q: { 'q: (fun3 'b) }, 'b: 3 }
-w> fun3 = { 'q: (fun1 'a), 'b: 3 }
 w> // fun4, on the other hand, will refer to fun2
 w> // because fun2 used %! instead of %
 w> // fun4 = { 'q: { 'a: (fun2 'b) }, 'b: 3 }
 w> fun4 = { 'q: (fun2 'a), 'b: 3 }
-w> fun3 'q
-{ 'q: 3 }
 w> fun4 'q
 { 'a: 1 }
 ```
