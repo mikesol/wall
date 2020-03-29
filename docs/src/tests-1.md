@@ -15,7 +15,7 @@ baz = 'baz
 @begin-test "'foo is defined the same as 'baz in my-func"
 a = my-func foo
 b = my-func baz
-expect a 'toEqual b
+expectEquals a b
 @end-test
 
 my-func = { 'foo: 'bar, 'baz: 'bar }
