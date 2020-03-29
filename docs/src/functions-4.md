@@ -17,10 +17,10 @@ w> hello-or-0 6
 'hello
 ```
 
-Recalling from the [Percent](./syntax-2#percent) section, `%k` refers to one level up in a function heirarchy and `%%k` represents to two levels up.  In pseudocode, we could say that `foo` is constructed like so:
+Recalling from the [Percent](./syntax-2#percent) section, `%k` refers to one level up in a function heirarchy and `%%k` represents to two levels up.  In pseudocode, we could say that `anything-or-0` is constructed like so:
 
 ```
-foo = {
+anything-or-0 = {
   <element of _>: {
     <element of int>: bind (? (> %k 5) 0 %%k)
   }

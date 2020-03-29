@@ -32,9 +32,9 @@ w> id 1
 ```
 w> always 1 5000
 1
-w> foo = always 'foo
-w> foo 4999
-'foo
+w> always-hello = always 'hello
+w> always-hello 4999
+'always-hello
 ```
 
 `==` represents equality between two values.
@@ -237,12 +237,12 @@ true
 A set can be transformed to a function that keeps only those values that evaluate to `true` by using `keep`.
 
 ```
-w> int 'foo
+w> int 'hello
 false
 w> (keep int) 5
 true
-w> (keep int) 'foo
-IncorrectDomainError. The function `(keep int)` does not or may not contain the element `'foo` in its domain.
+w> (keep int) 'hello
+IncorrectDomainError. The function `(keep int)` does not or may not contain the element `'hello` in its domain.
 ```
 
 ## Functions
@@ -269,7 +269,7 @@ w> ran { 1: 2, 3: 4 }
 [ 3 4 ]
 ```
 
-Lastly, while we invoke functions using a syntax `foo 1`, we can also invoke them using the function `invoke`.
+Lastly, while we invoke functions using a syntax `my-function 1`, we can also invoke them using the function `invoke`.
 
 ```
 w> { 1: 2, 3: 4 } 1
