@@ -1,5 +1,7 @@
 # Sets II
 
+## Predefined sets
+
 Wall has several predefined sets.  Some of them resemble types in other languages, like `int`, `string`, `symbol` and `complex`. In Wall, `int` is the set of all integers, `string` is the set of all strings, `symbol` is the set of all symbols and `complex` is the set of all complex numbers.
 
 ```
