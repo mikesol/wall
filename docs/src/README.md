@@ -8,4 +8,4 @@ Wall is a dialect of Lisp that keeps track of functions' potential domains and r
 
 ## What is this document?
 
-This document provides a gentle introduction to Wall, built very much the way the language is itself.  We recommend reading it sequentially.  In it, there are ample links to reference materials for further exploration.
+This document provides a gentle introduction to Wall.  We recommend reading it sequentially.
