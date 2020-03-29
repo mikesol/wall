@@ -91,7 +91,7 @@ w> c
 
 ## Pattern matching
 
-Wall supports pattern matching for assignments.  The left-hand side of the assignment must be a function that maps each key to a function that accept the right-hand side as an argument and returns a value. To read up on what `flip` and `invoke` do, you can see [Functions 2](./functions-2).
+Wall supports pattern matching for assignments.  The left-hand side of the assignment must be a function that maps each key to a function that accept the right-hand side as an argument and returns a value. To read up on `flip` and `invoke`, you can consult [Functions 2](./functions-2).
 
 ```
 w> { a: flip invoke x, b: flip invoke y } = { x: 1, y: 2 }
