@@ -31,9 +31,7 @@ true
 
 ## Sets are like guards
 
-If you're coming from a language like Erlang or Clojure, you may be familiar with **guards**.  In these language, a guard accepts any value and returns `true` or `false` depending on what the value is.  In Wall, guards are just sets.
-
-Guards are no different than [sets](./sets-1): they are functions that contain every possible Wall value in their domain mapped to `true` or `false` in their range. Below, let's define a set (or guard) that checks if an integer is greater than 5.
+If you're coming from a language like Erlang or Clojure, you may be familiar with **guards**.  In these language, a guard accepts any value and returns `true` or `false` depending on what the value is.  In Wall, guards no different than [sets](./sets-1). They are functions that contain every possible Wall value in their domain mapped to `true` or `false` in their range. Below, let's define a set (or guard) that checks if an integer is greater than 5.
 
 ```
 w> gt5? = (filt-s int (> 5))
