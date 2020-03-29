@@ -30,7 +30,7 @@ Wall will issue a compile-time error if a function cannot be evaluated because i
 
 ```
 w> { Paris: France, Berlin: Germany } Budapest
-Error. The function `{ Paris: France, Berlin: Germany }` does not contain `Budapest` in its domain.
+IncorrectDomainError. The function `{ Paris: France, Berlin: Germany }` does not contain `Budapest` in its domain.
 ```
 
 ## Currying
