@@ -1,6 +1,6 @@
 # Functions IV
 
-This section will teach you how to define your own functions over large domains.
+This section will teach you how to define functions with `fun`.
 
 ## `fun`
 
