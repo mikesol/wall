@@ -43,7 +43,7 @@ module.exports = {
           ['/sets-2', 'Sets II'],
           ['/syntax-2', 'Syntax II'],
           ['/functions-4', 'Functions IV'],
-          ['/recursion', 'Recursion']
+          ['/recursion', 'Recursion'],
         ]
       },
       {
@@ -55,7 +55,6 @@ module.exports = {
           ['/io', 'IO'],
           ['/tests-2', 'Tests 2'],
           ['/threading', 'Threading'],
-          ['/example', 'Example']
         ]
       },
       {
