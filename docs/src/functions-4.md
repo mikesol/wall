@@ -1,18 +1,10 @@
 # Functions IV
 
-Somtimes, you would like to define your own functions over an infinite domain, like all integers.  We have already seen a way to do this using `fmap`.
-
-```
-w> +' = fmap!a int (fmap!b int (+ a b))
-w> == + +'
-true
-```
-
-The same can be accomplished with validators using `fun` and `fun!`.
+This section will teach you how to define your own functions over large domains.
 
 ## `fun` and `fun!`
 
-`fun` takes two arguments: a list of validators and any expression.  It uses the validators to construct the domain of the (nested) function(s), and uses the expression to construct the range.
+`fun` takes two arguments: a list of sets and any expression.  It uses the sets to construct the domain of the (nested) function(s), and uses the expression to construct the range.
 
 In the case of `fun`, values named `a0, a1, ... aN` are injected into the context, where `N` is the length of the incoming list.
 
