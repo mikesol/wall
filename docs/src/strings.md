@@ -16,3 +16,8 @@ aString
 a    String
 ```
 
+Byte strings are created by prepending `b` to the string. In this case, the string must be defined with double quotation marks.
+
+```
+w> a = b"hello"
+```

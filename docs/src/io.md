@@ -1,67 +1,28 @@
 # IO
 
-Wall's *raison d'être* is IO.  While its compact syntax, dependent typing and  functional goodness are reason enough to use it, IO is where Wall shines.  While the IO can be reading to or writing from a file, making a network call or interacting with `stdin` and `stdout`, the basic idea is the same.  IO operations return a monad, and functions with validators or rules can act on that monad to produce other monads that are consumed by other parts of the program.
+All wall IO operations return two streams - one for input and one for output - and a success code. The form of this is `{ 'i: <stream>, 'o: <stream> 'code: <0 -1 -2 ...> }` While the code varies according to the operation, `0` always represents success. In case of failure, the length and content of the stream is undefined.
 
-This means that IO can never cause a runtime error in Wall.  IO operations can of course report errors in their monads, but these errors flow through a Wall program thanks to Wall's system of monads and rules.
+## Streams
 
-## `stdin`, `stdout` and `stderr`
+The function `read` takes a readable stream and a number of bytes to read as its arguments and returns a function in the form `{ 'bytes: <byte string>, 'read: <int> }`.
 
-To create a loop that reads `stdin`, you can do this:
-
-```
-// reader.wall
-w> a = ? stdin 'read .== 'exit 0 a
-a
-```
-
-```
-$ wall reader.wall
-hello
-world
-exit
-$
-```
-
-You can write to `stdout` like this:
-
-```
-// writer.wall
-stdout 'write 'foo
-0
-```
-
-```
-$ wall writer.wall
-'foo
-0
-$
-```
+The function `write` takes a writeable stream and a byte string as its arguments and returns the number of bytes written as an integer.
 
 ## Files
 
-Files work very much like IO.
+File IO operations are created by specifying 'r or 'w and then the name of the file.
 
 ```
 w> a = file 'r 'foo.txt
 w> a
-{ 'value 'hello }
+{ 'i: <./foo.txt>, 'o: <./dev/null>, 'code: 0 }
 w> b = file 'r 'does-not-exist
 w> b
-{ 'error "Thie file 'does-not-exist' does not exist" }
-w> file 'w 'hello.txt 'world
-{ 'written 'world }
-w> file 'r 'hello.txt
-{ 'value 'world }
-w> a = file 'r 'foo.txt 'value
-Error. The function `file 'r 'foo.txt` may not contain `value in its domain. 
+{ 'i: <./does-not-exist>, 'o: <./dev/null>, 'code: -1 }
+w> write (file 'w 'hello.txt 'o) b"world"
+5
+w> read (file 'r 'hello.txt 'i) 5
+b"world"
 ```
 
-## Network calls
-
-We recommend using a high-level networking library for network `io`, like `http-server` or `http-client`.
-
-```
-w> \import ['http:get] 'http-client
-w> http:get 'https://www.randomstring.com
-{ 'code 200 'headers { ... } 'body '"foo" }
-```
+In addition to files persisted to disk, `file` supports standard posix pipes like `/dev/stdin`.
