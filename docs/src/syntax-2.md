@@ -25,31 +25,19 @@ Wall provides the family of `%` commands to make this sort of manipulation a bit
 
 Adding percent signs increases how far back in the heirarchy we go.  So, for example, `%%` is the previous function.
 
+The family of `%` signs are always *pointers*, that is, they represent relationships in a heirarchy, but do not actualize that relatinoship. To actualize all pointers in a function structure, the function `bind` must be caused. Note that `bind` will traverse a nest function to bind *all* of the `%` values in the tree.
+
 ```
-w> // fun1 = { 'a: { 'a: (fun1 'b) }, 'b: 1 }
-w> fun1 = { 'a { %k: (%% 'b) ,} 'b: 1 }
+w> fun1 = { 'a { %k: (%% 'b) }, 'b: 1 }
 w> fun1 'a
-{ 'a 1 }
-w> // fun3 = { 'q: { 'q: (fun3 'b) }, 'b: 3 }
-w> fun3 = { 'q: (fun1 'a), 'b: 3 }
-w> fun3 'q
-{ 'q: 3 }
-```
-
-Sometimes, you want to refer to other bits of a function's *original* enclosure.  To do this, we use the same convention as above, but ending with an exclamation point:
-
-- `%!`: the *original* current function
-- `%k!` the *original* key pointing to the current value
-
-```
-w> // fun2 = { 'a: { 'a: (fun2 'b) }, 'b: 1 }
-w> fun2 = { 'a: { %k!: (%%! 'b) }, 'b: 1 }
-w> fun2 'a
-{ 'a 1 }
-w> // fun4 = { 'q: { 'a: (fun2 'b) }, 'b: 3 }
-w> fun4 = { 'q: (fun2 'a), 'b: 3 }
-w> fun4 'q
+{ %k: (%% 'b) }
+w> (bind fun1) 'a
 { 'a: 1 }
+w> fun2 = { 'q: (fun1 'a), 'b: 3 }
+w> fun3 'q
+{ %k: (%% 'b) }
+w> (bind fun3) 'q
+{ 'q: 3 }
 ```
 
 ## Ampersand
