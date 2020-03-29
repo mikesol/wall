@@ -17,7 +17,7 @@ w> { Paris: France, Berlin: Germany }
 
 ## Invocation
 
-Of course, functions are no fun unless you can invoke them with an argument to yield a result.  In Wall, this is done simply by separating the function and its argument with whitespace.
+Functions are no fun unless you can invoke them with an argument to yield a result.  In Wall, this is done by separating the function and its argument with whitespace.
 
 ```
 w> { Paris: France, Berlin: Germany } Paris
