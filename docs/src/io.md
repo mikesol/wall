@@ -8,9 +8,9 @@ The function `read` takes a readable stream and a number of bytes to read as its
 
 The function `write` takes a writeable stream and a byte string as its arguments and returns the number of bytes written as an integer.
 
-## Files
+## Files and Sockets
 
-File IO operations are created by specifying 'r or 'w and then the name of the file.
+File and socket IO operations are created by specifying 'r or 'w and then the name of the file or URL of the socket.
 
 ```
 w> a = file 'r 'foo.txt
@@ -19,12 +19,12 @@ w> a
 w> b = file 'r 'does-not-exist
 w> b
 { 'i: <./does-not-exist>, 'o: <./dev/null>, 'code: -1 }
+w> write (socket 'w 'http://localhost:8080 'o) b"hi"
+2
 w> write (file 'w 'hello.txt 'o) b"world"
 5
 w> read (file 'r 'hello.txt 'i) 5
 b"world"
 ```
-
-The interface for `socket` is the same as file with the exception that it takes a valid URL instead of a filename.
 
 In addition to files persisted to disk, `file` supports standard posix pipes like `/dev/stdin`.  In the case of reads from pipes and sockets, the reading operation is blocking until a write has occured.
