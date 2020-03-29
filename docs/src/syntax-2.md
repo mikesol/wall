@@ -72,24 +72,17 @@ Error. %% c is not a function.
 
 ## Ampersand
 
-Sometimes, you need to give something a name only in a limited context and then have the name evaporate.  In Haskell, this is accomplished with `let`.  In Wall, this is accomplished with `@`.  `@` accepts a function with *only* strings in the domain (it will complain otherwise) and has access to all elements in the current *and* outer scopes.
+Sometimes, you need to create an assignment in a local scope that does not persist to the top level.  [In Haskell, this is accomplished with `let`](http://learnyouahaskell.com/syntax-in-functions#let-it-be).  In Wall, this is accomplished with `@`.
+
+`@` accepts a function with *only* symbols in the domain (it won't compile otherwise). Then, it treats domain-range pairs as assignments in the following function.
 
 
 ```
-w> @ { 'a 3 'b 2 } { a b b a }
-{ 3 2 2 3 }
+w> @ { x: 3, y: 2 } { a: y, b: x }
+{ a: 2, b: 3 }
 ```
 
-By default `@` do not accumulate, meaning that only the values from the final `@` are useable in the object.  To force an `@` to persist, use `@>`.  To pull in the values from a prior at, use `>@`.  To exclude values from an `@`, use `~`.
-
-```
-w> @ { 'a { 'c 3 } 'b 2 } >@ { 'c (a 'c) } { b c c a }
-{ 3 2 2 { 'c 3 } }
-w> @> { 'a { 'c 3 } 'b 2 } @ { 'c (a 'c) } { b c c a }
-{ 3 2 2 { 'c 3 } }
-```
-
-Anything in `@` cannot conflict with a toplevel name *or* a name in a lower scope.  So the compiler will raise an error for something like this:
+Any assignments in `@` cannot conflict with an assignment in a higher scope.  So the compiler will raise an error for something like this:
 
 ```
 w> @ { 'a 1 'b 2 } { @ { 'a 1 'b 2 } a a b b }

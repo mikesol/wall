@@ -14,5 +14,5 @@ Assignment in wall is immutable, meaning that once something has been asigned to
 ```
 w> stacy fred = 
 w> stacy = fred
-Error. `stacy` cannot be reassigned.
+CannotReassignError. `stacy` cannot be reassigned.
 ```
