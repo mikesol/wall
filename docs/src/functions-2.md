@@ -27,12 +27,13 @@ w> id 1
 1
 ```
 
-`just` returns a constant independent of the incoming value.
+`always` returns a constant independent of the incoming value.
 
 ```
-w> just 1 5000
+w> always 1 5000
 1
-w> just 'foo 4999
+w> foo = always 'foo
+w> foo 4999
 'foo
 ```
 

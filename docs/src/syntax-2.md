@@ -4,15 +4,17 @@ Here are some more syntactical conventions in Wall.
 
 ## Percent
 
-Sometimes, when working with a function, it is useful to refer to elements higher up in the function's heirarchy.  One way to do this is to manually create these references.
+Functions have a domain and range.  Sometimes, it is useful to refer to a function's domain from its range.  In the case of curried functions, functions are like a heirarchy: a domain links to a domain which eventually links to a range.  Here, it may be useful to refer to higher levels of heirarchy from lower ones.
+
+One way to do this is to manually create these references.  In the following example, we use `next` and `back` to make it possible to navigate through a nested function.
 
 ```
-w> #one level back# =
-w> c = { 'level 'c }
-w> b = { 'level 'b 'next (f+ { #one level back# b } c) }
-w> a = { 'level 'a 'next (f+ { #one level back# a } b) }
-w> #b up# = b #one level back#
-w> == #b up# a
+w> next back =
+w> c = { level: 'c }
+w> b = { level: 'b, next: (f+ { back: b } c) }
+w> a = { level: 'a, next: (f+ { back: a } b) }
+w> a-back = a next back
+w> == a-back a
 true
 ```
 
@@ -21,26 +23,37 @@ Wall provides the family of `%` commands to make this sort of manipulation a bit
 - `%` the current function
 - `%k` the key pointing to the current value
 
-Adding percent signs increases how far in the heirarchy we go.  So, for example, `%%` is the previous function, `%%k` is the key pointing to the key pointing to the current value, etc.
+Adding percent signs increases how far back in the heirarchy we go.  So, for example, `%%` is the previous function.
 
 Sometimes, you want to refer to other bits of a function's *original* enclosure.  To do this, we use the same convention as above, but ending with an exclamation point:
 
 - `%!`: the *original* current function
-- `%k` the *original* key pointing to the current value
+- `%k!` the *original* key pointing to the current value
+
+In the example below, `fun1` and `fun2` start by meaning the same thing. However, `fun3` and `fun4` show how `%` and `%!` lead to different behavior.
 
 ```
-w> a = { 'a { %k (%% 'b) } 'b 1 }
-w> b = { 'a { %k! (%%! 'b) } 'b 1 }
-w> a 'a
+w> // fun1 = { 'a: { 'a: (fun1 'b) }, 'b: 1 }
+w> fun1 = { 'a { %k: (%% 'b) ,} 'b: 1 }
+w> // fun2 = { 'a: { 'a: (fun2 'b) }, 'b: 1 }
+w> fun2 = { 'a: { %k!: (%%! 'b) }, 'b: 1 }
+w> fun1 'a
 { 'a 1 }
-w> b 'a
+w> fun2 'a
 { 'a 1 }
-w> c = { 'q (a 'a) 'b 3 }
-w> d = { 'q (b 'a) 'b 3 }
-w> c 'q
-{ 'q 3 }
-w> d 'q
-{ 'a 1 }
+w> // because fun1 uses % instead of %!, when fun3
+w> // is defined, a will refer to the structure of
+w> // fun3 instead of referring to fun1
+w> // fun3 = { 'q: { 'q: (fun3 'b) }, 'b: 3 }
+w> fun3 = { 'q: (fun1 'a), 'b: 3 }
+w> // fun4, on the other hand, will refer to fun2
+w> // because fun2 used %! instead of %
+w> // fun4 = { 'q: { 'a: (fun2 'b) }, 'b: 3 }
+w> fun4 = { 'q: (fun2 'a), 'b: 3 }
+w> fun3 'q
+{ 'q: 3 }
+w> fun4 'q
+{ 'a: 1 }
 ```
 
 Because the un-exclamationed form of `%k`, `%%` etc resolves to *any* enclosing element, there will be no compiler error until you attempt to *access* an object with `%k`, `%%` etc.

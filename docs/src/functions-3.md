@@ -1,6 +1,22 @@
 # Functions III
 
-Some functions in Wall mimic control structures in imperative languages: constructors, loops, etc.  Here, we see the four most common "control" functions in Wall: `flip`, `filt`, `map` and `red`.
+Some functions in Wall mimic control structures in imperative languages.  For example, if statements and loops are accomplished with functions in Wall.  Below are some common control functions.
+
+## ?
+
+The question mark in Wall is a function that accepts `true` or `false`, an value in case of true and value in case of false.
+
+```
+w> ? false 5 6
+6
+```
+
+A related function, `??`, accepts `true` or `false`, a function to evaluate in case of `true` and a function to evaluate in case of `false`.  The function is evaluated with arbitrary input.
+
+```
+w> ?? false (always 4) (always 5)
+5
+```
 
 ## `flip`
 
