@@ -6,7 +6,7 @@ Wall predefines hundreds of functions in the language that you can use right out
 - the maintainers have an opinionated veiw about how they should be defined; and/or
 - they are so common/useful that it is difficult to imagine *not* having them pre-defined.
 
-It is outside the scope of this section to present all of the pre-defined functinos in Wall.  Here, we will just show some popular ones.
+It is outside the scope of this section to present all of the pre-defined functions in Wall.  Here, we will just show some popular ones.
 
 - [General](#general)
 - [Math](#math)
@@ -236,7 +236,7 @@ true
 
 ## Functions
 
-Just as sets above have `s+`, `s-` and `s-3`, functions have `f+`, `f-`, and `f-e`.
+Just as sets above have `s+`, `s-` and `s-e`, functions have `f+`, `f-`, and `f-e`.
 
 ```
 w> f+ { 1: 2, 3: 4 } { 5: 6, 7: 8 }
