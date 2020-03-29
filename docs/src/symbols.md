@@ -30,4 +30,4 @@ w> baz
 baz
 ```
 
-Symbols are the thing as [*atoms* in Erlang](http://erlang.org/doc/reference_manual/data_types.html#atom).
+Symbols are conceptually similar to [*atoms* in Erlang](http://erlang.org/doc/reference_manual/data_types.html#atom).
