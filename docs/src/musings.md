@@ -4,25 +4,6 @@ Here are some random thoughts about Wall.
 
 ## Why I wrote Wall
 
-The first languages I coded extensively in are Scheme and Python.  I loved Scheme for its flexibility and functional style and Python for its simple imperative syntax.  Since then, I've worked on projects in C, C++, C#, Java, JavaScript, TypeScript, Swift, Kotlin, Groovy, Objective-C, Haskell, Erlang, Clojure, Elixir, Ruby, F* and other languages.  Wall represents my best attempt to combine my favorite aspects of all those languages.  While it is impossible for me to make an exhaustive list of what these things are, here are some of them:
+The first languages in which I coded extensively are Scheme and Python.  I loved Scheme for its flexibility and functional style and Python for its simple imperative syntax.  Since then, I've worked on projects in C, C++, C#, Java, JavaScript, TypeScript, Swift, Kotlin, Groovy, Objective-C, Haskell, Erlang, Clojure, Elixir, Ruby, F# and other languages.
 
-- Dependent types
-- Automatic typing
-- Strongly typed
-- Easy type-checking in an IDE
-- Colocation of tests and code
-- Progaramtic manipulation of the AST
-- Managed concurrency
-- Pattern matching
-- Lots of syntactic sugar
-- Validation of input as a first-class citizen
-- No runtime errors
-- A robust library of pre-defined functions
-- Duck typing
-- Easy handling of monads
-- Package management from git repos
-- Compiles to fast binaries
-
-## My hope
-
-I would love to see Wall contribute to a discussion about IO in an increasingly interconnected world.  Most popular programming languages were created at a time where coders worked mostly with code from their own code base.  In this day and age, as we rely more and more on other people's code and APIs, we need simple and powerful verification systems for JSON, YAML and the myriad of other formats and protocols that are being exchanged all the time.  It would be awesome if Wall made this easier.
+In doing so, I've learned a lot about how **static typing** can lead to a more pleasurable, bug-free coding experience that allows one to aggressively refactor due to the strength of the compiler. At the same time, the way one works with types never felt natural to me because, in most languages, it requires a meta-language on top of the language.  *I created Wall to explore a language where the compiler keeps track of functions' domains and ranges instead of types.*
