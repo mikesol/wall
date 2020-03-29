@@ -34,9 +34,9 @@ w> fun1 'a
 w> (bind fun1) 'a
 { 'a: 1 }
 w> fun2 = { 'q: (fun1 'a), 'b: 3 }
-w> fun3 'q
+w> fun2 'q
 { %k: (%% 'b) }
-w> (bind fun3) 'q
+w> (bind fun2) 'q
 { 'q: 3 }
 ```
 
