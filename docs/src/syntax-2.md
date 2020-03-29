@@ -77,3 +77,34 @@ Any assignments in `@` cannot conflict with an assignment in a higher scope.  So
 w> @ { a: 1, b: 2 } @ { a: 1, b: 2 } { a: a, b: b }
 CannotReassignError. Cannot reassign `a`.
 ```
+
+## Function shorthand
+
+Like in JavaScript ES6, functions keys that are symbols and do not point to a value will point to the assigned value of that symbol if assigned or to the symbol if not assigned.
+
+```
+w> b = 1
+w> c = { a, b }
+w> c
+{ a: a, b: 1 }
+```
+
+## Pattern matching
+
+Wall supports pattern matching for assignments.  The left-hand side of the assignment must be a function that maps keys to functions that accept the right-hand side as an argument and returns a value.
+
+```
+w> { a: flip invoke x, b: flip invoke y } = { x: 1, y: 2 }
+w> a
+1
+w> b
+2
+```
+
+Let's unpack what the `flip invoke` in the above example is doing.  Remember from [Functions 2](./functions-2) that `flip` flips invocation of a curried function with two arguments and `invoke` invokes a function with an argument:
+
+```
+w> q = flip invoke x
+w> q { x: 1 }
+1
+```
