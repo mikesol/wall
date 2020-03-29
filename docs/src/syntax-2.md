@@ -91,7 +91,7 @@ w> c
 
 ## Pattern matching
 
-Wall supports pattern matching for assignments.  The left-hand side of the assignment must be a function that maps keys to functions that accept the right-hand side as an argument and returns a value.
+Wall supports pattern matching for assignments.  The left-hand side of the assignment must be a function that maps each key to a function that accept the right-hand side as an argument and returns a value. To read up on what `flip` and `invoke` do, you can see [Functions 2](./functions-2).
 
 ```
 w> { a: flip invoke x, b: flip invoke y } = { x: 1, y: 2 }
@@ -99,12 +99,4 @@ w> a
 1
 w> b
 2
-```
-
-Let's unpack what the `flip invoke` in the above example is doing.  Remember from [Functions 2](./functions-2) that `flip` flips invocation of a curried function with two arguments and `invoke` invokes a function with an argument:
-
-```
-w> q = flip invoke x
-w> q { x: 1 }
-1
 ```
