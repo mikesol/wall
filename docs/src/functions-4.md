@@ -2,7 +2,7 @@
 
 This section will teach you how to define your own functions over large domains.
 
-## `fun` and `fun!`
+## `fun`
 
 `fun` takes two arguments: a list of sets and an expression.  It uses the sets to construct the domain of the function, and uses the expression to construct the range.  Internally, `fun` calls `bind` on the expression to bind it to its arguments. For more on bind, see [Percent](./syntax-2#perent).
 
