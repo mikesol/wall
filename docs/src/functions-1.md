@@ -26,7 +26,7 @@ France
 
 ## Errors
 
-Wall will issue a compile-time error if a function cannot be evaluated because it lacks (or might lack) the required element in its domain.
+Wall will issue a compile-time error if a function cannot be evaluated because it lacks (or might lack) an argument in its domain.
 
 ```
 w> { Paris: France, Berlin: Germany } Budapest
