@@ -25,4 +25,6 @@ w> read (file 'r 'hello.txt 'i) 5
 b"world"
 ```
 
-In addition to files persisted to disk, `file` supports standard posix pipes like `/dev/stdin`.
+The interface for `socket` is the same as file with the exception that it takes a valid URL instead of a filename.
+
+In addition to files persisted to disk, `file` supports standard posix pipes like `/dev/stdin`.  In the case of reads from pipes and sockets, the reading operation is blocking until a write has occured.
