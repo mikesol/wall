@@ -27,4 +27,4 @@ anything-or-0 = {
 }
 ```
 
-With this representation, and following the syntax presented in [Percent](./syntax-2#percent) it is more clear that `%k` represents `<element of int>` and `%%k` represents `<element of _>`.
+With this representation, and following the syntax presented in [Percent](./syntax-2#percent), it is more clear that `%k` represents `<element of int>` and `%%k` represents `<element of _>`.
