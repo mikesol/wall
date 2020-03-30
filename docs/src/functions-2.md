@@ -209,7 +209,7 @@ Two sets can be combined using `s+`.  An element can be added to a set using `s+
 
 ```
 w> s+ :[1 2 3] :[2 3 4]
-:[ 1: 2, 3: 4 ]
+:[ 1 2 3 4 ]
 w> s+e :[1 2 3] 5
 :[ 1 2 3 5 ]
 ```
@@ -228,9 +228,9 @@ w> s- :[1 2 3] :[3 4]
 Testing for inclusion in a set is done by invoking the set with a value (as the set is just a function). Testing if a subset is in a set can be achieved with `subs?`.
 
 ```
-w> :[1: 2, 3: 4] 1
+w> :[1 2 3 4] 1
 true
-w> subs? :[1] :[1: 2, 3: 4]
+w> subs? :[1] :[1 2 3 4]
 true
 ```
 
