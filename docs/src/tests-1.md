@@ -16,7 +16,7 @@ expectEquals american-happiness american-sadness
 american-emotional-lexicon = map _ 'happy
 ```
 
-In Wall, all tests execute at *compile time*.
+In Wall, all tests execute at **compile time** using functional domain verification.
 
 ```
 $ wall american-emotional-lexicon.wall
