@@ -8,4 +8,4 @@ The first languages in which I coded extensively are Scheme and Python.  I loved
 
 In doing so, I've learned a lot about how **static typing** can lead to a more pleasurable, bug-free coding experience that allows one to aggressively refactor due to the strength of the compiler. At the same time, types never felt natural to me because, in most languages, it requires a meta-language on top of the language.  *I created Wall to explore a language where the compiler keeps track of functions' domains instead of types.* I'm sure someone smarter than me has come up with a term for this, but because I can't find it, I call this *function domain verification*, or FDV.
 
-While there's a lot left to explore, my hypothesis is that the rigorous accounting of domains and ranges allows for a higher level of expressiveness and type safety than languages like Haskell and Idris.
+While there's a lot left to explore, my hypothesis is that the rigorous verification of functions' domains allows for a higher level of expressiveness and type safety than languages like Haskell and Idris.
