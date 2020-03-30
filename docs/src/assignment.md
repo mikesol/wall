@@ -1,6 +1,6 @@
 # Assignment
 
-Assignment in Wall is accomplished with the equal sign.  Any valid [Symbol](./symbols) can be used for an assignment in Wall, provided that it is not a number and does not start with any of these characters: `(){}[]$`.
+Assignment in Wall is accomplished with the equal sign.  Any valid [Symbol](./symbols) can be used for an assignment in Wall.
 
 ```
 w> apple banana pear =
