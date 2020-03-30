@@ -8,29 +8,25 @@ w> { Paris: France, Berlin: Germany }
 { Paris: France, Berlin: Germany }
 ```
 
-Symbols in functions are automatically declared if they are not declared beforehand. Thus, the following example is a more concise example of the above one:
-
-```
-w> { Paris: France, Berlin: Germany }
-{ Paris: France, Berlin: Germany }
-```
 
 ## Invocation
 
-Of course, functions are no fun unless you can invoke them with an argument to yield a result.  In Wall, this is done simply by separating the function and its argument with whitespace.
+Functions are no fun unless you can invoke them with an argument to yield a result.  In Wall, this is done by separating the function and its argument with whitespace.
 
 ```
+w> Paris France Berlin Germany =
 w> { Paris: France, Berlin: Germany } Paris
 France
 ```
 
 ## Errors
 
-Wall will issue a compile-time error if a function cannot be evaluated because it lacks (or might lack) the required element in its domain.
+Wall will issue a compile-time error if a function cannot be evaluated because it lacks (or might lack) an argument in its domain.
 
 ```
+w> Paris France Berlin Germany Budapest =
 w> { Paris: France, Berlin: Germany } Budapest
-Error. The function `{ Paris: France, Berlin: Germany }` does not contain `Budapest` in its domain.
+IncorrectDomainError. The function `{ Paris: France, Berlin: Germany }` does not contain `Budapest` in its domain.
 ```
 
 ## Currying
@@ -38,6 +34,7 @@ Error. The function `{ Paris: France, Berlin: Germany }` does not contain `Budap
 There is no such thing in Wall as a function with more than one argument.  Like in Haskell, all functions take one argument.  They can, however, yield functions as values.  This is commonly called *Currying*, named after Haskell Curry.
 
 ```
+w> Left Right Up Down =
 w> FinalDirection = {
     Left: { Right: Up, Left: Down },
     Right: { Left: Up, Right: Down }

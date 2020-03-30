@@ -1,13 +1,17 @@
 # Assignment
 
-Assignment in Wall is accomplished with the equal sign.  Technically, all the symbols we have seen so far are assignments in that they are assigned to names that refer to themselves.  Any valid ASCII sequence can be used as a name in Wall, provided that it is not a number, does not contain ```"`'.```, and does not start with any of these characters: `(){}[]$`.
+Assignment in Wall is accomplished with the equal sign.  Any valid [Symbol](./symbols) can be used for an assignment in Wall, provided that it is not a number and does not start with any of these characters: `(){}[]$`.
 
 ```
 w> apple banana pear =
 w> fruit = apple
 w> fruit
 apple
+w> #My favorite fruit!# = pear
+w> #My favorite fruit!#
+pear
 ```
+
 
 Assignment in wall is immutable, meaning that once something has been asigned to a name, the name will refer to that thing for the duration of a program.
 

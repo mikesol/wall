@@ -119,7 +119,7 @@ true
 
 ## Boolean logic
 
-Also not surprisingly...
+Here are some boolean operators in Wall.
 
 ```
 w> & true false
@@ -173,6 +173,8 @@ You can coerce certain primitive types to other primitive types like so:
 ```
 w> str2int "5"
 5
+w> str2bytes "hello"
+b"hello"
 w> int2real 5
 5.0
 w> sym2str #hello#
@@ -190,11 +192,9 @@ w> tail [ 6 4 3 ]
 [4 3]
 ```
 
-`cons` appends to a list, `reverse` reverses a list and `concat` concatenates two lists.
+`reverse` reverses a list and `concat` concatenates two lists.
 
 ```
-w> cons 1 []
-[ 1 ]
 w> reverse [1 2 3]
 [ 3 2 1 ]
 w> concat [1 2 3] [4 5 6]
