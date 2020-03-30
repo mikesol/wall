@@ -27,5 +27,6 @@ For the remainder of the exercises in this guide, we will use the Wall interpret
 
 ```
 w> #Hello, world!#
+w> #Hello, world!#
 Hello, world!
 ```
