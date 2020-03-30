@@ -12,7 +12,6 @@ module.exports = {
         title: 'First steps',
         collapsable: true,
         children: [
-          ['/getting', 'Getting Wall'],
           ['/anatomy', 'Anatomy'],
           ['/comments', 'Comments'],
           ['/symbols', 'Symbols'],
