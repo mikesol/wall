@@ -1,6 +1,6 @@
 # Functions I
 
-Functions in Wall are represented in curly brackets and represent key-value pairs.  Each pair is separated by a space, as are the elements within each pair.  Functions are roughly equivalent to `dict` in Python and `Object` in JavaScript, with the important caveat that they can have infinitely-large domains.
+Functions in Wall are key-value pairs.  They are roughly equivalent to `dict` in Python and `Object` in JavaScript, with the important caveat that they can have infinitely-large domains.
 
 ```
 w> Paris France Berlin Germany =
