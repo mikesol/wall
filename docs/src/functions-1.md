@@ -1,6 +1,6 @@
 # Functions I
 
-Functions in Wall are key-value pairs.  They are roughly equivalent to `dict` in Python and `Object` in JavaScript, with the important caveat that they can have infinitely-large domains.
+Functions in Wall are key-value pairs.  They are roughly equivalent to `dict` in Python and `Object` in JavaScript, with the important caveat that they can have infinitely-large domains.  In other words, all functions in Wall are treated as [memoized functions](https://en.wikipedia.org/wiki/Memoization), even if they are not actually implemented this way.
 
 ```
 w> Paris France Berlin Germany =
