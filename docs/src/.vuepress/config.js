@@ -50,15 +50,13 @@ module.exports = {
           ["/modules", "Modules"],
           ["/indeterminacy", "Indeterminacy"],
           ["/io", "IO"],
-          ["/tests-2", "Tests 2"],
-          ["/threading", "Threading"],
+          ["/tests-2", "Tests 2"]
         ],
       },
       {
         title: "Digging",
         collapsable: true,
         children: [
-          // ['/proofs', 'Proofs'],
           ["/contributing", "Contributing"],
           ["/musings", "Musings"],
         ],
